@@ -8,4 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="LodingTheme" parent="@android:style/Theme.Light.NoTitleBar">
+
+    </style>
+
 </resources>
