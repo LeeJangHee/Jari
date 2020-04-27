@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     frag2 frag2;
     frag3 frag3;
     frag4 frag4;
-
+//test
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
