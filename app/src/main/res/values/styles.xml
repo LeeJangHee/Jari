@@ -13,6 +13,7 @@
 
     <style name="BottomNavigationTheme" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="itemIconTint">@drawable/bottom_navi_color</item>
+        <item name="itemTextColor">@drawable/bottom_navi_color</item>
     </style>
 
 </resources>
