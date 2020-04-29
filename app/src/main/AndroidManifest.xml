@@ -4,10 +4,11 @@
 
     <application
         android:allowBackup="true"
+        android:label="@string/actionTitle"
         android:icon="@mipmap/ic_launcher_new"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        >
 
         <activity
             android:name=".LodingActivity"

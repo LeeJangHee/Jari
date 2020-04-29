@@ -2,13 +2,13 @@ package com.example.jari;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -19,15 +19,16 @@ public class MainActivity extends AppCompatActivity {
     frag3 frag3;
     frag4 frag4;
 
+    private Toolbar toolbar;
+
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.main_toolbar);
-
         setContentView(R.layout.activity_main);
+        toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
         bottomNavigationView = findViewById(R.id.bottomNaviView);
 
         frag1 = new frag1();
