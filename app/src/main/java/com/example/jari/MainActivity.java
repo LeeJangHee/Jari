@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
 
-    @SuppressLint("WrongConstant")
+    @SuppressLint({"WrongConstant", "ResourceType"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -36,37 +36,42 @@ public class MainActivity extends AppCompatActivity {
         frag3 = new frag3();
         frag4 = new frag4();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,frag1).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag1).commitAllowingStateLoss();
 
+        //아이템 선택
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.action_home: {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,frag1)
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag1)
                                 .commitAllowingStateLoss();
                         return true;
                     }
-                    case R.id.action_my:{
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,frag2)
+                    case R.id.action_person: {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag2)
                                 .commitAllowingStateLoss();
                         return true;
                     }
-                    case R.id.action_book:{
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,frag3)
+                    case R.id.action_booking: {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag3)
                                 .commitAllowingStateLoss();
                         return true;
                     }
-                    case R.id.action_more:{
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,frag4)
+                    case R.id.action_more: {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag4)
                                 .commitAllowingStateLoss();
                         return true;
                     }
 
-                    default: return false;
+                    default:
+                        return false;
                 }
             }
         });
+
+
+
 
 
     }
