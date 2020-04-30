@@ -14,10 +14,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
-    frag1 frag1;
-    frag2 frag2;
-    frag3 frag3;
-    frag4 frag4;
+    Frag_home frag_home;
+    Frag_person frag_person;
+    Frag_booking frag_booking;
+    Frag_more frag_more;
 
     private Toolbar toolbar;
 
@@ -31,12 +31,12 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottomNaviView);
 
-        frag1 = new frag1();
-        frag2 = new frag2();
-        frag3 = new frag3();
-        frag4 = new frag4();
+        frag_home = new Frag_home();
+        frag_person = new Frag_person();
+        frag_booking = new Frag_booking();
+        frag_more = new Frag_more();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag1).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_home).commitAllowingStateLoss();
 
         //아이템 선택
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -44,22 +44,22 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.action_home: {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag1)
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_home)
                                 .commitAllowingStateLoss();
                         break;
                     }
                     case R.id.action_person: {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag2)
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_person)
                                 .commitAllowingStateLoss();
                         break;
                     }
                     case R.id.action_booking: {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag3)
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_booking)
                                 .commitAllowingStateLoss();
                         break;
                     }
                     case R.id.action_more: {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag4)
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_more)
                                 .commitAllowingStateLoss();
                         break;
                     }
