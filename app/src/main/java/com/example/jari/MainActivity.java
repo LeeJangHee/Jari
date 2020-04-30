@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
-        bottomNavigationView = findViewById(R.id.bottomNaviView);
+        bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottomNaviView);
 
         frag1 = new frag1();
         frag2 = new frag2();
@@ -46,31 +46,28 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_home: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag1)
                                 .commitAllowingStateLoss();
-                        return true;
+                        break;
                     }
                     case R.id.action_person: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag2)
                                 .commitAllowingStateLoss();
-                        return true;
+                        break;
                     }
                     case R.id.action_booking: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag3)
                                 .commitAllowingStateLoss();
-                        return true;
+                        break;
                     }
                     case R.id.action_more: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag4)
                                 .commitAllowingStateLoss();
-                        return true;
+                        break;
                     }
 
-                    default:
-                        return false;
                 }
+                return true;
             }
         });
-
-
 
 
 
