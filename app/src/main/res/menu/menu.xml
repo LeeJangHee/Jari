@@ -3,19 +3,19 @@
     <item
         android:id="@+id/action_home"
         android:enabled="true"
-        android:icon="@drawable/ic_home_24px"
+        android:icon="@drawable/bottom_navi_homeicon"
         android:title="홈"/>
 
     <item
         android:id="@+id/action_person"
         android:enabled="true"
-        android:icon="@drawable/ic_person_24px"
+        android:icon="@drawable/bottom_navi_personicon"
         android:title="내정보" />
 
     <item
         android:id="@+id/action_booking"
         android:enabled="true"
-        android:icon="@drawable/ic_library_books_24px"
+        android:icon="@drawable/bottom_navi_bookingicon"
         android:title="예약내역"/>
 
     <item

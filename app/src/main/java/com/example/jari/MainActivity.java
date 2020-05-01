@@ -5,23 +5,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.ActionProvider;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
+import android.view.View;
+import android.widget.Toast;
 
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-    BottomNavigationView bottomNavigationView;
-    Frag_home frag_home;
-    Frag_person frag_person;
-    Frag_booking frag_booking;
-    Frag_more frag_more;
+    private BottomNavigationView bottomNavigationView;
+    private Frag_home frag_home;
+    private Frag_person frag_person;
+    private Frag_booking frag_booking;
+    private Frag_more frag_more;
 
     private Toolbar toolbar;
 
-    @SuppressLint({"WrongConstant", "ResourceType"})
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -38,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_home).commitAllowingStateLoss();
 
-        //아이템 선택
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -46,28 +53,31 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_home: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_home)
                                 .commitAllowingStateLoss();
-                        break;
+                        return true;
                     }
                     case R.id.action_person: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_person)
                                 .commitAllowingStateLoss();
-                        break;
+                        return true;
                     }
                     case R.id.action_booking: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_booking)
                                 .commitAllowingStateLoss();
-                        break;
+                        return true;
                     }
                     case R.id.action_more: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_more)
                                 .commitAllowingStateLoss();
-                        break;
+                        return true;
                     }
+                    default:
+                        break;
 
                 }
-                return true;
+                return false;
             }
         });
+
 
 
 
@@ -79,4 +89,6 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
+
+
 }
