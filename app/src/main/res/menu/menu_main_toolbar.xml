@@ -6,6 +6,8 @@
         android:icon="@drawable/ic_search_20px"
         android:title="Search"
         app:showAsAction="always"
+        android:checkable="true"
+        android:onClick="SearchMenu"
         />
 
     <item
