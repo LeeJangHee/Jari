@@ -11,11 +11,12 @@ import androidx.fragment.app.Fragment;
 
 public class Frag_person extends Fragment {
     ViewGroup viewGroup;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container,
                              @NonNull Bundle saveInstanceState) {
-        viewGroup = (ViewGroup) inflater.inflate(R.layout.frag_person,container,false);
+        viewGroup = (ViewGroup) inflater.inflate(R.layout.frag_person, container, false);
         return viewGroup;
     }
 }

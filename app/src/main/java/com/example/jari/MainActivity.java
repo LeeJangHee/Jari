@@ -4,17 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.ActionProvider;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
-import android.widget.Toast;
+import android.view.ViewGroup;
 
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -53,21 +47,25 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_home: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_home)
                                 .commitAllowingStateLoss();
+                        frag_home.viewGroup.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
                         return true;
                     }
                     case R.id.action_person: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_person)
                                 .commitAllowingStateLoss();
+                        frag_person.viewGroup.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
                         return true;
                     }
                     case R.id.action_booking: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_booking)
                                 .commitAllowingStateLoss();
+                        frag_booking.viewGroup.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
                         return true;
                     }
                     case R.id.action_more: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_more)
                                 .commitAllowingStateLoss();
+                        frag_more.viewGroup.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
                         return true;
                     }
                     default:
@@ -91,7 +89,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void SearchMenu(MenuItem item) {
 
-    }
 }
