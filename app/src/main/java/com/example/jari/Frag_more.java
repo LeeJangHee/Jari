@@ -17,6 +17,7 @@ public class Frag_more extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container,
                              @NonNull Bundle saveInstanceState) {
         viewGroup = (ViewGroup) inflater.inflate(R.layout.frag_more, container, false);
+        viewGroup.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
         return viewGroup;
     }
 }

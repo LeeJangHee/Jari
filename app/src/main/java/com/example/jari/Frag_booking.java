@@ -17,6 +17,7 @@ public class Frag_booking extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container,
                              @NonNull Bundle saveInstanceState) {
         viewGroup = (ViewGroup) inflater.inflate(R.layout.frag_booking, container, false);
+        viewGroup.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
         return viewGroup;
     }
 }
