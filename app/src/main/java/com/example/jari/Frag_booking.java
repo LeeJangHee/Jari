@@ -15,13 +15,16 @@ import java.util.ArrayList;
 public class Frag_booking extends Fragment {
     private View view;
     private ListViewAdapter adapter;
-    private ListView listView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container,
                              @NonNull Bundle saveInstanceState) {
 
+        view = (View) inflater.inflate(R.layout.frag_booking, container, false);
+        view.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
+
+        //데이터 준비
         ArrayList<ListViewItem> data = new ArrayList<>();
         data.add(new ListViewItem("가게1", "주소1", "ok"));
         data.add(new ListViewItem("가게1", "주소1", "ok"));
@@ -31,10 +34,12 @@ public class Frag_booking extends Fragment {
         data.add(new ListViewItem("가게1", "주소1", "ok"));
         data.add(new ListViewItem("가게1", "주소1", "ok"));
 
+        //어뎁터
         adapter = new ListViewAdapter(data);
 
-        view = (View) inflater.inflate(R.layout.frag_booking, container, false);
-        view.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
+        //뷰
+        ListView listView = (ListView) view.findViewById(R.id.list_view);
+        listView.setAdapter(adapter);
 
         return view;
     }

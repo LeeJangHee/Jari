@@ -14,7 +14,7 @@
         android:background="@drawable/toolbar_custom"
         android:gravity="center"
         app:menu="@menu/menu_main_toolbar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" >
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark">
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -23,13 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
-        android:layout_marginBottom="?attr/actionBarSize" >
+        android:layout_marginBottom="?attr/actionBarSize">
 
-        <ListView
-            android:id="@+id/list_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout="@layout/frag_booking" />
     </FrameLayout>
 
 

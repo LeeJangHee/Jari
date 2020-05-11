@@ -1,7 +1,5 @@
 package com.example.jari;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,25 +7,23 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
-
 import java.util.ArrayList;
 
 public class ListViewAdapter extends BaseAdapter {
-    private ArrayList<ListViewItem> mlistViewItemList;
+    private ArrayList<ListViewItem> mListViewItemList;
 
     public ListViewAdapter(ArrayList<ListViewItem> listViewItemList) {
-        this.mlistViewItemList = listViewItemList;
+        this.mListViewItemList = listViewItemList;
     }
 
     @Override
     public int getCount() {
-        return mlistViewItemList.size();
+        return mListViewItemList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mlistViewItemList.get(position);
+        return mListViewItemList.get(position);
     }
 
     @Override
@@ -38,10 +34,10 @@ public class ListViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        if(convertView == null) {
+        if (convertView == null) {
             holder = new ViewHolder();
             convertView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.activity_main, parent, false);
+                    .inflate(R.layout.frag_booking_listview_item, parent, false);
 
             ImageView iconImageView = (ImageView) convertView.findViewById(R.id.image_listView);
             TextView titleTextView = (TextView) convertView.findViewById(R.id.title_listView);
@@ -58,7 +54,7 @@ public class ListViewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        ListViewItem listViewItem = mlistViewItemList.get(position);
+        ListViewItem listViewItem = mListViewItemList.get(position);
         holder.titleTextView.setText(listViewItem.getTitleStr());
         holder.addressTextView.setText(listViewItem.getAddressStr());
         holder.reservationTextView.setText(listViewItem.getReservationStr());
@@ -68,7 +64,7 @@ public class ListViewAdapter extends BaseAdapter {
 
     static class ViewHolder {
         ImageView iconImageView;
-        TextView titleTextView ;
+        TextView titleTextView;
         TextView addressTextView;
         TextView reservationTextView;
     }
