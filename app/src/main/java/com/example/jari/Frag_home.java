@@ -10,14 +10,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class Frag_home extends Fragment {
-    ViewGroup viewGroup;
+    View view;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container,
                              @NonNull Bundle saveInstanceState) {
-        viewGroup = (ViewGroup) inflater.inflate(R.layout.frag_home, container, false);
-        viewGroup.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
-        return viewGroup;
+        view = (View) inflater.inflate(R.layout.frag_home, container, false);
+        view.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
+        return view;
     }
 }
