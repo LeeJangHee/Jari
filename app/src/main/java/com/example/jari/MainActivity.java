@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNaviView);
 
@@ -50,23 +49,19 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.action_home: {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_home)
-                                .commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_home).commit();
                         return true;
                     }
                     case R.id.action_person: {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_person)
-                                .commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_person).commit();
                         return true;
                     }
                     case R.id.action_booking: {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_booking)
-                                .commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_booking).commit();
                         return true;
                     }
                     case R.id.action_more: {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_more)
-                                .commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_more).commit();
                         return true;
                     }
                     default:

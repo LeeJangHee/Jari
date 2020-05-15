@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Frag_booking extends Fragment {
     private View view;
@@ -47,12 +46,10 @@ public class Frag_booking extends Fragment {
         ListView listView = (ListView) view.findViewById(R.id.list_view);
         listView.setAdapter(adapter);
 
-        final Toast toast = new Toast(Objects.requireNonNull(getContext()).getApplicationContext());
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                toast.setView(view);
-                toast.show();
+                Toast.makeText(context, position + "번째 아이템", Toast.LENGTH_SHORT).show();
             }
         });
 
