@@ -1,23 +1,62 @@
 package com.example.jari;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class Frag_booking extends Fragment {
-    ViewGroup viewGroup;
+    private View view;
+    private ListViewAdapter adapter;
+    private Context context;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, @NonNull final ViewGroup container,
                              @NonNull Bundle saveInstanceState) {
-        viewGroup = (ViewGroup) inflater.inflate(R.layout.frag_booking, container, false);
-        viewGroup.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
-        return viewGroup;
+
+        view = (View) inflater.inflate(R.layout.frag_booking, container, false);
+        view.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
+        context = container.getContext().getApplicationContext();
+
+        //데이터 준비
+        ArrayList<ListViewItem> data = new ArrayList<>();
+        data.add(new ListViewItem("가게1", "주소1", "ok"));
+        data.add(new ListViewItem("가게1", "주소1", "ok"));
+        data.add(new ListViewItem("가게1", "주소1", "ok"));
+        data.add(new ListViewItem("가게1", "주소1", "ok"));
+        data.add(new ListViewItem("가게1", "주소1", "ok"));
+        data.add(new ListViewItem("가게1", "주소1", "ok"));
+        data.add(new ListViewItem("가게1", "주소1", "ok"));
+
+        //어뎁터
+        adapter = new ListViewAdapter(data);
+
+        //뷰
+        ListView listView = (ListView) view.findViewById(R.id.list_view);
+        listView.setAdapter(adapter);
+
+        final Toast toast = new Toast(Objects.requireNonNull(getContext()).getApplicationContext());
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                toast.setView(view);
+                toast.show();
+            }
+        });
+
+        return view;
     }
 }
+

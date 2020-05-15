@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_home"
         android:enabled="true"
         android:icon="@drawable/bottom_navi_homeicon"
-        android:title="홈"/>
+        android:title="홈" />
 
     <item
         android:id="@+id/action_person"
@@ -16,11 +16,11 @@
         android:id="@+id/action_booking"
         android:enabled="true"
         android:icon="@drawable/bottom_navi_bookingicon"
-        android:title="예약내역"/>
+        android:title="예약내역" />
 
     <item
         android:id="@+id/action_more"
         android:enabled="true"
         android:icon="@drawable/ic_more_horiz_24px"
-        android:title="더보기"/>
+        android:title="더보기" />
 </menu>

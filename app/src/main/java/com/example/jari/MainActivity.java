@@ -13,6 +13,8 @@ import androidx.core.view.MenuItemCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
     private SearchView searchView;
     private BottomNavigationView bottomNavigationView;
@@ -31,38 +33,40 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
-        bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottomNaviView);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNaviView);
 
         frag_home = new Frag_home();
         frag_person = new Frag_person();
         frag_booking = new Frag_booking();
         frag_more = new Frag_more();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_home).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_home).commit();
 
-
+        //하단 버튼 메뉴 Fragment
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.action_home: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_home)
-                                .commitAllowingStateLoss();
+                                .commit();
                         return true;
                     }
                     case R.id.action_person: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_person)
-                                .commitAllowingStateLoss();
+                                .commit();
                         return true;
                     }
                     case R.id.action_booking: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_booking)
-                                .commitAllowingStateLoss();
+                                .commit();
                         return true;
                     }
                     case R.id.action_more: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_more)
-                                .commitAllowingStateLoss();
+                                .commit();
                         return true;
                     }
                     default:
@@ -74,10 +78,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
     }
 
-    @Override
+    @Override //툴바 메뉴 이벤트
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main_toolbar, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
@@ -87,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(getApplicationContext(), "검색을 완료했습니다.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "검색을 완료했습니다.", Toast.LENGTH_SHORT).show();
                 return false;
             }
 
@@ -99,13 +102,21 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
+    @Override // 툴바 아이템 선택 이벤트
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+        switch (id) {
+            case R.id.action_search: {
+                //TODO: 검색 쿼리 구현
+                break;
+            }
 
-        if(id == R.id.action_search) {
-            //TODO:검색했을 때 쿼리 구현
-            return true;
+            case R.id.home: {
+                //TODO: 뒤로가기 구
+                finish();
+                return true;
+            }
+
         }
         return super.onOptionsItemSelected(item);
     }

@@ -7,8 +7,7 @@
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search_20px"
         android:title="Search"
-        app:showAsAction="always"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        />
+        app:showAsAction="always" />
 
 </menu>
