@@ -1,6 +1,5 @@
 package com.example.jari;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +13,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Frag_booking extends Fragment {
     private View view;
     private ListViewAdapter adapter;
-    private Context context;
 
     @Nullable
     @Override
@@ -28,7 +25,6 @@ public class Frag_booking extends Fragment {
 
         view = (View) inflater.inflate(R.layout.frag_booking, container, false);
         view.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
-        context = container.getContext().getApplicationContext();
 
         //데이터 준비
         ArrayList<ListViewItem> data = new ArrayList<>();
@@ -47,12 +43,10 @@ public class Frag_booking extends Fragment {
         ListView listView = (ListView) view.findViewById(R.id.list_view);
         listView.setAdapter(adapter);
 
-        final Toast toast = new Toast(Objects.requireNonNull(getContext()).getApplicationContext());
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                toast.setView(view);
-                toast.show();
+                Toast.makeText(view.getContext(), position + "번째 아이탬", Toast.LENGTH_SHORT).show();
             }
         });
 

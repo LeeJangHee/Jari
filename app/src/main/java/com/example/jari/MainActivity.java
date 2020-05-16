@@ -8,12 +8,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private SearchView searchView;
@@ -23,20 +20,16 @@ public class MainActivity extends AppCompatActivity {
     private Frag_person frag_person;
     private Frag_booking frag_booking;
     private Frag_more frag_more;
-
-    private Toolbar toolbar;
+    private Frag_toolbar frag_toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNaviView);
 
+        frag_toolbar = new Frag_toolbar();
         frag_home = new Frag_home();
         frag_person = new Frag_person();
         frag_booking = new Frag_booking();
@@ -102,21 +95,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override // 툴바 아이템 선택 이벤트
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.action_search: {
-                //TODO: 검색 쿼리 구현
+        switch (item.getItemId()) {
+            case R.id.action_search :
+
                 break;
-            }
-
-            case R.id.home: {
-                //TODO: 뒤로가기 구
-                finish();
-                return true;
-            }
-
         }
         return super.onOptionsItemSelected(item);
     }
