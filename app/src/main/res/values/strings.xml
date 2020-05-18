@@ -1,4 +1,7 @@
 <resources>
-    <string name="app_name">Jari</string>
-    <string name="actionTitle">자리있니?</string>
+    <string name="app_name">자리있니?</string>
+    <string name="home_title">홈</string>
+    <string name="person_title">내정보</string>
+    <string name="booking_title">예약내역</string>
+    <string name="more_title">더보기</string>
 </resources>

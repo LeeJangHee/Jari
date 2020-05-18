@@ -16,10 +16,11 @@
         app:menu="@menu/menu_main_toolbar">
 
         <TextView
+            android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="자리있니?"
+            android:text="@string/app_name"
             android:textColor="@android:color/black"
             android:textSize="24sp" />
 
