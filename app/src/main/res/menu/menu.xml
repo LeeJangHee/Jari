@@ -4,23 +4,23 @@
         android:id="@+id/action_home"
         android:enabled="true"
         android:icon="@drawable/bottom_navi_homeicon"
-        android:title="홈" />
+        android:title="@string/home_title" />
 
     <item
         android:id="@+id/action_person"
         android:enabled="true"
         android:icon="@drawable/bottom_navi_personicon"
-        android:title="내정보" />
+        android:title="@string/person_title" />
 
     <item
         android:id="@+id/action_booking"
         android:enabled="true"
         android:icon="@drawable/bottom_navi_bookingicon"
-        android:title="예약내역" />
+        android:title="@string/booking_title" />
 
     <item
         android:id="@+id/action_more"
         android:enabled="true"
         android:icon="@drawable/ic_more_horiz_24px"
-        android:title="더보기" />
+        android:title="@string/more_title" />
 </menu>
