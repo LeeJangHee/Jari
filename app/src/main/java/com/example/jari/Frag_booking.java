@@ -24,7 +24,6 @@ public class Frag_booking extends Fragment {
                              @NonNull Bundle saveInstanceState) {
 
         view = (View) inflater.inflate(R.layout.frag_booking, container, false);
-        view.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
 
         //데이터 준비
         ArrayList<ListViewItem> data = new ArrayList<>();

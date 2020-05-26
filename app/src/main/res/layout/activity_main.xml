@@ -45,7 +45,7 @@
         android:layout_marginEnd="0dp"
         android:background="@android:color/white"
         android:theme="@style/BottomNavigationTheme"
-        app:labelVisibilityMode="labeled"
+        app:labelVisibilityMode="unlabeled"
         app:menu="@menu/menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
