@@ -37,7 +37,7 @@ public class ListViewAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.frag_booking_listview_item, parent, false);
+                    .inflate(R.layout.frag_booking_listitem, parent, false);
 
             ImageView iconImageView = (ImageView) convertView.findViewById(R.id.image_listView);
             TextView titleTextView = (TextView) convertView.findViewById(R.id.title_listView);

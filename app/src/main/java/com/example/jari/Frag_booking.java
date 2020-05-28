@@ -1,12 +1,12 @@
 package com.example.jari;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 public class Frag_booking extends Fragment {
     private View view;
-    private ListViewAdapter adapter;
 
     @Nullable
     @Override
@@ -36,6 +35,7 @@ public class Frag_booking extends Fragment {
         data.add(new ListViewItem("가게1", "주소1", "ok"));
 
         //어뎁터
+        ListViewAdapter adapter;
         adapter = new ListViewAdapter(data);
 
         //뷰
@@ -45,7 +45,7 @@ public class Frag_booking extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(view.getContext(), position + "번째 아이탬", Toast.LENGTH_SHORT).show();
+                Log.d("MainActivity", position + "번째 아이탬");
             }
         });
 
