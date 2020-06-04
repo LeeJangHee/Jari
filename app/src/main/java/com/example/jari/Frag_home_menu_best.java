@@ -12,14 +12,14 @@ import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
-public class Frag_home_bestmenu extends Fragment {
+public class Frag_home_menu_best extends Fragment {
     View view;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container,
                              @NonNull Bundle saveInstanceState) {
-        view = (View) inflater.inflate(R.layout.frag_home_bestmenu, container, false);
+        view = (View) inflater.inflate(R.layout.frag_home_menu_best, container, false);
 
         //데이터 준비
         ArrayList<ListViewItem> data = new ArrayList<>();
