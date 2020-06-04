@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         frag_booking = new Frag_booking();
         frag_more = new Frag_more();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_home).commit();
+        replaceFragment(frag_home);
 
         final TextView toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         final String toolbarMain_title = toolbar_title.getText().toString();
@@ -55,29 +55,25 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.action_home: {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_home)
-                                .commit();
+                        replaceFragment(frag_home);
                         toolbar_title.setText(toolbarMain_title);
                         actionBar.setDisplayHomeAsUpEnabled(false);
                         return true;
                     }
                     case R.id.action_person: {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_person)
-                                .commit();
+                        replaceFragment(frag_person);
                         toolbar_title.setText(menuItem.getTitle());
                         actionBar.setDisplayHomeAsUpEnabled(false);
                         return true;
                     }
                     case R.id.action_booking: {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_booking)
-                                .commit();
+                        replaceFragment(frag_booking);
                         toolbar_title.setText(menuItem.getTitle());
                         actionBar.setDisplayHomeAsUpEnabled(false);
                         return true;
                     }
                     case R.id.action_more: {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frag_more)
-                                .commit();
+                        replaceFragment(frag_more);
                         toolbar_title.setText(menuItem.getTitle());
                         actionBar.setDisplayHomeAsUpEnabled(false);
                         return true;
@@ -125,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //fragment 변경하기
     public void replaceFragment(Fragment frg) {
         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frg)
                 .commit();
