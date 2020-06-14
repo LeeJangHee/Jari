@@ -12,17 +12,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 
-public class Frag_home extends Fragment {
-    View view;
-    TextView toolbar_title;
-    String str_name;
+public class Frag_home extends Fragment implements View.OnClickListener {
+    private View view;
+    private TextView toolbar_title;
+    private String str_name;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container,
                              @NonNull Bundle saveInstanceState) {
         view = (View) inflater.inflate(R.layout.frag_home, container, false);
-        view.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
 
         toolbar_title = (TextView) ((MainActivity) getActivity()).findViewById(R.id.toolbar_title);
 
@@ -34,62 +33,13 @@ public class Frag_home extends Fragment {
         ImageView ig_menuCafe = (ImageView) view.findViewById(R.id.menuCafe);
         ImageView ig_menuBeer = (ImageView) view.findViewById(R.id.menuBeer);
 
-
-        ig_bestMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                str_name = getString(R.string.menu_best);
-                menuOnClick(str_name, new Frag_home_menu_best());
-            }
-        });
-
-        ig_menuKor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                str_name = getString(R.string.menu_kor);
-                menuOnClick(str_name, new Frag_home_menu_kor());
-            }
-        });
-
-        ig_menuJp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                str_name = getString(R.string.menu_jp);
-                menuOnClick(str_name, new Frag_home_menu_jp());
-            }
-        });
-
-        ig_menuCh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                str_name = getString(R.string.menu_ch);
-                menuOnClick(str_name, new Frag_home_menu_ch());
-            }
-        });
-
-        ig_menuWf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                str_name = getString(R.string.menu_wf);
-                menuOnClick(str_name, new Frag_home_menu_wf());
-            }
-        });
-
-        ig_menuCafe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                str_name = getString(R.string.menu_cafe);
-                menuOnClick(str_name, new Frag_home_menu_cafe());
-            }
-        });
-
-        ig_menuBeer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                str_name = getString(R.string.menu_beer);
-                menuOnClick(str_name, new Frag_home_menu_beer());
-            }
-        });
+        ig_bestMenu.setOnClickListener(this);
+        ig_menuKor.setOnClickListener(this);
+        ig_menuJp.setOnClickListener(this);
+        ig_menuCh.setOnClickListener(this);
+        ig_menuWf.setOnClickListener(this);
+        ig_menuCafe.setOnClickListener(this);
+        ig_menuBeer.setOnClickListener(this);
 
         return view;
     }
@@ -104,4 +54,38 @@ public class Frag_home extends Fragment {
         actionBar_bestMenu.setHomeAsUpIndicator(R.drawable.ic_arrow_back_20px);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.menuBest:
+                str_name = getString(R.string.menu_best);
+                menuOnClick(str_name, new Frag_home_menu_best());
+                break;
+            case R.id.menuKor:
+                str_name = getString(R.string.menu_kor);
+                menuOnClick(str_name, new Frag_home_menu_kor());
+                break;
+            case R.id.menuCh:
+                str_name = getString(R.string.menu_ch);
+                menuOnClick(str_name, new Frag_home_menu_ch());
+                break;
+            case R.id.menuJp:
+                str_name = getString(R.string.menu_jp);
+                menuOnClick(str_name, new Frag_home_menu_jp());
+                break;
+            case R.id.menuWf:
+                str_name = getString(R.string.menu_wf);
+                menuOnClick(str_name, new Frag_home_menu_wf());
+                break;
+            case R.id.menuCafe:
+                str_name = getString(R.string.menu_cafe);
+                menuOnClick(str_name, new Frag_home_menu_cafe());
+                break;
+            case R.id.menuBeer:
+                str_name = getString(R.string.menu_beer);
+                menuOnClick(str_name, new Frag_home_menu_beer());
+                break;
+
+        }
+    }
 }
