@@ -17,14 +17,6 @@ public class Frag_home extends Fragment implements View.OnClickListener {
     private TextView toolbar_title;
     private String str_name;
 
-    private ImageView ig_bestMenu;
-    private ImageView ig_menuKor;
-    private ImageView ig_menuJp;
-    private ImageView ig_menuCh;
-    private ImageView ig_menuWf;
-    private ImageView ig_menuCafe;
-    private ImageView ig_menuBeer;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container,
@@ -33,14 +25,13 @@ public class Frag_home extends Fragment implements View.OnClickListener {
 
         toolbar_title = (TextView) ((MainActivity) getActivity()).findViewById(R.id.toolbar_title);
 
-        ig_bestMenu = (ImageView) view.findViewById(R.id.menuBest);
-        ig_menuKor = (ImageView) view.findViewById(R.id.menuKor);
-        ig_menuJp = (ImageView) view.findViewById(R.id.menuJp);
-        ig_menuCh = (ImageView) view.findViewById(R.id.menuCh);
-        ig_menuWf = (ImageView) view.findViewById(R.id.menuWf);
-        ig_menuCafe = (ImageView) view.findViewById(R.id.menuCafe);
-        ig_menuBeer = (ImageView) view.findViewById(R.id.menuBeer);
-
+        ImageView ig_bestMenu = (ImageView) view.findViewById(R.id.menuBest);
+        ImageView ig_menuKor = (ImageView) view.findViewById(R.id.menuKor);
+        ImageView ig_menuJp = (ImageView) view.findViewById(R.id.menuJp);
+        ImageView ig_menuCh = (ImageView) view.findViewById(R.id.menuCh);
+        ImageView ig_menuWf = (ImageView) view.findViewById(R.id.menuWf);
+        ImageView ig_menuCafe = (ImageView) view.findViewById(R.id.menuCafe);
+        ImageView ig_menuBeer = (ImageView) view.findViewById(R.id.menuBeer);
 
         ig_bestMenu.setOnClickListener(this);
         ig_menuKor.setOnClickListener(this);
