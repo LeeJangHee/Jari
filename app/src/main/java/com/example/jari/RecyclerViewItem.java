@@ -1,16 +1,11 @@
 package com.example.jari;
 
 
-public class ListViewItem {
+public class RecyclerViewItem {
     private String titleStr;
     private String addressStr;
     private String reservationStr;
-
-    public ListViewItem(String titleStr, String addressStr, String reservationStr) {
-        this.titleStr = titleStr;
-        this.addressStr = addressStr;
-        this.reservationStr = reservationStr;
-    }
+    private int iconId;
 
     public String getTitleStr() {
         return titleStr;
@@ -22,6 +17,15 @@ public class ListViewItem {
 
     public String getReservationStr() {
         return reservationStr;
+    }
+
+
+    public int getIconId() {
+        return iconId;
+    }
+
+    public void setIconId(int iconId) {
+        this.iconId = iconId;
     }
 
     public void setTitleStr(String titleStr) {
@@ -38,10 +42,11 @@ public class ListViewItem {
 
     @Override
     public String toString() {
-        return "ListViewItem{" +
+        return "RecyclerViewItem{" +
                 "titleStr='" + titleStr + '\'' +
                 ", addressStr='" + addressStr + '\'' +
                 ", reservationStr='" + reservationStr + '\'' +
+                ", iconId=" + iconId +
                 '}';
     }
 }
