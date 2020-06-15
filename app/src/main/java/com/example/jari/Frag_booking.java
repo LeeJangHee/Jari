@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Frag_booking extends Fragment {
     private View view;
-    private RecyclerViewAdapter adapter;
+    private BookingAdapter adapter;
 
     @Nullable
     @Override
@@ -37,7 +37,7 @@ public class Frag_booking extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        adapter = new RecyclerViewAdapter();
+        adapter = new BookingAdapter();
         recyclerView.setAdapter(adapter);
     }
 
@@ -48,14 +48,14 @@ public class Frag_booking extends Fragment {
         List<Integer> listIcon = Arrays.asList(R.mipmap.ic_launcher, R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher);
 
         for(int i = 0 ; i < listTitle.size(); i++){
-            RecyclerViewItem recyclerViewItem = new RecyclerViewItem();
+            BookingItem bookingItem = new BookingItem();
 
-            recyclerViewItem.setTitleStr(listTitle.get(i));
-            recyclerViewItem.setAddressStr(listAddress.get(i));
-            recyclerViewItem.setReservationStr(listReservation.get(i));
-            recyclerViewItem.setIconId(listIcon.get(i));
+            bookingItem.setTitleStr(listTitle.get(i));
+            bookingItem.setAddressStr(listAddress.get(i));
+            bookingItem.setReservationStr(listReservation.get(i));
+            bookingItem.setIconId(listIcon.get(i));
 
-            adapter.addItem(recyclerViewItem);
+            adapter.addItem(bookingItem);
         }
         adapter.notifyDataSetChanged();
     }

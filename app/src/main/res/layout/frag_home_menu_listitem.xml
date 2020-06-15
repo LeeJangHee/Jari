@@ -20,7 +20,7 @@
         android:src="@drawable/jari_loding" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
@@ -36,7 +36,7 @@
             tools:text="가게 이름" />
 
         <TextView
-            android:id="@+id/adress_listView"
+            android:id="@+id/address_listView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"

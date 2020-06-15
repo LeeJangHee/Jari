@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Frag_home_menu_wf extends Fragment {
     private View view;
-    private RecyclerViewAdapter adapter;
+    private HomeMenuAdapter adapter;
 
     @Nullable
     @Override
@@ -37,7 +37,7 @@ public class Frag_home_menu_wf extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        adapter = new RecyclerViewAdapter();
+        adapter = new HomeMenuAdapter();
         recyclerView.setAdapter(adapter);
     }
 
@@ -48,16 +48,15 @@ public class Frag_home_menu_wf extends Fragment {
         List<Integer> listIcon = Arrays.asList(R.mipmap.ic_launcher, R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher);
 
         for(int i = 0 ; i < listTitle.size(); i++){
-            RecyclerViewItem recyclerViewItem = new RecyclerViewItem();
+            HomeMenuItem homeMenuItem = new HomeMenuItem();
 
-            recyclerViewItem.setTitleStr(listTitle.get(i));
-            recyclerViewItem.setAddressStr(listAddress.get(i));
-            recyclerViewItem.setReservationStr(listReservation.get(i));
-            recyclerViewItem.setIconId(listIcon.get(i));
+            homeMenuItem.setTitleStr(listTitle.get(i));
+            homeMenuItem.setAddressStr(listAddress.get(i));
+            homeMenuItem.setReservationStr(listReservation.get(i));
+            homeMenuItem.setIconId(listIcon.get(i));
 
-            adapter.addItem(recyclerViewItem);
+            adapter.addItem(homeMenuItem);
         }
         adapter.notifyDataSetChanged();
     }
 }
-

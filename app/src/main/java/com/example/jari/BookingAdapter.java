@@ -13,16 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder> {
-    private ArrayList<RecyclerViewItem> mRecyclerViewItemRecycler = new ArrayList<>();
+public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ItemViewHolder> {
+    private ArrayList<BookingItem> mRecyclerViewItemRecycler = new ArrayList<>();
     private Context context;
-    private RecyclerViewItem itemView;
+    private BookingItem itemView;
 
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.frag_booking_listitem, parent, false);
-        itemView = new RecyclerViewItem();
+        itemView = new BookingItem();
         context = parent.getContext();
         return new ItemViewHolder(view);
     }
@@ -42,8 +42,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mRecyclerViewItemRecycler.size();
     }
 
-    public void addItem(RecyclerViewItem recyclerViewItem) {
-        mRecyclerViewItemRecycler.add(recyclerViewItem);
+    public void addItem(BookingItem bookingItem) {
+        mRecyclerViewItemRecycler.add(bookingItem);
     }
 
 
@@ -54,7 +54,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         private TextView tv_address;
         private TextView tv_reservation;
 
-        private RecyclerViewItem recyclerViewItem;
+        private BookingItem bookingItem;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,13 +65,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             tv_reservation = itemView.findViewById(R.id.reservation_listView);
         }
 
-        public void onBind(RecyclerViewItem recyclerViewItem) {
-            this.recyclerViewItem = recyclerViewItem;
+        public void onBind(BookingItem bookingItem) {
+            this.bookingItem = bookingItem;
 
-            ig_icon.setImageResource(recyclerViewItem.getIconId());
-            tv_title.setText(recyclerViewItem.getTitleStr());
-            tv_address.setText(recyclerViewItem.getAddressStr());
-            tv_reservation.setText(recyclerViewItem.getReservationStr());
+            ig_icon.setImageResource(bookingItem.getIconId());
+            tv_title.setText(bookingItem.getTitleStr());
+            tv_address.setText(bookingItem.getAddressStr());
+            tv_reservation.setText(bookingItem.getReservationStr());
 
             itemView.setOnClickListener(this);
             ig_icon.setOnClickListener(this);
@@ -84,20 +84,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.linear_list:
-                    Toast.makeText(context, "TITLE : " + recyclerViewItem.getTitleStr() + "\nAddress : " + recyclerViewItem.getAddressStr() +
-                            "\nReservation : " + recyclerViewItem.getReservationStr(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "TITLE : " + bookingItem.getTitleStr() + "\nAddress : " + bookingItem.getAddressStr() +
+                            "\nReservation : " + bookingItem.getReservationStr(), Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.title_listView:
-                    Toast.makeText(context, recyclerViewItem.getTitleStr(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, bookingItem.getTitleStr(), Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.address_listView:
-                    Toast.makeText(context, recyclerViewItem.getAddressStr(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, bookingItem.getAddressStr(), Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.reservation_listView:
-                    Toast.makeText(context, recyclerViewItem.getReservationStr(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, bookingItem.getReservationStr(), Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.image_listView:
-                    Toast.makeText(context, recyclerViewItem.getIconId() + " 이미지 입니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, bookingItem.getIconId() + " 이미지 입니다.", Toast.LENGTH_SHORT).show();
                     break;
             }
         }

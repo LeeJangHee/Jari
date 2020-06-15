@@ -1,7 +1,7 @@
 package com.example.jari;
 
 
-public class RecyclerViewItem {
+public class HomeMenuItem {
     private String titleStr;
     private String addressStr;
     private String reservationStr;
