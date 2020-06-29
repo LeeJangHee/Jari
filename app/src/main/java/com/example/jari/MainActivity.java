@@ -1,7 +1,6 @@
 package com.example.jari;
 
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import com.example.jari.booking.Frag_booking;
+import com.example.jari.home.Frag_home;
+import com.example.jari.more.Frag_more;
+import com.example.jari.person.Frag_person;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -87,28 +90,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-    }
-
-    @Override //툴바 메뉴 이벤트
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main_toolbar, menu);
-//        MenuItem searchItem = menu.findItem(R.id.action_search);
-//        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-//        searchView.setMaxWidth(Integer.MAX_VALUE);
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                Toast.makeText(getApplicationContext(), "검색을 완료했습니다.", Toast.LENGTH_SHORT).show();
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                return false;
-//            }
-//        });
-        return true;
     }
 
     @Override

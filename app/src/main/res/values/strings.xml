@@ -13,4 +13,11 @@
     <string name="menu_cafe">디저트/카페</string>
     <string name="menu_beer">포차</string>
 
+    <string name="person_alarm">알림</string>
+    <string name="person_information">내정보 관리</string>
+    <string name="person_sign_in">로그인</string>
+    <string name="person_sign_up">회원가입</string>
+    <string name="person_coupon">쿠폰</string>
+    <string name="person_review">리뷰</string>
+
 </resources>

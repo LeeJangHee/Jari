@@ -1,4 +1,4 @@
-package com.example.jari;
+package com.example.jari.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,10 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.jari.R;
+
 import java.util.Arrays;
 import java.util.List;
 
-public class Frag_home_menu_wf extends Fragment {
+public class Frag_home_menu_best extends Fragment {
     private View view;
     private HomeMenuAdapter adapter;
 
@@ -23,7 +25,7 @@ public class Frag_home_menu_wf extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull final ViewGroup container,
                              @NonNull Bundle saveInstanceState) {
 
-        view = (View) inflater.inflate(R.layout.frag_home_menu_wf, container, false);
+        view = (View) inflater.inflate(R.layout.frag_home_menu_best, container, false);
 
         init();
         getData();
@@ -60,3 +62,4 @@ public class Frag_home_menu_wf extends Fragment {
         adapter.notifyDataSetChanged();
     }
 }
+

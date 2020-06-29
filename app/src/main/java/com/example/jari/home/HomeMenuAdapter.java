@@ -1,4 +1,4 @@
-package com.example.jari;
+package com.example.jari.home;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.jari.R;
 
 import java.util.ArrayList;
 
