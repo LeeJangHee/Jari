@@ -1,4 +1,4 @@
-package com.example.jari;
+package com.example.jari.more;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.jari.R;
 
 public class Frag_more extends Fragment {
     View view;

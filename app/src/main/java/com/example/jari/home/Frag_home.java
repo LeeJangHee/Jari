@@ -1,4 +1,4 @@
-package com.example.jari;
+package com.example.jari.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
+
+import com.example.jari.MainActivity;
+import com.example.jari.R;
 
 public class Frag_home extends Fragment implements View.OnClickListener {
     private View view;
@@ -45,7 +48,7 @@ public class Frag_home extends Fragment implements View.OnClickListener {
     }
 
     //메뉴 클릭 Fragment 함수
-    private void menuOnClick(String name, Fragment frag) {
+    public void menuOnClick(String name, Fragment frag) {
         ((MainActivity) getActivity()).replaceFragment(frag);
         toolbar_title.setText(name);
         ActionBar actionBar_bestMenu = ((MainActivity) getActivity()).getSupportActionBar();

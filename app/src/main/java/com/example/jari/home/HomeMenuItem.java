@@ -1,7 +1,7 @@
-package com.example.jari;
+package com.example.jari.home;
 
 
-public class BookingItem {
+public class HomeMenuItem {
     private String titleStr;
     private String addressStr;
     private String reservationStr;
