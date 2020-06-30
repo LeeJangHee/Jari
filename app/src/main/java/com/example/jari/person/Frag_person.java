@@ -21,6 +21,10 @@ public class Frag_person extends Fragment implements View.OnClickListener {
     private Button btn_sign_up;
     private String str_name;
     private TextView toolbar_title;
+    private TextView tv_alarm;
+    private TextView tv_review;
+    private TextView tv_information;
+    private TextView tv_coupon;
 
 
     @Nullable
@@ -30,12 +34,20 @@ public class Frag_person extends Fragment implements View.OnClickListener {
         view = (View) inflater.inflate(R.layout.frag_person, container, false);
         view.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
 
+        toolbar_title = ((MainActivity) getActivity()).findViewById(R.id.toolbar_title);
         btn_sign_in = view.findViewById(R.id.btn_sign_in);
         btn_sign_up = view.findViewById(R.id.btn_sign_up);
-        toolbar_title = ((MainActivity) getActivity()).findViewById(R.id.toolbar_title);
+        tv_alarm = view.findViewById(R.id.person_alarm);
+        tv_review = view.findViewById(R.id.person_review);
+        tv_information = view.findViewById(R.id.person_information);
+        tv_coupon = view.findViewById(R.id.person_coupon);
 
         btn_sign_in.setOnClickListener(this);
         btn_sign_up.setOnClickListener(this);
+        tv_alarm.setOnClickListener(this);
+        tv_review.setOnClickListener(this);
+        tv_information.setOnClickListener(this);
+        tv_coupon.setOnClickListener(this);
 
         return view;
     }
@@ -60,6 +72,23 @@ public class Frag_person extends Fragment implements View.OnClickListener {
                 str_name = getString(R.string.person_sign_up);
                 menuOnClick(str_name, new Frag_person_sign_up());
                 break;
+            case R.id.person_alarm:
+                str_name = getString(R.string.person_alarm);
+                menuOnClick(str_name, new Frag_person_alarm());
+                break;
+            case R.id.person_review:
+                str_name = getString(R.string.person_review);
+                menuOnClick(str_name, new Frag_person_review());
+                break;
+            case R.id.person_coupon:
+                str_name = getString(R.string.person_coupon);
+                menuOnClick(str_name, new Frag_person_coupon());
+                break;
+            case R.id.person_information:
+                str_name = getString(R.string.person_information);
+                menuOnClick(str_name, new Frag_person_information());
+                break;
+
         }
     }
 }

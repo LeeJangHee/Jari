@@ -7,6 +7,8 @@ import android.os.Handler;
 
 
 public class LodingActivity extends Activity {
+    int RODING_TIME = 3000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +22,6 @@ public class LodingActivity extends Activity {
                 startActivity(intent);
                 finish();
             }
-        }, 3000);
+        }, RODING_TIME);
     }
 }

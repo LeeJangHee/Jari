@@ -50,36 +50,40 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/person_alarm"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center_vertical"
             android:text="알림"
             android:textSize="24sp"
-            tools:ignore="MissingConstraints" />
+            android:clickable="true" />
 
         <TextView
+            android:id="@+id/person_review"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center_vertical"
             android:text="내가 쓴 리뷰"
             android:textSize="24sp"
-            tools:ignore="MissingConstraints" />
+            android:clickable="true" />
 
         <TextView
+            android:id="@+id/person_coupon"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center_vertical"
             android:text="쿠폰"
             android:textSize="24sp"
-            tools:ignore="MissingConstraints" />
+            android:clickable="true" />
 
         <TextView
+            android:id="@+id/person_information"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center_vertical"
             android:text="내정보 관리"
             android:textSize="24sp"
-            tools:ignore="MissingConstraints" />
+            android:clickable="true" />
 
 
     </LinearLayout>
