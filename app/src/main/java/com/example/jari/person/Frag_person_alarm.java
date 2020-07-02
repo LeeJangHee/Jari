@@ -8,19 +8,50 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.jari.R;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Frag_person_alarm extends Fragment {
     private View view;
+    private PersonMenuAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container,
                              @NonNull Bundle saveInstanceState) {
         view = (View) inflater.inflate(R.layout.frag_person_alarm, container, false);
-        view.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
+
+        init();
+        getData();
 
         return view;
+    }
+
+    private void init() {
+        RecyclerView recyclerView = view.findViewById(R.id.alarm_recycler_view);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        adapter = new PersonMenuAdapter();
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void getData() {
+        List<String> listAlarm = Arrays.asList("알람1", "알람1", "알람1", "알람1", "알람1", "알람1", "알람1");
+
+        for (int i = 0; i < listAlarm.size(); i++) {
+            PersonMenuItem personMenuItem = new PersonMenuItem();
+
+            personMenuItem.setStr_alarm(listAlarm.get(i));
+
+            adapter.addItem(personMenuItem);
+        }
+        adapter.notifyDataSetChanged();
     }
 }

@@ -19,7 +19,6 @@ public class Frag_person_coupon extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container,
                              @NonNull Bundle saveInstanceState) {
         view = (View) inflater.inflate(R.layout.frag_person_coupon, container, false);
-        view.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
 
         return view;
     }
