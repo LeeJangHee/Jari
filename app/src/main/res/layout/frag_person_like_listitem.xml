@@ -11,10 +11,10 @@
     android:layout_marginBottom="8dp"
     android:weightSum="10"
     android:background="@android:color/white"
-    android:id="@+id/booking_linear">
+    android:id="@+id/like_linear">
 
     <ImageView
-        android:id="@+id/image_listView"
+        android:id="@+id/like_image_listView"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:src="@drawable/jari_loding" />
@@ -24,12 +24,12 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_weight="8"
+        android:layout_weight="9"
         android:gravity="center_vertical"
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/title_listView"
+            android:id="@+id/like_tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
@@ -37,28 +37,22 @@
             tools:text="가게 이름" />
 
         <TextView
-            android:id="@+id/address_listView"
+            android:id="@+id/like_tv_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:layout_gravity="left"
             tools:text="가게 주소" />
 
-        <TextView
-            android:id="@+id/reservation_listView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            tools:text="번호 / 예약" />
-
     </LinearLayout>
 
-    <Button
-        android:id="@+id/reservation_btn"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+    <ImageView
+        android:id="@+id/like_iv_heart"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_gravity="center"
-        android:layout_weight="2"
-        android:text="취소" />
+        android:src="@drawable/ic_heart"
+        android:layout_weight="1"
+        android:clickable="true" />
 
 </LinearLayout>

@@ -1,7 +1,7 @@
-package com.example.jari.person;
+package com.example.jari.person.alarm;
 
 
-public class PersonMenuItem {
+public class PersonAlarmItem {
     private String str_alarm;
 
     public String getStr_alarm() {

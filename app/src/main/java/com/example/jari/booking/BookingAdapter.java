@@ -85,7 +85,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ItemView
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.linear_list:
+                case R.id.booking_linear:
                     Toast.makeText(context, "TITLE : " + bookingItem.getTitleStr() + "\nAddress : " + bookingItem.getAddressStr() +
                             "\nReservation : " + bookingItem.getReservationStr(), Toast.LENGTH_SHORT).show();
                     break;

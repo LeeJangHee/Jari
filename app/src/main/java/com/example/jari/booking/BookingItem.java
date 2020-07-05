@@ -40,13 +40,4 @@ public class BookingItem {
         this.reservationStr = reservationStr;
     }
 
-    @Override
-    public String toString() {
-        return "RecyclerViewItem{" +
-                "titleStr='" + titleStr + '\'' +
-                ", addressStr='" + addressStr + '\'' +
-                ", reservationStr='" + reservationStr + '\'' +
-                ", iconId=" + iconId +
-                '}';
-    }
 }
