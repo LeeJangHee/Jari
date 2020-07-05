@@ -52,6 +52,15 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/person_like"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:text="찜"
+            android:textSize="24sp"
+            android:clickable="true" />
+
+        <TextView
             android:id="@+id/person_alarm"
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -66,15 +75,6 @@
             android:layout_height="48dp"
             android:gravity="center_vertical"
             android:text="내가 쓴 리뷰"
-            android:textSize="24sp"
-            android:clickable="true" />
-
-        <TextView
-            android:id="@+id/person_coupon"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_vertical"
-            android:text="쿠폰"
             android:textSize="24sp"
             android:clickable="true" />
 

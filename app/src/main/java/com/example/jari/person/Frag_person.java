@@ -14,17 +14,20 @@ import androidx.fragment.app.Fragment;
 
 import com.example.jari.MainActivity;
 import com.example.jari.R;
+import com.example.jari.person.alarm.Frag_person_alarm;
+import com.example.jari.person.like.Frag_person_like;
 
 public class Frag_person extends Fragment implements View.OnClickListener {
     private View view;
     private Button btn_sign_in;
     private Button btn_sign_up;
     private String str_name;
+
     private TextView toolbar_title;
     private TextView tv_alarm;
     private TextView tv_review;
     private TextView tv_information;
-    private TextView tv_coupon;
+    private TextView tv_like;
 
 
     @Nullable
@@ -40,14 +43,14 @@ public class Frag_person extends Fragment implements View.OnClickListener {
         tv_alarm = view.findViewById(R.id.person_alarm);
         tv_review = view.findViewById(R.id.person_review);
         tv_information = view.findViewById(R.id.person_information);
-        tv_coupon = view.findViewById(R.id.person_coupon);
+        tv_like = view.findViewById(R.id.person_like);
 
         btn_sign_in.setOnClickListener(this);
         btn_sign_up.setOnClickListener(this);
         tv_alarm.setOnClickListener(this);
         tv_review.setOnClickListener(this);
         tv_information.setOnClickListener(this);
-        tv_coupon.setOnClickListener(this);
+        tv_like.setOnClickListener(this);
 
         return view;
     }
@@ -80,9 +83,9 @@ public class Frag_person extends Fragment implements View.OnClickListener {
                 str_name = getString(R.string.person_review);
                 menuOnClick(str_name, new Frag_person_review());
                 break;
-            case R.id.person_coupon:
-                str_name = getString(R.string.person_coupon);
-                menuOnClick(str_name, new Frag_person_coupon());
+            case R.id.person_like:
+                str_name = getString(R.string.person_like);
+                menuOnClick(str_name, new Frag_person_like());
                 break;
             case R.id.person_information:
                 str_name = getString(R.string.person_information);
