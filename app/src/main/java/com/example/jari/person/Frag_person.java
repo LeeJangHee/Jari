@@ -25,7 +25,6 @@ public class Frag_person extends Fragment implements View.OnClickListener {
 
     private TextView toolbar_title;
     private TextView tv_alarm;
-    private TextView tv_review;
     private TextView tv_information;
     private TextView tv_like;
 
@@ -41,14 +40,12 @@ public class Frag_person extends Fragment implements View.OnClickListener {
         btn_sign_in = view.findViewById(R.id.btn_sign_in);
         btn_sign_up = view.findViewById(R.id.btn_sign_up);
         tv_alarm = view.findViewById(R.id.person_alarm);
-        tv_review = view.findViewById(R.id.person_review);
         tv_information = view.findViewById(R.id.person_information);
         tv_like = view.findViewById(R.id.person_like);
 
         btn_sign_in.setOnClickListener(this);
         btn_sign_up.setOnClickListener(this);
         tv_alarm.setOnClickListener(this);
-        tv_review.setOnClickListener(this);
         tv_information.setOnClickListener(this);
         tv_like.setOnClickListener(this);
 
@@ -78,10 +75,6 @@ public class Frag_person extends Fragment implements View.OnClickListener {
             case R.id.person_alarm:
                 str_name = getString(R.string.person_alarm);
                 menuOnClick(str_name, new Frag_person_alarm());
-                break;
-            case R.id.person_review:
-                str_name = getString(R.string.person_review);
-                menuOnClick(str_name, new Frag_person_review());
                 break;
             case R.id.person_like:
                 str_name = getString(R.string.person_like);
