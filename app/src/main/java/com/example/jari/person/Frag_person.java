@@ -37,14 +37,10 @@ public class Frag_person extends Fragment implements View.OnClickListener {
         view.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
 
         toolbar_title = ((MainActivity) getActivity()).findViewById(R.id.toolbar_title);
-        btn_sign_in = view.findViewById(R.id.btn_sign_in);
-        btn_sign_up = view.findViewById(R.id.btn_sign_up);
         tv_alarm = view.findViewById(R.id.person_alarm);
         tv_information = view.findViewById(R.id.person_information);
         tv_like = view.findViewById(R.id.person_like);
 
-        btn_sign_in.setOnClickListener(this);
-        btn_sign_up.setOnClickListener(this);
         tv_alarm.setOnClickListener(this);
         tv_information.setOnClickListener(this);
         tv_like.setOnClickListener(this);
@@ -64,14 +60,6 @@ public class Frag_person extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_sign_in:
-                str_name = getString(R.string.person_sign_in);
-                menuOnClick(str_name, new Frag_person_sign_in());
-                break;
-            case R.id.btn_sign_up:
-                str_name = getString(R.string.person_sign_up);
-                menuOnClick(str_name, new Frag_person_sign_up());
-                break;
             case R.id.person_alarm:
                 str_name = getString(R.string.person_alarm);
                 menuOnClick(str_name, new Frag_person_alarm());
