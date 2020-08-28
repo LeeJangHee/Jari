@@ -36,14 +36,15 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginEnd="44dp"
-                android:background="#000000"
+                android:src="@drawable/ic_menu_best"
                 android:clickable="true" />
 
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="44dp"
-                android:background="#000000" />
+                android:src="@drawable/ic_menu_map"
+                />
         </LinearLayout>
 
         <TableLayout
@@ -69,7 +70,7 @@
                     android:layout_height="80dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="#000000"
+                    android:src="@drawable/ic_menu_kor"
                     android:clickable="true" />
 
                 <ImageView
@@ -78,7 +79,7 @@
                     android:layout_height="80dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="#000000"
+                    android:src="@drawable/ic_menu_jp"
                     android:clickable="true" />
 
                 <ImageView
@@ -87,7 +88,7 @@
                     android:layout_height="80dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="#000000"
+                    android:src="@drawable/ic_menu_ch"
                     android:clickable="true" />
 
             </TableRow>
@@ -105,7 +106,7 @@
                     android:layout_height="80dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="#000000"
+                    android:src="@drawable/ic_menu_wf"
                     android:clickable="true" />
 
                 <ImageView
@@ -114,7 +115,7 @@
                     android:layout_height="80dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="#000000"
+                    android:src="@drawable/ic_menu_cafe"
                     android:clickable="true" />
 
                 <ImageView
@@ -123,7 +124,7 @@
                     android:layout_height="80dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="#000000"
+                    android:src="@drawable/ic_menu_beer"
                     android:clickable="true"/>
 
             </TableRow>
