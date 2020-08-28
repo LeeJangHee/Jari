@@ -1,6 +1,7 @@
 package com.example.jari;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -92,6 +93,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Appbar 아이템 목록 표시
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main_toolbar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // Appbar 아이템 목록 선택시 발생 이벤트
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
