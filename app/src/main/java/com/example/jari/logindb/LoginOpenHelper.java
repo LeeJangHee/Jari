@@ -14,14 +14,14 @@ public class LoginOpenHelper extends SQLiteOpenHelper {
 
     public static final String tableName = "Users";
     public static final String NAME = "name";
-    public static final String PHONE_NUMBER = "phone_number";
+    public static final String PHONE_NUMBER = "number";
     public static final String PEOPLE = "people";
 
     public static final int DB_VERSION = 1;
     public static final String DB_NAME = "Login.db";
     public static final String SQL_CREATE_ENTRIES =
-            String.format("create table %s (%s integer primary key autoincrement, %s text, %s text)",
-                    tableName, NAME, PHONE_NUMBER, PEOPLE);
+            String.format("create table %s (%s char(36) primary key, %s text not null, %s text)",
+                    tableName, PHONE_NUMBER, NAME, PEOPLE);
 
     public static final String SQL_DELETE_ENTRIES = String.format("drop table if exists %s", tableName);
 
@@ -53,14 +53,15 @@ public class LoginOpenHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
 
         String[] userInfo = {
-                LoginOpenHelper.NAME,
                 LoginOpenHelper.PHONE_NUMBER,
+                LoginOpenHelper.NAME,
                 LoginOpenHelper.PEOPLE
         };
 
         Cursor cursor = db.query(LoginOpenHelper.tableName, userInfo,
                 null, null, null, null, null);
 
+        //커서 처음~끝 조회
         while(cursor.moveToNext()) {
             LoginData loginData = new LoginData();
             //객체에 DB 저장
