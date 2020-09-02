@@ -34,6 +34,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/person_user_name"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
@@ -41,6 +42,7 @@
                     android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/person_user_number"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
@@ -48,6 +50,7 @@
                     android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/person_user_people"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
