@@ -20,6 +20,8 @@ public class Frag_home extends Fragment implements View.OnClickListener {
     private TextView toolbar_title;
     private String str_name;
 
+    public MainActivity mainActivity;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container,
@@ -27,6 +29,8 @@ public class Frag_home extends Fragment implements View.OnClickListener {
         view = (View) inflater.inflate(R.layout.frag_home, container, false);
 
         toolbar_title = (TextView) ((MainActivity) getActivity()).findViewById(R.id.toolbar_title);
+
+        mainActivity = new MainActivity();
 
         ImageView ig_bestMenu = (ImageView) view.findViewById(R.id.menuBest);
         ImageView ig_menuKor = (ImageView) view.findViewById(R.id.menuKor);
@@ -50,6 +54,7 @@ public class Frag_home extends Fragment implements View.OnClickListener {
     //메뉴 클릭 Fragment 함수
     public void menuOnClick(String name, Fragment frag) {
         ((MainActivity) getActivity()).replaceFragment(frag);
+        mainActivity.stack_back_fragment.push(frag);
         toolbar_title.setText(name);
         ActionBar actionBar_bestMenu = ((MainActivity) getActivity()).getSupportActionBar();
         actionBar_bestMenu.setTitle("");
@@ -88,7 +93,6 @@ public class Frag_home extends Fragment implements View.OnClickListener {
                 str_name = getString(R.string.menu_beer);
                 menuOnClick(str_name, new Frag_home_menu_beer());
                 break;
-
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.jari;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -18,6 +19,8 @@ import com.example.jari.more.Frag_more;
 import com.example.jari.person.Frag_person;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Stack;
+
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
@@ -27,11 +30,14 @@ public class MainActivity extends AppCompatActivity {
     private Frag_booking frag_booking;
     private Frag_more frag_more;
 
+    public Stack<Fragment> stack_back_fragment;
+
     Toolbar toolbar;
     ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        stack_back_fragment = new Stack<>();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -49,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
         frag_more = new Frag_more();
 
         replaceFragment(frag_home);
+        stack_back_fragment.push(frag_home);
+        Log.d("stack", "onCreate: "+stack_back_fragment.size());
 
         final TextView toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         final String toolbarMain_title = toolbar_title.getText().toString();
@@ -60,24 +68,32 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.action_home: {
                         replaceFragment(frag_home);
+                        stack_back_fragment.pop();
+                        stack_back_fragment.push(frag_home);
                         toolbar_title.setText(toolbarMain_title);
                         actionBar.setDisplayHomeAsUpEnabled(false);
                         return true;
                     }
                     case R.id.action_person: {
                         replaceFragment(frag_person);
+                        stack_back_fragment.pop();
+                        stack_back_fragment.push(frag_person);
                         toolbar_title.setText(menuItem.getTitle());
                         actionBar.setDisplayHomeAsUpEnabled(false);
                         return true;
                     }
                     case R.id.action_booking: {
                         replaceFragment(frag_booking);
+                        stack_back_fragment.pop();
+                        stack_back_fragment.push(frag_booking);
                         toolbar_title.setText(menuItem.getTitle());
                         actionBar.setDisplayHomeAsUpEnabled(false);
                         return true;
                     }
                     case R.id.action_more: {
                         replaceFragment(frag_more);
+                        stack_back_fragment.pop();
+                        stack_back_fragment.push(frag_more);
                         toolbar_title.setText(menuItem.getTitle());
                         actionBar.setDisplayHomeAsUpEnabled(false);
                         return true;
@@ -89,8 +105,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
     }
 
     // Appbar 아이템 목록 표시
@@ -110,7 +124,13 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 // 앱바의 뒤로가기 버튼이다.
                 // 플레그먼트 이름을 받아서 replaceFragment를 실행시키자
-                Toast.makeText(this, "뒤로가기 하기", Toast.LENGTH_SHORT).show();
+                // pop()
+                if(!stack_back_fragment.empty()) {
+                    Toast.makeText(this, "뒤로가기 하기", Toast.LENGTH_SHORT).show();
+                    replaceFragment(stack_back_fragment.pop());
+                } else {
+                    Toast.makeText(this, "스택 비었음", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -122,5 +142,8 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void backButtonClick(Fragment stackFragment) {
+
+    }
 }
 
