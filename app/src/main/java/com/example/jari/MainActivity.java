@@ -11,13 +11,15 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.jari.booking.Frag_booking;
-import com.example.jari.fragmentback.Fragment_back;
 import com.example.jari.home.Frag_home;
 import com.example.jari.more.Frag_more;
 import com.example.jari.person.Frag_person;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,14 +30,15 @@ public class MainActivity extends AppCompatActivity {
     private Frag_booking frag_booking;
     private Frag_more frag_more;
 
-    Fragment_back fragment_back;
+    public static Stack<Fragment> frag_stack_back;
 
     Toolbar toolbar;
     ActionBar actionBar;
+    FragmentTransaction transaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        fragment_back = new Fragment_back();
+        frag_stack_back = new Stack<>();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -53,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         frag_more = new Frag_more();
 
         replaceFragment(frag_home);
-        fragment_back.pushFragmentStack(frag_home);
 
         final TextView toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         final String toolbarMain_title = toolbar_title.getText().toString();
@@ -65,28 +67,24 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.action_home: {
                         replaceFragment(frag_home);
-                        fragment_back.pushFragmentStack(frag_home);
                         toolbar_title.setText(toolbarMain_title);
                         actionBar.setDisplayHomeAsUpEnabled(false);
                         return true;
                     }
                     case R.id.action_person: {
                         replaceFragment(frag_person);
-                        fragment_back.pushFragmentStack(frag_person);
                         toolbar_title.setText(menuItem.getTitle());
                         actionBar.setDisplayHomeAsUpEnabled(false);
                         return true;
                     }
                     case R.id.action_booking: {
                         replaceFragment(frag_booking);
-                        fragment_back.pushFragmentStack(frag_booking);
                         toolbar_title.setText(menuItem.getTitle());
                         actionBar.setDisplayHomeAsUpEnabled(false);
                         return true;
                     }
                     case R.id.action_more: {
                         replaceFragment(frag_more);
-                        fragment_back.pushFragmentStack(frag_more);
                         toolbar_title.setText(menuItem.getTitle());
                         actionBar.setDisplayHomeAsUpEnabled(false);
                         return true;
@@ -118,9 +116,9 @@ public class MainActivity extends AppCompatActivity {
                 // 앱바의 뒤로가기 버튼이다.
                 // 플레그먼트 이름을 받아서 replaceFragment를 실행시키자
                 // pop()
-                if(!fragment_back.emptyFragmentStack()) {
+                if (!frag_stack_back.empty()) {
                     Toast.makeText(this, "뒤로가기 하기", Toast.LENGTH_SHORT).show();
-                    replaceFragment(fragment_back.popFragmentStack());
+                    replaceFragment(frag_stack_back.pop());
                 } else {
                     Toast.makeText(this, "스택 비었음", Toast.LENGTH_SHORT).show();
                 }
@@ -131,9 +129,10 @@ public class MainActivity extends AppCompatActivity {
 
     //fragment 변경하기
     public void replaceFragment(Fragment frg) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frg)
-                .commit();
-        fragment_back.pushFragmentStack(frg);
+        transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_layout, frg);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
 }

@@ -14,15 +14,11 @@ import androidx.fragment.app.Fragment;
 
 import com.example.jari.MainActivity;
 import com.example.jari.R;
-import com.example.jari.fragmentback.Fragment_back;
 
 public class Frag_home extends Fragment implements View.OnClickListener {
     private View view;
     private TextView toolbar_title;
     private String str_name;
-
-    Fragment_back fragment_back;
-
 
     @Nullable
     @Override
@@ -31,8 +27,6 @@ public class Frag_home extends Fragment implements View.OnClickListener {
         view = (View) inflater.inflate(R.layout.frag_home, container, false);
 
         toolbar_title = (TextView) ((MainActivity) getActivity()).findViewById(R.id.toolbar_title);
-
-        fragment_back = new Fragment_back();
 
         ImageView ig_bestMenu = (ImageView) view.findViewById(R.id.menuBest);
         ImageView ig_menuKor = (ImageView) view.findViewById(R.id.menuKor);
@@ -56,7 +50,7 @@ public class Frag_home extends Fragment implements View.OnClickListener {
     //메뉴 클릭 Fragment 함수
     public void menuOnClick(String name, Fragment frag) {
         ((MainActivity) getActivity()).replaceFragment(frag);
-        fragment_back.pushFragmentStack(frag);
+        MainActivity.frag_stack_back.push(this);
         toolbar_title.setText(name);
         ActionBar actionBar_bestMenu = ((MainActivity) getActivity()).getSupportActionBar();
         actionBar_bestMenu.setTitle("");

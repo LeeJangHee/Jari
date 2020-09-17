@@ -67,7 +67,7 @@ public class Frag_person extends Fragment implements View.OnClickListener {
         db = helper.getWritableDatabase();
         loginArrayList = helper.loadLoginList();
 
-        for(int i = 0; i < loginArrayList.size(); i++) {
+        for (int i = 0; i < loginArrayList.size(); i++) {
 
         }
         return view;
@@ -75,6 +75,7 @@ public class Frag_person extends Fragment implements View.OnClickListener {
 
     public void menuOnClick(String name, Fragment frag) {
         ((MainActivity) getActivity()).replaceFragment(frag);
+        MainActivity.frag_stack_back.push(this);
         toolbar_title.setText(name);
         ActionBar actionBar_bestMenu = ((MainActivity) getActivity()).getSupportActionBar();
         actionBar_bestMenu.setTitle("");
