@@ -50,6 +50,7 @@ public class Frag_home extends Fragment implements View.OnClickListener {
     //메뉴 클릭 Fragment 함수
     public void menuOnClick(String name, Fragment frag) {
         ((MainActivity) getActivity()).replaceFragment(frag);
+        MainActivity.frag_stack_back.push(this);
         toolbar_title.setText(name);
         ActionBar actionBar_bestMenu = ((MainActivity) getActivity()).getSupportActionBar();
         actionBar_bestMenu.setTitle("");
@@ -88,7 +89,6 @@ public class Frag_home extends Fragment implements View.OnClickListener {
                 str_name = getString(R.string.menu_beer);
                 menuOnClick(str_name, new Frag_home_menu_beer());
                 break;
-
         }
     }
 }

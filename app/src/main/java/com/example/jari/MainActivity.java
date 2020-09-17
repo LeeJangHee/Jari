@@ -11,12 +11,15 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.jari.booking.Frag_booking;
 import com.example.jari.home.Frag_home;
 import com.example.jari.more.Frag_more;
 import com.example.jari.person.Frag_person;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,11 +30,15 @@ public class MainActivity extends AppCompatActivity {
     private Frag_booking frag_booking;
     private Frag_more frag_more;
 
+    public static Stack<Fragment> frag_stack_back;
+
     Toolbar toolbar;
     ActionBar actionBar;
+    FragmentTransaction transaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        frag_stack_back = new Stack<>();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -89,8 +96,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
     }
 
     // Appbar 아이템 목록 표시
@@ -110,7 +115,13 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 // 앱바의 뒤로가기 버튼이다.
                 // 플레그먼트 이름을 받아서 replaceFragment를 실행시키자
-                Toast.makeText(this, "뒤로가기 하기", Toast.LENGTH_SHORT).show();
+                // pop()
+                if (!frag_stack_back.empty()) {
+                    Toast.makeText(this, "뒤로가기 하기", Toast.LENGTH_SHORT).show();
+                    replaceFragment(frag_stack_back.pop());
+                } else {
+                    Toast.makeText(this, "스택 비었음", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -118,8 +129,10 @@ public class MainActivity extends AppCompatActivity {
 
     //fragment 변경하기
     public void replaceFragment(Fragment frg) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, frg)
-                .commit();
+        transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_layout, frg);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
 }
