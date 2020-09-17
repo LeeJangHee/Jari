@@ -12,6 +12,7 @@
     <string name="menu_best">명예의전당</string>
     <string name="menu_cafe">디저트/카페</string>
     <string name="menu_beer">포차</string>
+    <string name="menu_map">지도</string>
 
     <string name="person_alarm">알림</string>
     <string name="person_information">내정보 관리</string>
