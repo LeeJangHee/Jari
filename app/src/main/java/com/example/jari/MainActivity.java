@@ -1,6 +1,7 @@
 package com.example.jari;
 
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -11,13 +12,14 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.jari.booking.Frag_booking;
 import com.example.jari.home.Frag_home;
 import com.example.jari.more.Frag_more;
 import com.example.jari.person.Frag_person;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.naver.maps.map.NaverMapSdk;
 
 import java.util.Stack;
 
@@ -30,11 +32,13 @@ public class MainActivity extends AppCompatActivity {
     private Frag_booking frag_booking;
     private Frag_more frag_more;
 
-    public static Stack<Fragment> frag_stack_back;
+    public static Stack<Pair<Fragment, String>> frag_stack_back;
+    public static FragmentManager manager;
 
     Toolbar toolbar;
     ActionBar actionBar;
-    FragmentTransaction transaction;
+    public static TextView toolbar_title;
+    public static String toolbarMain_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +47,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // 네이버 지도 호출
+        NaverMapSdk.getInstance(this).setClient(
+                new NaverMapSdk.NaverCloudPlatformClient("azqxoh0k6z"));
+
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNaviView);
 
@@ -57,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
         replaceFragment(frag_home);
 
-        final TextView toolbar_title = (TextView) findViewById(R.id.toolbar_title);
-        final String toolbarMain_title = toolbar_title.getText().toString();
+        toolbar_title = (TextView) findViewById(R.id.toolbar_title);
+        toolbarMain_title = getText(R.string.app_name).toString();
 
         //하단 버튼 메뉴 Fragment
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -67,25 +76,29 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.action_home: {
                         replaceFragment(frag_home);
+                        toolbarMain_title = getText(R.string.app_name).toString();
                         toolbar_title.setText(toolbarMain_title);
                         actionBar.setDisplayHomeAsUpEnabled(false);
                         return true;
                     }
                     case R.id.action_person: {
                         replaceFragment(frag_person);
-                        toolbar_title.setText(menuItem.getTitle());
+                        toolbarMain_title = menuItem.getTitle().toString();
+                        toolbar_title.setText(toolbarMain_title);
                         actionBar.setDisplayHomeAsUpEnabled(false);
                         return true;
                     }
                     case R.id.action_booking: {
                         replaceFragment(frag_booking);
-                        toolbar_title.setText(menuItem.getTitle());
+                        toolbarMain_title = menuItem.getTitle().toString();
+                        toolbar_title.setText(toolbarMain_title);
                         actionBar.setDisplayHomeAsUpEnabled(false);
                         return true;
                     }
                     case R.id.action_more: {
                         replaceFragment(frag_more);
-                        toolbar_title.setText(menuItem.getTitle());
+                        toolbarMain_title = menuItem.getTitle().toString();
+                        toolbar_title.setText(toolbarMain_title);
                         actionBar.setDisplayHomeAsUpEnabled(false);
                         return true;
                     }
@@ -118,7 +131,10 @@ public class MainActivity extends AppCompatActivity {
                 // pop()
                 if (!frag_stack_back.empty()) {
                     Toast.makeText(this, "뒤로가기 하기", Toast.LENGTH_SHORT).show();
-                    replaceFragment(frag_stack_back.pop());
+                    actionBar.setDisplayHomeAsUpEnabled(false);
+                    replaceFragment(frag_stack_back.peek().first);
+                    toolbar_title.setText(frag_stack_back.peek().second);
+                    frag_stack_back.pop();
                 } else {
                     Toast.makeText(this, "스택 비었음", Toast.LENGTH_SHORT).show();
                 }
@@ -129,10 +145,8 @@ public class MainActivity extends AppCompatActivity {
 
     //fragment 변경하기
     public void replaceFragment(Fragment frg) {
-        transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_layout, frg);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        manager = getSupportFragmentManager();
+        manager.beginTransaction().replace(R.id.main_layout, frg).commit();
     }
 
 }

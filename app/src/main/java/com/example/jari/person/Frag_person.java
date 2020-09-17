@@ -3,6 +3,7 @@ package com.example.jari.person;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,8 +75,10 @@ public class Frag_person extends Fragment implements View.OnClickListener {
     }
 
     public void menuOnClick(String name, Fragment frag) {
+        Fragment currentFragment = MainActivity.manager.findFragmentById(R.id.main_layout);
+        String currentName = MainActivity.toolbarMain_title;
         ((MainActivity) getActivity()).replaceFragment(frag);
-        MainActivity.frag_stack_back.push(this);
+        MainActivity.frag_stack_back.push(new Pair<Fragment, String>(currentFragment, currentName));
         toolbar_title.setText(name);
         ActionBar actionBar_bestMenu = ((MainActivity) getActivity()).getSupportActionBar();
         actionBar_bestMenu.setTitle("");
