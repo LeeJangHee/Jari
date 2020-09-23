@@ -1,9 +1,8 @@
 package com.example.jari.home;
 
 import android.Manifest;
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -15,21 +14,29 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.UiThread;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
 
 import com.example.jari.MainActivity;
 import com.example.jari.R;
 import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.CameraUpdate;
-import com.naver.maps.map.MapView;
+import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
+import com.naver.maps.map.NaverMapOptions;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.overlay.LocationOverlay;
 
-public class Frag_home_menu_map extends Fragment implements OnMapReadyCallback {
-    private MapView mapView;
+import static android.content.Context.LOCATION_SERVICE;
+
+public class Frag_home_menu_map extends Fragment implements OnMapReadyCallback, LocationListener {
+    private static final int PERMISSION_REQUEST_CODE = 100;
+    private static final String[] PERMISSIONS = {
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
     private NaverMap nMap;
 
     public LatLng curr_LOC;
@@ -49,107 +56,91 @@ public class Frag_home_menu_map extends Fragment implements OnMapReadyCallback {
                              @Nullable Bundle savedInstanceState) {
 
         view = (View) inflater.inflate(R.layout.frag_home_menu_map, container, false);
+        locationManager = (LocationManager) ((MainActivity) getActivity()).getSystemService(LOCATION_SERVICE);
 
+        MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.frag_map);
+        if (mapFragment == null) {
+            NaverMapOptions options = new NaverMapOptions()
+                    .camera(new CameraPosition(new LatLng(35.8660625,128.5941515), 15));
+            mapFragment = MapFragment.newInstance(options);
+            getChildFragmentManager().beginTransaction().add(R.id.frag_map, mapFragment).commit();
+        }
+
+        mapFragment.getMapAsync(naverMap -> nMap = naverMap);
 
         return view;
     }
 
-    // 네이버 지도 뷰
     @Override
-    public void onViewCreated(@NonNull View view,
-                              @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mapView = view.findViewById(R.id.map_view);
-        mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(this);
+    public void onMapReady(@NonNull NaverMap naverMap) {
+
     }
 
+    // 위치가 변할 때마다 호출
+    @Override
+    public void onLocationChanged(Location location) {
+        if (nMap == null || location == null) {
+            return;
+        }
+        updateMap(location);
+    }
+
+    // 위치서비스가 변경될 때
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        alertStatus(provider);
+    }
+
+    // 사용자에 의해 Provider 가 사용 가능하게 설정될 때
+    @Override
+    public void onProviderEnabled(String provider) {
+        alertProvider(provider);
+    }
+
+    // 사용자에 의해 Provider 가 사용 불가능하게 설정될 때
+    @Override
+    public void onProviderDisabled(String provider) {
+        checkProvider(provider);
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (hasPermission() && locationManager != null) {
+                locationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER, 1000, 10, this);
+            }
+            return;
+        }
+
+        super.onRequestPermissionsResult(
+                requestCode, permissions, grantResults);
+    }
+    @SuppressLint("MissingPermission")
     @Override
     public void onStart() {
         super.onStart();
-        mapView.onStart();
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mapView.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mapView.onPause();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mapView.onSaveInstanceState(outState);
+        if (hasPermission()) {
+            if (locationManager != null) {
+                locationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER, 1000, 10, this);
+            }
+        } else {
+            ActivityCompat.requestPermissions(
+                    ((MainActivity) getActivity()), PERMISSIONS, PERMISSION_REQUEST_CODE);
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mapView.onStop();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mapView.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mapView.onLowMemory();
-    }
-
-    @UiThread
-    @Override
-    public void onMapReady(@NonNull NaverMap naverMap) {
-        nMap = naverMap;
-
-        locationListener = new LocationListener() {
-            // 위치가 변할 때마다 호출
-            public void onLocationChanged(Location location) {
-                updateMap(location);
-            }
-
-            // 위치서비스가 변경될 때
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-                alertStatus(provider);
-            }
-
-            // 사용자에 의해 Provider 가 사용 가능하       게 설정될 때
-            public void onProviderEnabled(String provider) {
-                alertProvider(provider);
-            }
-
-            // 사용자에 의해 Provider 가 사용 불가능하게 설정될 때
-            public void onProviderDisabled(String provider) {
-                checkProvider(provider);
-            }
-        };
-
-        locationManager = (LocationManager) ((MainActivity) getActivity()).getSystemService(Context.LOCATION_SERVICE);
-
-        if (ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(((MainActivity) getActivity())
-                    , new String[]{Manifest.permission.ACCESS_FINE_LOCATION}
-                    , 100);
-            return;
+        if (locationManager != null) {
+            locationManager.removeUpdates(this);
         }
-
-        String locationProvider;
-
-        locationProvider = LocationManager.GPS_PROVIDER;
-        locationManager.requestLocationUpdates(locationProvider, 1, 1, locationListener);
-
-        locationProvider = LocationManager.NETWORK_PROVIDER;
-        locationManager.requestLocationUpdates(locationProvider, 1, 1, locationListener);
     }
 
     public void checkProvider(String provider) {
@@ -198,4 +189,13 @@ public class Frag_home_menu_map extends Fragment implements OnMapReadyCallback {
         }
 
     }
+
+    private boolean hasPermission() {
+        return PermissionChecker.checkSelfPermission(((MainActivity) getContext()), PERMISSIONS[0])
+                == PermissionChecker.PERMISSION_GRANTED
+                && PermissionChecker.checkSelfPermission(((MainActivity) getContext()), PERMISSIONS[1])
+                == PermissionChecker.PERMISSION_GRANTED;
+    }
+
+
 }
