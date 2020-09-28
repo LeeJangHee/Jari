@@ -26,12 +26,11 @@ import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.NaverMapOptions;
-import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.overlay.LocationOverlay;
 
 import static android.content.Context.LOCATION_SERVICE;
 
-public class Frag_home_menu_map extends Fragment implements OnMapReadyCallback, LocationListener {
+public class Frag_home_menu_map extends Fragment implements LocationListener {
     private static final int PERMISSION_REQUEST_CODE = 100;
     private static final String[] PERMISSIONS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -61,7 +60,7 @@ public class Frag_home_menu_map extends Fragment implements OnMapReadyCallback, 
         MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.frag_map);
         if (mapFragment == null) {
             NaverMapOptions options = new NaverMapOptions()
-                    .camera(new CameraPosition(new LatLng(35.8660625,128.5941515), 15));
+                    .camera(new CameraPosition(new LatLng(35.8655313,128.5912003), 15));
             mapFragment = MapFragment.newInstance(options);
             getChildFragmentManager().beginTransaction().add(R.id.frag_map, mapFragment).commit();
         }
@@ -69,11 +68,6 @@ public class Frag_home_menu_map extends Fragment implements OnMapReadyCallback, 
         mapFragment.getMapAsync(naverMap -> nMap = naverMap);
 
         return view;
-    }
-
-    @Override
-    public void onMapReady(@NonNull NaverMap naverMap) {
-
     }
 
     // 위치가 변할 때마다 호출
@@ -166,13 +160,13 @@ public class Frag_home_menu_map extends Fragment implements OnMapReadyCallback, 
 
         curr_LOC = new LatLng(latitude, longitude);
         CameraUpdate cameraUpdate;
+        LocationOverlay locationOverlay = nMap.getLocationOverlay();
         // 이전 위치가 없는 경우
         if (prev_LOC == null) {
             cameraUpdate = CameraUpdate.zoomTo(15);
             CameraUpdate.scrollTo(curr_LOC);
             nMap.moveCamera(cameraUpdate);
 
-            LocationOverlay locationOverlay = nMap.getLocationOverlay();
             locationOverlay.setVisible(true);
             locationOverlay.setPosition(curr_LOC);
 
@@ -181,7 +175,6 @@ public class Frag_home_menu_map extends Fragment implements OnMapReadyCallback, 
             cameraUpdate = CameraUpdate.scrollTo(curr_LOC);
             nMap.moveCamera(cameraUpdate);
 
-            LocationOverlay locationOverlay = nMap.getLocationOverlay();
             locationOverlay.setVisible(true);
             locationOverlay.setPosition(curr_LOC);
 
