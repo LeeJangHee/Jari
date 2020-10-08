@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.jari.retrofit2.RetrofitService;
 import com.example.jari.retrofit2.Store;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,9 +35,9 @@ public class LodingActivity extends Activity {
                 .build();
 
         RetrofitService service = retrofit.create(RetrofitService.class);
-        service.getData("storeKor").enqueue(new Callback<ArrayList<Store>>() {
+        service.getData().enqueue(new Callback<ArrayList<Store>>() {
             @Override
-            public void onResponse(Call<ArrayList<Store>> call, Response<ArrayList<Store>> response) {
+            public void onResponse(@NonNull Call<ArrayList<Store>> call, @NonNull Response<ArrayList<Store>> response) {
                 if (response.isSuccessful()){
                     ArrayList<Store> result = response.body();
                     Log.d("php: ", result.toString());
@@ -45,8 +48,8 @@ public class LodingActivity extends Activity {
             }
 
             @Override
-            public void onFailure(Call<ArrayList<Store>> call, Throwable t) {
-                Log.d("php: ", t.getMessage());
+            public void onFailure(@NonNull Call<ArrayList<Store>> call, @NonNull Throwable t) {
+                Log.d("php: ", Objects.requireNonNull(t.getMessage()));
             }
         });
 
