@@ -4,21 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.example.jari.retrofit2.RetrofitService;
-import com.example.jari.retrofit2.Store;
-
-import java.util.ArrayList;
-import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class LodingActivity extends Activity {
@@ -28,39 +13,45 @@ public class LodingActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loding);
+/**
+ * retrofit2 사용 예시2
+ *
+ *     << 전역 변수 선언 >>
+ *     ServerConnect serverConnect;
+ *     RetrofitService service;
+ *
+        service = ServerConnect.getClient().create(RetrofitService.class);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://wkdgml96.iptime.org:8080")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        RetrofitService service = retrofit.create(RetrofitService.class);
-        service.getData().enqueue(new Callback<ArrayList<Store>>() {
+        Call<Result> call = service.getStoreJp();
+        call.enqueue(new Callback<Result>() {
             @Override
-            public void onResponse(@NonNull Call<ArrayList<Store>> call, @NonNull Response<ArrayList<Store>> response) {
-                if (response.isSuccessful()){
-                    ArrayList<Store> result = response.body();
-                    Log.d("php: ", result.toString());
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                Result result = response.body();
+                List<Store> storeList = result.getStoreJp();
+                for (Store st : storeList) {
+                    Log.d("storeList",
+                            "id: " + st.getId()
+                                    + "\nname: " + st.getName()
+                                    + "\nphone: " + st.getPhone()
+                                    + "\naddress: " + st.getAddress()
+                                    + "\nlatitude: " + st.getLatitude()
+                                    + "\nlongitude: " + st.getLongitude());
                 }
-                else{
-                    Log.d("php: ", "실패");
-                }
+                Log.d("php", String.valueOf(storeList.get(3)));
+
             }
 
             @Override
-            public void onFailure(@NonNull Call<ArrayList<Store>> call, @NonNull Throwable t) {
-                Log.d("php: ", Objects.requireNonNull(t.getMessage()));
+            public void onFailure(Call<Result> call, Throwable t) {
+
             }
         });
-
+**/
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(LodingActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        handler.postDelayed(() -> {
+            Intent intent = new Intent(LodingActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         }, RODING_TIME);
     }
 }

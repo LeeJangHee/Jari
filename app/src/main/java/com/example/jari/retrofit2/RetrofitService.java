@@ -1,13 +1,26 @@
 package com.example.jari.retrofit2;
 
-import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface RetrofitService {
-    String url = "http://wkdgml96.iptime.org:8080";
+    // url = "http://wkdgml96.iptime.org:8080/";
 
-    @GET("/dbconnect.php")
-    Call<ArrayList<Store>> getData();
+    @GET("storeKor.php")
+    Call<Result> getStoreKor();
+
+    @GET("storeJp.php")
+    Call<Result> getStoreJp();
+
+    @GET("storeCh.php")
+    Call<Result> getStoreCh();
+
+    @GET("storeWf.php")
+    Call<Result> getStoreWf();
+
+    @GET("storeCafe.php")
+    Call<Result> getStoreCafe();
+
+    @GET("storeBeer.php")
+    Call<Result> getStoreBeer();
 }

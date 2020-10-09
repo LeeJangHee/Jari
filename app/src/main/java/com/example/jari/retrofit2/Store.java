@@ -1,18 +1,33 @@
 package com.example.jari.retrofit2;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Store {
-    private String id;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("name")
+    @Expose
     private String name;
+    @SerializedName("phone")
+    @Expose
     private String phone;
+    @SerializedName("address")
+    @Expose
     private String address;
+    @SerializedName("latitude")
+    @Expose
     private String latitude;
+    @SerializedName("longitude")
+    @Expose
     private String longitude;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -55,4 +70,5 @@ public class Store {
     public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
+
 }
