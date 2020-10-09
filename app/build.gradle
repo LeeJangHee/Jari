@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.jari"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -48,4 +48,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     // 네이버 지도 SDK
     implementation 'com.naver.maps:map-sdk:3.9.1'
+    // retrofit2 SDK
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
 }

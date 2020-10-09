@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- http 네트워크 보안 설정 Android Pie(9.0) 부터 적용 -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">wkdgml96.iptime.org:8080</domain>
+    </domain-config>
+</network-security-config>

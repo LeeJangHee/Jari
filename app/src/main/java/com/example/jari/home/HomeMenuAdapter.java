@@ -14,9 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.jari.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeMenuAdapter extends RecyclerView.Adapter<HomeMenuAdapter.ItemViewHolder> {
-    private ArrayList<HomeMenuItem> mRecyclerViewItemRecycler = new ArrayList<>();
+    private List<HomeMenuItem> mRecyclerViewItemRecycler = new ArrayList<>();
     private Context context;
     private HomeMenuItem itemView;
 
