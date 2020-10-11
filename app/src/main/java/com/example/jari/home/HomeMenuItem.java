@@ -4,7 +4,7 @@ package com.example.jari.home;
 public class HomeMenuItem {
     private String titleStr;
     private String addressStr;
-    private String reservationStr;
+    private String phoneStr;
     private int iconId;
 
     public String getTitleStr() {
@@ -15,8 +15,8 @@ public class HomeMenuItem {
         return addressStr;
     }
 
-    public String getReservationStr() {
-        return reservationStr;
+    public String getPhoneStr() {
+        return phoneStr;
     }
 
 
@@ -36,8 +36,8 @@ public class HomeMenuItem {
         this.addressStr = addressStr;
     }
 
-    public void setReservationStr(String reservationStr) {
-        this.reservationStr = reservationStr;
+    public void setPhoneStr(String reservationStr) {
+        this.phoneStr = reservationStr;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class HomeMenuItem {
         return "RecyclerViewItem{" +
                 "titleStr='" + titleStr + '\'' +
                 ", addressStr='" + addressStr + '\'' +
-                ", reservationStr='" + reservationStr + '\'' +
+                ", reservationStr='" + phoneStr + '\'' +
                 ", iconId=" + iconId +
                 '}';
     }

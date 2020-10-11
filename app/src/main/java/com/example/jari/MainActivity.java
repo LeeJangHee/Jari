@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     public static TextView toolbar_title;
     public static String toolbarMain_title;
 
+    private long backBtnTime = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         frag_stack_back = new Stack<>();
@@ -70,44 +72,46 @@ public class MainActivity extends AppCompatActivity {
         toolbarMain_title = getText(R.string.app_name).toString();
 
         //하단 버튼 메뉴 Fragment
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.action_home: {
-                        replaceFragment(frag_home);
-                        toolbarMain_title = getText(R.string.app_name).toString();
-                        toolbar_title.setText(toolbarMain_title);
-                        actionBar.setDisplayHomeAsUpEnabled(false);
-                        return true;
-                    }
-                    case R.id.action_person: {
-                        replaceFragment(frag_person);
-                        toolbarMain_title = menuItem.getTitle().toString();
-                        toolbar_title.setText(toolbarMain_title);
-                        actionBar.setDisplayHomeAsUpEnabled(false);
-                        return true;
-                    }
-                    case R.id.action_booking: {
-                        replaceFragment(frag_booking);
-                        toolbarMain_title = menuItem.getTitle().toString();
-                        toolbar_title.setText(toolbarMain_title);
-                        actionBar.setDisplayHomeAsUpEnabled(false);
-                        return true;
-                    }
-                    case R.id.action_more: {
-                        replaceFragment(frag_more);
-                        toolbarMain_title = menuItem.getTitle().toString();
-                        toolbar_title.setText(toolbarMain_title);
-                        actionBar.setDisplayHomeAsUpEnabled(false);
-                        return true;
-                    }
-                    default:
-                        break;
-
+        bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.action_home: {
+                    replaceFragment(frag_home);
+                    toolbarMain_title = getText(R.string.app_name).toString();
+                    toolbar_title.setText(toolbarMain_title);
+                    actionBar.setDisplayHomeAsUpEnabled(false);
+                    if (!frag_stack_back.empty())  frag_stack_back.clear();
                 }
-                return false;
+                return true;
+
+                case R.id.action_person: {
+                    replaceFragment(frag_person);
+                    toolbarMain_title = menuItem.getTitle().toString();
+                    toolbar_title.setText(toolbarMain_title);
+                    actionBar.setDisplayHomeAsUpEnabled(false);
+                    if (!frag_stack_back.empty())  frag_stack_back.clear();
+
+                    return true;
+                }
+                case R.id.action_booking: {
+                    replaceFragment(frag_booking);
+                    toolbarMain_title = menuItem.getTitle().toString();
+                    toolbar_title.setText(toolbarMain_title);
+                    actionBar.setDisplayHomeAsUpEnabled(false);
+                    if (!frag_stack_back.empty())  frag_stack_back.clear();
+                    return true;
+                }
+                case R.id.action_more: {
+                    replaceFragment(frag_more);
+                    toolbarMain_title = menuItem.getTitle().toString();
+                    toolbar_title.setText(toolbarMain_title);
+                    actionBar.setDisplayHomeAsUpEnabled(false);
+                    if (!frag_stack_back.empty())  frag_stack_back.clear();
+                    return true;
+                }
+                default:
+                    break;
             }
+            return false;
         });
     }
 
@@ -128,16 +132,7 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 // 앱바의 뒤로가기 버튼이다.
                 // 플레그먼트 이름을 받아서 replaceFragment를 실행시키자
-                // pop()
-                if (!frag_stack_back.empty()) {
-                    Toast.makeText(this, "뒤로가기 하기", Toast.LENGTH_SHORT).show();
-                    actionBar.setDisplayHomeAsUpEnabled(false);
-                    replaceFragment(frag_stack_back.peek().first);
-                    toolbar_title.setText(frag_stack_back.peek().second);
-                    frag_stack_back.pop();
-                } else {
-                    Toast.makeText(this, "스택 비었음", Toast.LENGTH_SHORT).show();
-                }
+                backFragment();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -149,5 +144,42 @@ public class MainActivity extends AppCompatActivity {
         manager.beginTransaction().replace(R.id.main_layout, frg).commit();
     }
 
+    // fragment 뒤로가기
+    public void backFragment(){
+        if (!frag_stack_back.empty()) {
+            Toast.makeText(this, "뒤로가기 하기", Toast.LENGTH_SHORT).show();
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            replaceFragment(frag_stack_back.peek().first);
+            toolbar_title.setText(frag_stack_back.peek().second);
+            frag_stack_back.pop();
+        } else {
+            Toast.makeText(this, "스택 비었음", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        /** 스택이 비었으면 엑티비티 종료
+         * 비어있지 않았으면 스택 뒤로가기
+         * 하단 버튼을 클릭 하면 스택 초기화
+         * -> 하단 버튼 플레그먼트를 스택에 푸쉬.
+         * 스택이 계속 없어지지 않으니까 스택 사이즈가 1이면 끝
+         **/
+        long curTime = System.currentTimeMillis();
+        long gapTime = curTime - backBtnTime;
+        if (frag_stack_back.empty()) {
+            // 2초안에 누르면 앱 끄기
+            if (0 <= gapTime && 2000 >= gapTime){
+                super.onBackPressed();
+            } else {
+                backBtnTime = curTime;
+                Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            // 사이즈가 더 크면 홈화면 이외에 다른 프레그먼트가 들어가있으니
+            // replacefragment 함수 호출
+            backFragment();
+        }
+    }
 }
 
