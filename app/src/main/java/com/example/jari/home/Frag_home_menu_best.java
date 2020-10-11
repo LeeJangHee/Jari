@@ -54,7 +54,7 @@ public class Frag_home_menu_best extends Fragment {
 
             homeMenuItem.setTitleStr(listTitle.get(i));
             homeMenuItem.setAddressStr(listAddress.get(i));
-            homeMenuItem.setPhoneStr(listReservation.get(i));
+            homeMenuItem.setReservationStr(listReservation.get(i));
             homeMenuItem.setIconId(listIcon.get(i));
 
             adapter.addItem(homeMenuItem);

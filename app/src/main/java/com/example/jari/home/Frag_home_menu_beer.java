@@ -12,23 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.jari.R;
-import com.example.jari.retrofit2.Result;
-import com.example.jari.retrofit2.RetrofitService;
-import com.example.jari.retrofit2.ServerConnect;
-import com.example.jari.retrofit2.Store;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class Frag_home_menu_beer extends Fragment {
     private View view;
     private HomeMenuAdapter adapter;
-    private RetrofitService retrofitService;
 
     @Nullable
     @Override
@@ -38,7 +28,7 @@ public class Frag_home_menu_beer extends Fragment {
         view = (View) inflater.inflate(R.layout.frag_home_menu_beer, container, false);
 
         init();
-        getService();
+        getData();
 
         return view;
     }
@@ -53,45 +43,18 @@ public class Frag_home_menu_beer extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    public void getService() {
+    private void getData(){
+        List<String> listTitle = Arrays.asList("가게1", "가게2", "가게3", "가게4", "가게5");
+        List<String> listAddress = Arrays.asList("address1", "address2", "address3", "address4", "address5");
+        List<String> listReservation = Arrays.asList("ok", "ok", "ok", "no", "no");
+        List<Integer> listIcon = Arrays.asList(R.mipmap.ic_launcher, R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher);
 
-        retrofitService = ServerConnect.getClient().create(RetrofitService.class);
-        retrofitService.getStoreBeer().enqueue(new Callback<Result>() {
-            @Override
-            public void onResponse(Call<Result> call, Response<Result> response) {
-                if (response.isSuccessful()) {
-                    Result result = response.body();
-                    List<Store> storeList = result.getStoreBeer();
-                    getData(storeList);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Result> call, Throwable t) {
-                // 실패했을 때
-            }
-        });
-
-
-    }
-
-    private void getData(List<Store> retrofitList) {
-        List<String> listTitle = new ArrayList<>();
-        List<String> listAddress = new ArrayList<>();
-        List<String> listPhone = new ArrayList<>();
-        List<Integer> listIcon = Arrays.asList(R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher);
-
-        for (Store st : retrofitList) {
-            listTitle.add(st.getName());
-            listAddress.add(st.getAddress());
-            listPhone.add(st.getPhone());
-        }
-        for (int i = 0; i < listTitle.size(); i++) {
+        for(int i = 0 ; i < listTitle.size(); i++){
             HomeMenuItem homeMenuItem = new HomeMenuItem();
 
             homeMenuItem.setTitleStr(listTitle.get(i));
             homeMenuItem.setAddressStr(listAddress.get(i));
-            homeMenuItem.setPhoneStr(listPhone.get(i));
+            homeMenuItem.setReservationStr(listReservation.get(i));
             homeMenuItem.setIconId(listIcon.get(i));
 
             adapter.addItem(homeMenuItem);
