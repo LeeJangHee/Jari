@@ -25,6 +25,17 @@ public class Result {
     @SerializedName("storeBeer")
     @Expose
     private List<Store> storeBeer = null;
+    @SerializedName("storeBest")
+    @Expose
+    private List<Store> storeBest = null;
+
+    public List<Store> getStoreBest() {
+        return storeBest;
+    }
+
+    public void setStoreBest(List<Store> storeBest) {
+        this.storeBest = storeBest;
+    }
 
     public List<Store> getStoreKor() {
         return storeKor;

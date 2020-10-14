@@ -23,4 +23,7 @@ public interface RetrofitService {
 
     @GET("storeBeer.php")
     Call<Result> getStoreBeer();
+
+    @GET("storeBest.php")
+    Call<Result> getStoreBest();
 }
