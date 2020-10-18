@@ -18,6 +18,7 @@ import com.example.jari.retrofit2.ServerConnect;
 import com.example.jari.retrofit2.Store;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -77,13 +78,18 @@ public class Frag_home_menu_best extends Fragment {
         List<String> listTitle = new ArrayList<>();
         List<String> listAddress = new ArrayList<>();
         List<String> listPhone = new ArrayList<>();
-        List<Integer> listIcon = new ArrayList<>();
+        List<Integer> listIcon = Arrays.asList(
+                R.drawable.storekor02,
+                R.drawable.storech01,
+                R.drawable.storejp02,
+                R.drawable.storewf03,
+                R.drawable.storecafe03,
+                R.drawable.storebeer01);
 
         for (Store st : retrofitList) {
             listTitle.add(st.getName());
             listAddress.add(st.getAddress());
             listPhone.add(st.getPhone());
-            listIcon.add(R.mipmap.ic_launcher);
         }
         for (int i = 0; i < listTitle.size(); i++) {
             HomeMenuItem homeMenuItem = new HomeMenuItem();

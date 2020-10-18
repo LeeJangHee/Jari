@@ -78,7 +78,12 @@ public class Frag_home_menu_ch extends Fragment {
         List<String> listTitle = new ArrayList<>();
         List<String> listAddress = new ArrayList<>();
         List<String> listPhone = new ArrayList<>();
-        List<Integer> listIcon = Arrays.asList(R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher);
+        List<Integer> listIcon = Arrays.asList(
+                R.drawable.storech01,
+                R.drawable.storech02,
+                R.drawable.storech03,
+                R.drawable.storech04,
+                R.drawable.storech05);
 
         for (Store st : retrofitList) {
             listTitle.add(st.getName());
