@@ -71,7 +71,6 @@ public class Frag_home_menu_kor extends Fragment {
             }
         });
 
-
     }
 
     private void getData(List<Store> retrofitList) {
@@ -102,5 +101,6 @@ public class Frag_home_menu_kor extends Fragment {
         }
         adapter.notifyDataSetChanged();
     }
+
 }
 

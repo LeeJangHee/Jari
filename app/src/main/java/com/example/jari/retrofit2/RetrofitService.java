@@ -2,6 +2,7 @@ package com.example.jari.retrofit2;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 public interface RetrofitService {
     // url = "http://wkdgml96.iptime.org:8080/";
@@ -26,4 +27,7 @@ public interface RetrofitService {
 
     @GET("storeBest.php")
     Call<Result> getStoreBest();
+
+    @GET("storeInfo.php")
+    Call<Result> getStoreInfo(@Query("name") String storeName);
 }

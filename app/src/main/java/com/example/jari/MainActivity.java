@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     toolbarMain_title = getText(R.string.app_name).toString();
                     toolbar_title.setText(toolbarMain_title);
                     actionBar.setDisplayHomeAsUpEnabled(false);
-                    if (!frag_stack_back.empty())  frag_stack_back.clear();
+                    if (!frag_stack_back.empty()) frag_stack_back.clear();
                 }
                 return true;
 
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     toolbarMain_title = menuItem.getTitle().toString();
                     toolbar_title.setText(toolbarMain_title);
                     actionBar.setDisplayHomeAsUpEnabled(false);
-                    if (!frag_stack_back.empty())  frag_stack_back.clear();
+                    if (!frag_stack_back.empty()) frag_stack_back.clear();
 
                     return true;
                 }
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     toolbarMain_title = menuItem.getTitle().toString();
                     toolbar_title.setText(toolbarMain_title);
                     actionBar.setDisplayHomeAsUpEnabled(false);
-                    if (!frag_stack_back.empty())  frag_stack_back.clear();
+                    if (!frag_stack_back.empty()) frag_stack_back.clear();
                     return true;
                 }
                 case R.id.action_more: {
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                     toolbarMain_title = menuItem.getTitle().toString();
                     toolbar_title.setText(toolbarMain_title);
                     actionBar.setDisplayHomeAsUpEnabled(false);
-                    if (!frag_stack_back.empty())  frag_stack_back.clear();
+                    if (!frag_stack_back.empty()) frag_stack_back.clear();
                     return true;
                 }
                 default:
@@ -145,10 +145,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // fragment 뒤로가기
-    public void backFragment(){
+    public void backFragment() {
+        if (frag_stack_back.size() == 1)
+            actionBar.setDisplayHomeAsUpEnabled(false);
+
         if (!frag_stack_back.empty()) {
             Toast.makeText(this, "뒤로가기 하기", Toast.LENGTH_SHORT).show();
-            actionBar.setDisplayHomeAsUpEnabled(false);
             replaceFragment(frag_stack_back.peek().first);
             toolbar_title.setText(frag_stack_back.peek().second);
             frag_stack_back.pop();
@@ -169,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
         long gapTime = curTime - backBtnTime;
         if (frag_stack_back.empty()) {
             // 2초안에 누르면 앱 끄기
-            if (0 <= gapTime && 2000 >= gapTime){
+            if (0 <= gapTime && 2000 >= gapTime) {
                 super.onBackPressed();
             } else {
                 backBtnTime = curTime;

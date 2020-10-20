@@ -1,6 +1,7 @@
 package com.example.jari.home;
 
 import android.content.Context;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.jari.MainActivity;
 import com.example.jari.R;
 
 import java.util.ArrayList;
@@ -19,13 +23,14 @@ import java.util.List;
 public class HomeMenuAdapter extends RecyclerView.Adapter<HomeMenuAdapter.ItemViewHolder> {
     private List<HomeMenuItem> mRecyclerViewItemRecycler = new ArrayList<>();
     private Context context;
+    private View view;
 
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.frag_home_menu_listitem, parent, false);
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.frag_home_menu_listitem, parent, false);
         context = parent.getContext();
-        return new ItemViewHolder(view);
+        return new ItemViewHolder(view, context);
     }
 
     @Override
@@ -47,8 +52,9 @@ public class HomeMenuAdapter extends RecyclerView.Adapter<HomeMenuAdapter.ItemVi
         mRecyclerViewItemRecycler.add(homeMenuItem);
     }
 
+    public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, SelectStore {
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        Context context;
 
         private ImageView ig_icon;
         private TextView tv_title;
@@ -57,8 +63,9 @@ public class HomeMenuAdapter extends RecyclerView.Adapter<HomeMenuAdapter.ItemVi
 
         private HomeMenuItem homeMenuItem;
 
-        public ItemViewHolder(@NonNull View itemView) {
+        public ItemViewHolder(@NonNull View itemView, Context context) {
             super(itemView);
+            this.context = context;
 
             ig_icon = itemView.findViewById(R.id.home_listView_image);
             tv_title = itemView.findViewById(R.id.home_listView_title);
@@ -75,10 +82,6 @@ public class HomeMenuAdapter extends RecyclerView.Adapter<HomeMenuAdapter.ItemVi
             tv_phone.setText(homeMenuItem.getPhoneStr());
 
             itemView.setOnClickListener(this);
-            ig_icon.setOnClickListener(this);
-            tv_title.setOnClickListener(this);
-            tv_address.setOnClickListener(this);
-            tv_phone.setOnClickListener(this);
         }
 
         @Override
@@ -87,20 +90,24 @@ public class HomeMenuAdapter extends RecyclerView.Adapter<HomeMenuAdapter.ItemVi
                 case R.id.linear_list:
                     Toast.makeText(context, "TITLE : " + homeMenuItem.getTitleStr() + "\nAddress : " + homeMenuItem.getAddressStr() +
                             "\nReservation : " + homeMenuItem.getPhoneStr(), Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.title_listView:
-                    Toast.makeText(context, homeMenuItem.getTitleStr(), Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.address_listView:
-                    Toast.makeText(context, homeMenuItem.getAddressStr(), Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.reservation_listView:
-                    Toast.makeText(context, homeMenuItem.getPhoneStr(), Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.image_listView:
-                    Toast.makeText(context, homeMenuItem.getIconId() + " 이미지 입니다.", Toast.LENGTH_SHORT).show();
+                    // 누르면 가게의 이름과 함께 거기에 맞는 조회 결과가 나와야함
+                    onClickStore(homeMenuItem.getTitleStr(), new Frag_home_menu_store());
                     break;
             }
+        }
+
+        @Override
+        public void onClickStore(String name, Fragment fragment) {
+            MainActivity mainActivity = (MainActivity) context;
+            Fragment currentFrag = mainActivity.manager.findFragmentById(R.id.main_layout);
+            String currentName = mainActivity.toolbarMain_title;
+            mainActivity.replaceFragment(fragment);
+            mainActivity.frag_stack_back.push(new Pair<Fragment, String>(currentFrag, currentName));
+            mainActivity.toolbar_title.setText(name);
+            ActionBar actionBar = mainActivity.getSupportActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_20px);
+
         }
     }
 }
