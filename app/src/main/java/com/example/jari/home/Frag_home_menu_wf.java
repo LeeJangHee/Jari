@@ -54,8 +54,6 @@ public class Frag_home_menu_wf extends Fragment {
     }
 
     public void getService() {
-
-
         retrofitService = ServerConnect.getClient().create(RetrofitService.class);
         retrofitService.getStoreWf().enqueue(new Callback<Result>() {
             @Override

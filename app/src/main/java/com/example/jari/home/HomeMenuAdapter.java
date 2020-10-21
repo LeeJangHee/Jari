@@ -7,11 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.jari.MainActivity;
@@ -60,6 +60,7 @@ public class HomeMenuAdapter extends RecyclerView.Adapter<HomeMenuAdapter.ItemVi
         private TextView tv_title;
         private TextView tv_address;
         private TextView tv_phone;
+        int ig_menu;
 
         private HomeMenuItem homeMenuItem;
 
@@ -80,6 +81,7 @@ public class HomeMenuAdapter extends RecyclerView.Adapter<HomeMenuAdapter.ItemVi
             tv_title.setText(homeMenuItem.getTitleStr());
             tv_address.setText(homeMenuItem.getAddressStr());
             tv_phone.setText(homeMenuItem.getPhoneStr());
+            ig_menu = homeMenuItem.getMenuId();
 
             itemView.setOnClickListener(this);
         }
@@ -88,8 +90,6 @@ public class HomeMenuAdapter extends RecyclerView.Adapter<HomeMenuAdapter.ItemVi
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.linear_list:
-                    Toast.makeText(context, "TITLE : " + homeMenuItem.getTitleStr() + "\nAddress : " + homeMenuItem.getAddressStr() +
-                            "\nReservation : " + homeMenuItem.getPhoneStr(), Toast.LENGTH_SHORT).show();
                     // 누르면 가게의 이름과 함께 거기에 맞는 조회 결과가 나와야함
                     onClickStore(homeMenuItem.getTitleStr(), new Frag_home_menu_store());
                     break;
@@ -101,13 +101,22 @@ public class HomeMenuAdapter extends RecyclerView.Adapter<HomeMenuAdapter.ItemVi
             MainActivity mainActivity = (MainActivity) context;
             Fragment currentFrag = mainActivity.manager.findFragmentById(R.id.main_layout);
             String currentName = mainActivity.toolbarMain_title;
-            mainActivity.replaceFragment(fragment);
+            int ig_store_profile = homeMenuItem.getIconId();
+            int ig_store_menu = ig_menu;
+
+            // fragment <--> fragment 데이터 교환 방법
+            FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.main_layout,
+                    Frag_home_menu_store.newInstance(name, ig_store_profile, ig_store_menu));
+            fragmentTransaction.commit();
+
+            // 뒤로가기 스택에 플레그먼트, 제목 저장
             mainActivity.frag_stack_back.push(new Pair<Fragment, String>(currentFrag, currentName));
             mainActivity.toolbar_title.setText(name);
-            ActionBar actionBar = mainActivity.getSupportActionBar();
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_20px);
-
+            mainActivity.toolbarMain_title = name;
         }
+
+
     }
 }

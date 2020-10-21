@@ -56,6 +56,7 @@ public class Frag_home extends Fragment implements View.OnClickListener {
         ((MainActivity) getActivity()).replaceFragment(frag);
         MainActivity.frag_stack_back.push(new Pair<Fragment, String>(currentFragment, currentName));
         MainActivity.toolbar_title.setText(name);
+        MainActivity.toolbarMain_title = name;
         ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_20px);

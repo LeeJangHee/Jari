@@ -6,6 +6,15 @@ public class HomeMenuItem {
     private String addressStr;
     private String phoneStr;
     private int iconId;
+    private int menuId;
+
+    public int getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(int menuId) {
+        this.menuId = menuId;
+    }
 
     public String getTitleStr() {
         return titleStr;

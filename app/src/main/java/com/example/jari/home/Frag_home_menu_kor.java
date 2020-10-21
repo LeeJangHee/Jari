@@ -83,6 +83,12 @@ public class Frag_home_menu_kor extends Fragment {
                 R.drawable.storekor03,
                 R.drawable.storekor04,
                 R.drawable.storekor05);
+        List<Integer> listMenu = Arrays.asList(
+                R.drawable.ig_storekor01,
+                R.drawable.ig_storekor02,
+                R.drawable.ig_storekor03,
+                R.drawable.ig_storekor04,
+                R.drawable.ig_storekor05);
 
         for (Store st : retrofitList) {
             listTitle.add(st.getName());
@@ -96,6 +102,7 @@ public class Frag_home_menu_kor extends Fragment {
             homeMenuItem.setAddressStr(listAddress.get(i));
             homeMenuItem.setPhoneStr(listPhone.get(i));
             homeMenuItem.setIconId(listIcon.get(i));
+            homeMenuItem.setMenuId(listMenu.get(i));
 
             adapter.addItem(homeMenuItem);
         }
