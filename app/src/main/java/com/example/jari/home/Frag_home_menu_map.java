@@ -2,15 +2,14 @@ package com.example.jari.home;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,23 +19,37 @@ import androidx.fragment.app.Fragment;
 
 import com.example.jari.MainActivity;
 import com.example.jari.R;
+import com.example.jari.retrofit2.Result;
+import com.example.jari.retrofit2.RetrofitService;
+import com.example.jari.retrofit2.ServerConnect;
+import com.example.jari.retrofit2.Store;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.NaverMapOptions;
+import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.overlay.LocationOverlay;
+import com.naver.maps.map.overlay.Marker;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.content.Context.LOCATION_SERVICE;
 
-public class Frag_home_menu_map extends Fragment implements LocationListener {
+public class Frag_home_menu_map extends Fragment implements LocationListener, OnMapReadyCallback {
     private static final int PERMISSION_REQUEST_CODE = 100;
     private static final String[] PERMISSIONS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
     private NaverMap nMap;
+    private Marker marker;
 
     public LatLng curr_LOC;
     public LatLng prev_LOC;
@@ -48,6 +61,11 @@ public class Frag_home_menu_map extends Fragment implements LocationListener {
     private double longitude;
 
     View view;
+
+    RetrofitService retrofitService;
+    List<Double> marker_latitude = new ArrayList<>();
+    List<Double> marker_longitude = new ArrayList<>();
+    List<String> storeName = new ArrayList<>();
 
     @Nullable
     @Override
@@ -82,19 +100,19 @@ public class Frag_home_menu_map extends Fragment implements LocationListener {
     // 위치서비스가 변경될 때
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        alertStatus(provider);
+//        alertStatus(provider);
     }
 
     // 사용자에 의해 Provider 가 사용 가능하게 설정될 때
     @Override
     public void onProviderEnabled(String provider) {
-        alertProvider(provider);
+//        alertProvider(provider);
     }
 
     // 사용자에 의해 Provider 가 사용 불가능하게 설정될 때
     @Override
     public void onProviderDisabled(String provider) {
-        checkProvider(provider);
+//        checkProvider(provider);
     }
 
     @SuppressLint("MissingPermission")
@@ -137,22 +155,6 @@ public class Frag_home_menu_map extends Fragment implements LocationListener {
         }
     }
 
-    public void checkProvider(String provider) {
-        Toast.makeText(view.getContext(), provider + "에 의한 위치서비스가 꺼져 있습니다. 켜주세요."
-                , Toast.LENGTH_SHORT).show();
-
-        Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        startActivity(intent);
-    }
-
-    public void alertProvider(String provider) {
-        Toast.makeText(view.getContext(), provider + "서비스가 켜졌습니다!", Toast.LENGTH_LONG).show();
-    }
-
-    public void alertStatus(String provider) {
-        Toast.makeText(view.getContext(), "위치서비스가 " + provider + "로 변경되었습니다!", Toast.LENGTH_LONG).show();
-    }
-
     public void updateMap(Location location) {
 
         latitude = location.getLatitude();
@@ -191,4 +193,54 @@ public class Frag_home_menu_map extends Fragment implements LocationListener {
     }
 
 
+    // Retrofit2 연결 부분
+    public void getService() {
+        retrofitService = ServerConnect.getClient().create(RetrofitService.class);
+        retrofitService.getStoreKor().enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                if (response.isSuccessful()) {
+                    Result result = response.body();
+                    List<Store> storeList = result.getStoreKor();
+                    getData(storeList);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+                // 실패했을 때
+            }
+        });
+    }
+
+    private void getData(List<Store> storeList) {
+
+        for (Store st : storeList) {
+            storeName.add(st.getName());
+            marker_latitude.add(Double.parseDouble(st.getLatitude()));
+            marker_longitude.add(Double.parseDouble(st.getLongitude()));
+            Log.d("TAG", "onMapReady: \n"+storeName
+            +"\n"+marker_latitude+", "+marker_longitude);
+
+        }
+
+        for (int i = 0; i < storeName.size(); i++) {
+            marker = new Marker();
+            marker.setPosition(new LatLng(marker_latitude.get(i), marker_longitude.get(i)));
+            marker.setMap(nMap);
+        }
+
+
+    }
+
+
+    @Override
+    public void onMapReady(@NonNull NaverMap naverMap) {
+
+        // Retrofit start
+        getService();
+        Log.d("TAG", "onMapReady: \n"+storeName
+                +"\n"+marker_latitude+", "+marker_longitude);
+
+    }
 }
