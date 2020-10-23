@@ -58,6 +58,10 @@ public class Frag_home_menu_map extends Fragment
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     private NaverMap nMap;
 
+    List<Marker> markers_food = new ArrayList<>();
+    List<Marker> markers_cafe = new ArrayList<>();
+    List<Marker> markers_beer = new ArrayList<>();
+
     public LatLng curr_LOC;
     public LatLng prev_LOC;
 
@@ -297,7 +301,7 @@ public class Frag_home_menu_map extends Fragment
                 if (response.isSuccessful()) {
                     Result result = response.body();
                     List<Store> storeList = result.getStoreCafe();
-                    getData(storeList, 1);
+                    getDataCafe(storeList, 1);
                 }
             }
 
@@ -317,7 +321,7 @@ public class Frag_home_menu_map extends Fragment
                 if (response.isSuccessful()) {
                     Result result = response.body();
                     List<Store> storeList = result.getStoreBeer();
-                    getData(storeList, 2);
+                    getDataBeer(storeList, 2);
                 }
             }
 
@@ -333,7 +337,48 @@ public class Frag_home_menu_map extends Fragment
         executor.execute(() -> {
             Log.d("TAG", "getData: ");
 
-            List<Marker> markers = new ArrayList<>();
+            List<OverlayImage> marker_image = Arrays.asList(
+                    OverlayImage.fromResource(R.drawable.ic_food_marker),
+                    OverlayImage.fromResource(R.drawable.ic_cafe_marker),
+                    OverlayImage.fromResource(R.drawable.ic_beer_marker)
+            );
+
+            for (Store st : storeList) {
+                storeName.add(st.getName());
+                marker_latitude.add(st.getLatitude());
+                marker_longitude.add(st.getLongitude());
+            }
+
+            for (int i = 0; i < storeName.size(); i++) {
+                Marker marker_food = new Marker();
+                marker_food.setPosition(new LatLng(Double.parseDouble(marker_latitude.get(i))
+                        , Double.parseDouble(marker_longitude.get(i))));
+
+                if (idx_image == 0) marker_food.setIcon(marker_image.get(0));
+                else if (idx_image == 1) marker_food.setIcon(marker_image.get(1));
+                else marker_food.setIcon(marker_image.get(2));
+
+                marker_food.setCaptionText(storeName.get(i));
+                marker_food.setCaptionTextSize(16);
+                marker_food.setWidth(80);
+                marker_food.setHeight(80);
+                markers_food.add(marker_food);
+            }
+
+            handler.post(() -> {
+                for (Marker mk : markers_food) {
+                    mk.setMap(nMap);
+                }
+            });
+
+        });
+    }
+
+    private void getDataCafe(List<Store> storeList, int idx_image) {
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            Log.d("TAG", "getData: ");
+
             List<OverlayImage> marker_image = Arrays.asList(
                     OverlayImage.fromResource(R.drawable.ic_food_marker),
                     OverlayImage.fromResource(R.drawable.ic_cafe_marker),
@@ -359,11 +404,11 @@ public class Frag_home_menu_map extends Fragment
                 marker.setCaptionTextSize(16);
                 marker.setWidth(80);
                 marker.setHeight(80);
-                markers.add(marker);
+                markers_cafe.add(marker);
             }
 
             handler.post(() -> {
-                for (Marker mk : markers) {
+                for (Marker mk : markers_cafe) {
                     mk.setMap(nMap);
                 }
             });
@@ -371,6 +416,47 @@ public class Frag_home_menu_map extends Fragment
         });
     }
 
+    private void getDataBeer(List<Store> storeList, int idx_image) {
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            Log.d("TAG", "getData: ");
+
+            List<OverlayImage> marker_image = Arrays.asList(
+                    OverlayImage.fromResource(R.drawable.ic_food_marker),
+                    OverlayImage.fromResource(R.drawable.ic_cafe_marker),
+                    OverlayImage.fromResource(R.drawable.ic_beer_marker)
+            );
+
+            for (Store st : storeList) {
+                storeName.add(st.getName());
+                marker_latitude.add(st.getLatitude());
+                marker_longitude.add(st.getLongitude());
+            }
+
+            for (int i = 0; i < storeName.size(); i++) {
+                Marker marker = new Marker();
+                marker.setPosition(new LatLng(Double.parseDouble(marker_latitude.get(i))
+                        , Double.parseDouble(marker_longitude.get(i))));
+
+                if (idx_image == 0) marker.setIcon(marker_image.get(0));
+                else if (idx_image == 1) marker.setIcon(marker_image.get(1));
+                else marker.setIcon(marker_image.get(2));
+
+                marker.setCaptionText(storeName.get(i));
+                marker.setCaptionTextSize(16);
+                marker.setWidth(80);
+                marker.setHeight(80);
+                markers_beer.add(marker);
+            }
+
+            handler.post(() -> {
+                for (Marker mk : markers_beer) {
+                    mk.setMap(nMap);
+                }
+            });
+
+        });
+    }
 
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
@@ -378,16 +464,16 @@ public class Frag_home_menu_map extends Fragment
 
         // 내장 위치 추적
         nMap.setLocationSource(fusedLocationSource);
-
         // Retrofit start
         getServiceKor();
-        getServiceJp();
-        getServiceCh();
-        getServiceWf();
+//        getServiceJp();
+//        getServiceCh();
+//        getServiceWf();
         getServiceCafe();
         getServiceBeer();
-        Log.d("TAG", "onMapReady: \n" + storeName
-                + "\n" + marker_latitude + ", " + marker_longitude);
+
+
+
 
     }
 }
