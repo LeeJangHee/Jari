@@ -31,6 +31,17 @@ public class Result {
     @SerializedName("storeInfo")
     @Expose
     private List<StoreInfo> storeInfo = null;
+    @SerializedName("storeFood")
+    @Expose
+    private List<Store> storeFood = null;
+
+    public List<Store> getStoreFood() {
+        return storeFood;
+    }
+
+    public void setStoreFood(List<Store> storeFood) {
+        this.storeFood = storeFood;
+    }
 
     public List<StoreInfo> getStoreInfo() {
         return storeInfo;

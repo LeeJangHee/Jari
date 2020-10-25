@@ -30,4 +30,7 @@ public interface RetrofitService {
 
     @GET("storeInfo.php")
     Call<Result> getStoreInfo(@Query("name") String storeName);
+
+    @GET("storeFood.php")
+    Call<Result> getStoreFood();
 }
