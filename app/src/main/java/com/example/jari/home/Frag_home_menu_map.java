@@ -27,6 +27,7 @@ import com.example.jari.retrofit2.RetrofitService;
 import com.example.jari.retrofit2.ServerConnect;
 import com.example.jari.retrofit2.Store;
 import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraAnimation;
 import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapFragment;
@@ -41,8 +42,6 @@ import com.naver.maps.map.util.FusedLocationSource;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -70,7 +69,6 @@ public class Frag_home_menu_map extends Fragment
     FusedLocationSource fusedLocationSource;
 
     LocationManager locationManager;
-    LocationListener locationListener;
 
     private double latitude;
     private double longitude;
@@ -80,11 +78,14 @@ public class Frag_home_menu_map extends Fragment
 
     RetrofitService retrofitService;
 
-    Executor executor = Executors.newCachedThreadPool();
     private OverlayImage marker_image;
     private OverlayImage marker_image_cafe;
     private OverlayImage marker_image_beer;
     private InfoWindow infoWindow;
+
+    MainActivity mainActivity;
+    private LocationOverlay locationOverlay;
+    private CameraUpdate cameraUpdate;
 
     @Override
     public void onResume() {
@@ -98,8 +99,10 @@ public class Frag_home_menu_map extends Fragment
 
         view = (View) inflater.inflate(R.layout.frag_home_menu_map, container, false);
         context = container.getContext();
-        locationManager = (LocationManager) ((MainActivity) getActivity()).getSystemService(LOCATION_SERVICE);
+        mainActivity = (MainActivity) context;
+        locationManager = (LocationManager) mainActivity.getSystemService(LOCATION_SERVICE);
 
+        fusedLocationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
         MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.frag_map);
         if (mapFragment == null) {
             mapFragment = MapFragment.newInstance();
@@ -107,7 +110,6 @@ public class Frag_home_menu_map extends Fragment
         }
 
         mapFragment.getMapAsync(this);
-
 
         return view;
     }
@@ -120,11 +122,11 @@ public class Frag_home_menu_map extends Fragment
         if (hasPermission()) {
             if (locationManager != null) {
                 locationManager.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER, 100, 10, this);
+                        LocationManager.GPS_PROVIDER, 1000, 10, this);
             }
         } else {
             ActivityCompat.requestPermissions(
-                    ((MainActivity) getActivity()), PERMISSIONS, PERMISSION_REQUEST_CODE);
+                    mainActivity, PERMISSIONS, PERMISSION_REQUEST_CODE);
         }
 
     }
@@ -136,6 +138,7 @@ public class Frag_home_menu_map extends Fragment
             locationManager.removeUpdates(this);
         }
     }
+
 
     // 위치가 변할 때마다 호출
     @Override
@@ -163,8 +166,8 @@ public class Frag_home_menu_map extends Fragment
 
     @SuppressLint("MissingPermission")
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == PERMISSION_REQUEST_CODE) {
             if (hasPermission() && locationManager != null) {
@@ -175,11 +178,13 @@ public class Frag_home_menu_map extends Fragment
         }
         if (fusedLocationSource.onRequestPermissionsResult(
                 requestCode, permissions, grantResults)) {
+            if (!fusedLocationSource.isActivated()){
+                // 권한 거부
+                naverMap.setLocationTrackingMode(LocationTrackingMode.None);
+            }
             return;
         }
 
-        super.onRequestPermissionsResult(
-                requestCode, permissions, grantResults);
     }
 
     public void updateMap(Location location) {
@@ -188,23 +193,22 @@ public class Frag_home_menu_map extends Fragment
         longitude = location.getLongitude();
 
         curr_LOC = new LatLng(latitude, longitude);
-        CameraUpdate cameraUpdate;
-        LocationOverlay locationOverlay = naverMap.getLocationOverlay();
+
         // 이전 위치가 없는 경우
         if (prev_LOC == null) {
             cameraUpdate = CameraUpdate.zoomTo(15);
-            CameraUpdate.scrollTo(curr_LOC);
+            CameraUpdate.scrollTo(curr_LOC)
+                        .animate(CameraAnimation.Easing);
             naverMap.moveCamera(cameraUpdate);
 
-            locationOverlay.setVisible(true);
             locationOverlay.setPosition(curr_LOC);
 
             prev_LOC = curr_LOC;
         } else {
-            cameraUpdate = CameraUpdate.scrollTo(curr_LOC);
+            cameraUpdate = CameraUpdate.scrollTo(curr_LOC)
+                                       .animate(CameraAnimation.Easing);
             naverMap.moveCamera(cameraUpdate);
 
-            locationOverlay.setVisible(true);
             locationOverlay.setPosition(curr_LOC);
 
             prev_LOC = curr_LOC;
@@ -213,9 +217,9 @@ public class Frag_home_menu_map extends Fragment
     }
 
     private boolean hasPermission() {
-        return PermissionChecker.checkSelfPermission(((MainActivity) getContext()), PERMISSIONS[0])
+        return PermissionChecker.checkSelfPermission(mainActivity, PERMISSIONS[0])
                 == PermissionChecker.PERMISSION_GRANTED
-                && PermissionChecker.checkSelfPermission(((MainActivity) getContext()), PERMISSIONS[1])
+                && PermissionChecker.checkSelfPermission(mainActivity, PERMISSIONS[1])
                 == PermissionChecker.PERMISSION_GRANTED;
     }
 
@@ -288,10 +292,16 @@ public class Frag_home_menu_map extends Fragment
         for (Store st : storeList) {
             Marker marker = new Marker();
             marker.setTag(st);
-            marker.setPosition(new LatLng(Double.parseDouble(st.getLatitude()),
-                    Double.parseDouble(st.getLongitude())));
+            marker.setPosition(new LatLng(
+                    Double.parseDouble(st.getLatitude()),
+                    Double.parseDouble(st.getLongitude())
+            ));
 
             marker.setIcon(marker_image);
+
+            // 마커가 겹치면 심벌 숨기기
+            marker.setHideCollidedSymbols(true);
+
             marker.setCaptionText(st.getName());
             marker.setCaptionTextSize(14);
             marker.setWidth(64);
@@ -312,10 +322,15 @@ public class Frag_home_menu_map extends Fragment
         for (Store st : storeList) {
             Marker marker_cafe = new Marker();
             marker_cafe.setTag(st);
-            marker_cafe.setPosition(new LatLng(Double.parseDouble(st.getLatitude())
-                    , Double.parseDouble(st.getLongitude())));
+            marker_cafe.setPosition(new LatLng(
+                    Double.parseDouble(st.getLatitude()),
+                    Double.parseDouble(st.getLongitude())
+            ));
 
             marker_cafe.setIcon(marker_image_cafe);
+
+            // 마커가 겹치면 심벌 숨기기
+            marker_cafe.setHideCollidedSymbols(true);
 
             marker_cafe.setCaptionText(st.getName());
             marker_cafe.setCaptionTextSize(14);
@@ -337,10 +352,15 @@ public class Frag_home_menu_map extends Fragment
         for (Store st : storeList) {
             Marker marker_beer = new Marker();
             marker_beer.setTag(st);
-            marker_beer.setPosition(new LatLng(Double.parseDouble(st.getLatitude())
-                    , Double.parseDouble(st.getLongitude())));
+            marker_beer.setPosition(new LatLng(
+                    Double.parseDouble(st.getLatitude()),
+                    Double.parseDouble(st.getLongitude())
+            ));
 
             marker_beer.setIcon(marker_image_beer);
+
+            // 마커가 겹치면 심벌 숨기기
+            marker_beer.setHideCollidedSymbols(true);
 
             marker_beer.setCaptionText(st.getName());
             marker_beer.setCaptionTextSize(14);
@@ -362,15 +382,23 @@ public class Frag_home_menu_map extends Fragment
         Log.d("TAG", "onMapReady: ");
 
         // 지도 타입 변경
-        naverMap.setMapType(NaverMap.MapType.Navi);
+        naverMap.setMapType(NaverMap.MapType.Basic);
+
 
         // 내장 위치 추적
-        fusedLocationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
         naverMap.setLocationSource(fusedLocationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.NoFollow);
 
-        // 카메라
+        // 위치 오버레이
+        locationOverlay = naverMap.getLocationOverlay();
+        locationOverlay.setVisible(true);
 
+        // 카메라
+        cameraUpdate = CameraUpdate.scrollTo(new LatLng(
+                locationOverlay.getPosition().latitude,
+                locationOverlay.getPosition().longitude
+        ));
+        naverMap.moveCamera(cameraUpdate);
 
         // 정보창 구현
         infoWindow = new InfoWindow();
