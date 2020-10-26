@@ -18,7 +18,6 @@ import com.example.jari.retrofit2.ServerConnect;
 import com.example.jari.retrofit2.Store;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -78,17 +77,17 @@ public class Frag_home_menu_cafe extends Fragment {
         List<String> listTitle = new ArrayList<>();
         List<String> listAddress = new ArrayList<>();
         List<String> listPhone = new ArrayList<>();
-        List<Integer> listIcon = Arrays.asList(
-                R.drawable.storecafe01,
-                R.drawable.storecafe02,
-                R.drawable.storecafe03,
-                R.drawable.storecafe04,
-                R.drawable.storecafe05);
+        List<String> list_icon = new ArrayList<>();
+        List<String> list_menu = new ArrayList<>();
+
 
         for (Store st : retrofitList) {
             listTitle.add(st.getName());
             listAddress.add(st.getAddress());
             listPhone.add(st.getPhone());
+            // url 객체
+            list_icon.add(st.getImage_profile());
+            list_menu.add(st.getImage_menu());
         }
         for (int i = 0; i < listTitle.size(); i++) {
             HomeMenuItem homeMenuItem = new HomeMenuItem();
@@ -96,7 +95,9 @@ public class Frag_home_menu_cafe extends Fragment {
             homeMenuItem.setTitleStr(listTitle.get(i));
             homeMenuItem.setAddressStr(listAddress.get(i));
             homeMenuItem.setPhoneStr(listPhone.get(i));
-            homeMenuItem.setIconId(listIcon.get(i));
+            // url 객체 추가
+            homeMenuItem.setIconStr(list_icon.get(i));
+            homeMenuItem.setMenuStr(list_menu.get(i));
 
             adapter.addItem(homeMenuItem);
         }

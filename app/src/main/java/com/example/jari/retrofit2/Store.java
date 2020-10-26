@@ -22,6 +22,28 @@ public class Store {
     @SerializedName("longitude")
     @Expose
     private String longitude;
+    @SerializedName("image_profile")
+    @Expose
+    private String image_profile;
+    @SerializedName("image_menu")
+    @Expose
+    private String image_menu;
+
+    public String getImage_profile() {
+        return image_profile;
+    }
+
+    public void setImage_profile(String image_profile) {
+        this.image_profile = image_profile;
+    }
+
+    public String getImage_menu() {
+        return image_menu;
+    }
+
+    public void setImage_menu(String image_menu) {
+        this.image_menu = image_menu;
+    }
 
     public Integer getId() {
         return id;

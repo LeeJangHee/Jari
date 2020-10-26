@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.jari.MainActivity;
 import com.example.jari.R;
 
@@ -60,6 +61,7 @@ public class HomeMenuAdapter extends RecyclerView.Adapter<HomeMenuAdapter.ItemVi
         private TextView tv_title;
         private TextView tv_address;
         private TextView tv_phone;
+        String str_menu;
         int ig_menu;
 
         private HomeMenuItem homeMenuItem;
@@ -68,20 +70,22 @@ public class HomeMenuAdapter extends RecyclerView.Adapter<HomeMenuAdapter.ItemVi
             super(itemView);
             this.context = context;
 
-            ig_icon = itemView.findViewById(R.id.home_listView_image);
-            tv_title = itemView.findViewById(R.id.home_listView_title);
-            tv_address = itemView.findViewById(R.id.home_listView_address);
-            tv_phone = itemView.findViewById(R.id.home_listView_phone);
+            ig_icon = (ImageView) itemView.findViewById(R.id.home_listView_image);
+            tv_title = (TextView) itemView.findViewById(R.id.home_listView_title);
+            tv_address = (TextView) itemView.findViewById(R.id.home_listView_address);
+            tv_phone = (TextView) itemView.findViewById(R.id.home_listView_phone);
         }
 
         public void onBind(HomeMenuItem homeMenuItem) {
             this.homeMenuItem = homeMenuItem;
 
-            ig_icon.setImageResource(homeMenuItem.getIconId());
+            Glide.with(view).load(homeMenuItem.getIconStr()).into(ig_icon);
+//            ig_icon.setImageResource(homeMenuItem.getIconId());
             tv_title.setText(homeMenuItem.getTitleStr());
             tv_address.setText(homeMenuItem.getAddressStr());
             tv_phone.setText(homeMenuItem.getPhoneStr());
-            ig_menu = homeMenuItem.getMenuId();
+//            ig_menu = homeMenuItem.getMenuId();
+            str_menu = homeMenuItem.getMenuStr();
 
             itemView.setOnClickListener(this);
         }
@@ -101,14 +105,14 @@ public class HomeMenuAdapter extends RecyclerView.Adapter<HomeMenuAdapter.ItemVi
             MainActivity mainActivity = (MainActivity) context;
             Fragment currentFrag = mainActivity.manager.findFragmentById(R.id.main_layout);
             String currentName = mainActivity.toolbarMain_title;
-            int ig_store_profile = homeMenuItem.getIconId();
-            int ig_store_menu = ig_menu;
+            String str_store_profile = homeMenuItem.getIconStr();
+            String str_store_menu = str_menu;
 
             // fragment <--> fragment 데이터 교환 방법
             FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.main_layout,
-                    Frag_home_menu_store.newInstance(name, ig_store_profile, ig_store_menu));
+                    Frag_home_menu_store.newInstance(name, str_store_profile, str_store_menu));
             fragmentTransaction.commit();
 
             // 뒤로가기 스택에 플레그먼트, 제목 저장

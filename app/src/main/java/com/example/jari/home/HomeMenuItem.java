@@ -7,6 +7,24 @@ public class HomeMenuItem {
     private String phoneStr;
     private int iconId;
     private int menuId;
+    private String iconStr;
+    private String menuStr;
+
+    public String getIconStr() {
+        return iconStr;
+    }
+
+    public void setIconStr(String iconStr) {
+        this.iconStr = iconStr;
+    }
+
+    public String getMenuStr() {
+        return menuStr;
+    }
+
+    public void setMenuStr(String menuStr) {
+        this.menuStr = menuStr;
+    }
 
     public int getMenuId() {
         return menuId;

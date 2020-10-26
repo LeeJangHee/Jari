@@ -1,5 +1,6 @@
 package com.example.jari.home;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.jari.R;
 import com.example.jari.retrofit2.Result;
 import com.example.jari.retrofit2.RetrofitService;
@@ -25,14 +27,15 @@ import retrofit2.Response;
 
 public class Frag_home_menu_store extends Fragment {
     View view;
+    Context context;
     private RetrofitService retrofitService;
     private static final String STORE_NAME = "name";
     private static final String STORE_PROFILE = "profile";
     private static final String STORE_IG_MENU = "menu";
 
     private String mStoreName;
-    private int mStoreProfile;
-    private int mStoreMenu;
+    private String mStoreProfile;
+    private String mStoreMenu;
 
     String str_name;
     String str_phone;
@@ -51,12 +54,12 @@ public class Frag_home_menu_store extends Fragment {
     ImageView ig_profile;
     ImageView ig_menu;
 
-    public static Fragment newInstance(String storeName, int storeProfile, int storeMenu){
+    public static Fragment newInstance(String storeName, String storeProfile, String storeMenu){
         Frag_home_menu_store fragment = new Frag_home_menu_store();
         Bundle args = new Bundle();
         args.putString(STORE_NAME, storeName);
-        args.putInt(STORE_PROFILE, storeProfile);
-        args.putInt(STORE_IG_MENU, storeMenu);
+        args.putString(STORE_PROFILE, storeProfile);
+        args.putString(STORE_IG_MENU, storeMenu);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,8 +69,8 @@ public class Frag_home_menu_store extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mStoreName = getArguments().getString(STORE_NAME);
-            mStoreProfile = getArguments().getInt(STORE_PROFILE);
-            mStoreMenu = getArguments().getInt(STORE_IG_MENU);
+            mStoreProfile = getArguments().getString(STORE_PROFILE);
+            mStoreMenu = getArguments().getString(STORE_IG_MENU);
         }
     }
 
@@ -75,6 +78,7 @@ public class Frag_home_menu_store extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = (View) inflater.inflate(R.layout.frag_store_info, container, false);
+        context = container.getContext();
 
         tv_name = (TextView)view.findViewById(R.id.store_info_name);
         tv_phone = (TextView)view.findViewById(R.id.store_info_phone);
@@ -86,7 +90,6 @@ public class Frag_home_menu_store extends Fragment {
         ig_profile = (ImageView)view.findViewById(R.id.store_info_ig_profile);
         ig_menu = (ImageView)view.findViewById(R.id.store_info_ig_menu);
 
-
         return view;
     }
 
@@ -94,8 +97,8 @@ public class Frag_home_menu_store extends Fragment {
     public void onStart() {
         super.onStart();
         getService();
-        ig_profile.setImageResource(mStoreProfile);
-        ig_menu.setImageResource(mStoreMenu);
+        Glide.with(view).load(mStoreProfile).into(ig_profile);
+        Glide.with(view).load(mStoreMenu).into(ig_menu);
     }
 
     public void getService() {
