@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
          * 하단 버튼을 클릭 하면 스택 초기화
          * -> 하단 버튼 플레그먼트를 스택에 푸쉬.
          * 스택이 계속 없어지지 않으니까 스택 사이즈가 1이면 끝
-         **/
+         */
         long curTime = System.currentTimeMillis();
         long gapTime = curTime - backBtnTime;
         if (frag_stack_back.empty()) {

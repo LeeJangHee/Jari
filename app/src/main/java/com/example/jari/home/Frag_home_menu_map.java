@@ -1,11 +1,7 @@
 package com.example.jari.home;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,10 +12,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.jari.MainActivity;
 import com.example.jari.R;
 import com.example.jari.retrofit2.Result;
@@ -28,11 +23,13 @@ import com.example.jari.retrofit2.ServerConnect;
 import com.example.jari.retrofit2.Store;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraAnimation;
+import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.LocationOverlay;
 import com.naver.maps.map.overlay.Marker;
@@ -47,15 +44,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.content.Context.LOCATION_SERVICE;
-
 public class Frag_home_menu_map extends Fragment
-        implements LocationListener, OnMapReadyCallback, Overlay.OnClickListener {
-    private static final int PERMISSION_REQUEST_CODE = 100;
-    private static final String[] PERMISSIONS = {
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-    };
+        implements OnMapReadyCallback, Overlay.OnClickListener {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     private NaverMap naverMap;
 
@@ -67,8 +57,6 @@ public class Frag_home_menu_map extends Fragment
     public LatLng prev_LOC;
 
     FusedLocationSource fusedLocationSource;
-
-    LocationManager locationManager;
 
     private double latitude;
     private double longitude;
@@ -97,12 +85,10 @@ public class Frag_home_menu_map extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        view = (View) inflater.inflate(R.layout.frag_home_menu_map, container, false);
+        view = inflater.inflate(R.layout.frag_home_menu_map, container, false);
         context = container.getContext();
         mainActivity = (MainActivity) context;
-        locationManager = (LocationManager) mainActivity.getSystemService(LOCATION_SERVICE);
 
-        fusedLocationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
         MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.frag_map);
         if (mapFragment == null) {
             mapFragment = MapFragment.newInstance();
@@ -111,6 +97,8 @@ public class Frag_home_menu_map extends Fragment
 
         mapFragment.getMapAsync(this);
 
+        fusedLocationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
+
         return view;
     }
 
@@ -118,110 +106,29 @@ public class Frag_home_menu_map extends Fragment
     @Override
     public void onStart() {
         super.onStart();
-
-        if (hasPermission()) {
-            if (locationManager != null) {
-                locationManager.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER, 1000, 10, this);
-            }
-        } else {
-            ActivityCompat.requestPermissions(
-                    mainActivity, PERMISSIONS, PERMISSION_REQUEST_CODE);
-        }
-
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        if (locationManager != null) {
-            locationManager.removeUpdates(this);
-        }
-    }
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
 
-
-    // 위치가 변할 때마다 호출
-    @Override
-    public void onLocationChanged(Location location) {
-        if (naverMap == null || location == null) {
-            return;
-        }
-        updateMap(location);
-    }
-
-    // 위치서비스가 변경될 때
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-    }
-
-    // 사용자에 의해 Provider 가 사용 가능하게 설정될 때
-    @Override
-    public void onProviderEnabled(String provider) {
-    }
-
-    // 사용자에 의해 Provider 가 사용 불가능하게 설정될 때
-    @Override
-    public void onProviderDisabled(String provider) {
-    }
-
-    @SuppressLint("MissingPermission")
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (hasPermission() && locationManager != null) {
-                locationManager.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER, 1000, 10, this);
-            }
-            return;
-        }
         if (fusedLocationSource.onRequestPermissionsResult(
                 requestCode, permissions, grantResults)) {
-            if (!fusedLocationSource.isActivated()){
-                // 권한 거부
+            if (!fusedLocationSource.isActivated()) { // 권한 거부됨
                 naverMap.setLocationTrackingMode(LocationTrackingMode.None);
             }
             return;
         }
+        super.onRequestPermissionsResult(
+                requestCode, permissions, grantResults);
 
     }
 
-    public void updateMap(Location location) {
-
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
-
-        curr_LOC = new LatLng(latitude, longitude);
-
-        // 이전 위치가 없는 경우
-        if (prev_LOC == null) {
-            cameraUpdate = CameraUpdate.zoomTo(15);
-            CameraUpdate.scrollTo(curr_LOC)
-                        .animate(CameraAnimation.Easing);
-            naverMap.moveCamera(cameraUpdate);
-
-            locationOverlay.setPosition(curr_LOC);
-
-            prev_LOC = curr_LOC;
-        } else {
-            cameraUpdate = CameraUpdate.scrollTo(curr_LOC)
-                                       .animate(CameraAnimation.Easing);
-            naverMap.moveCamera(cameraUpdate);
-
-            locationOverlay.setPosition(curr_LOC);
-
-            prev_LOC = curr_LOC;
-        }
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
-    private boolean hasPermission() {
-        return PermissionChecker.checkSelfPermission(mainActivity, PERMISSIONS[0])
-                == PermissionChecker.PERMISSION_GRANTED
-                && PermissionChecker.checkSelfPermission(mainActivity, PERMISSIONS[1])
-                == PermissionChecker.PERMISSION_GRANTED;
-    }
 
     // Retrofit2 연결 부분
     public void getServiceFood() {
@@ -304,8 +211,8 @@ public class Frag_home_menu_map extends Fragment
 
             marker.setCaptionText(st.getName());
             marker.setCaptionTextSize(14);
-            marker.setWidth(64);
-            marker.setHeight(64);
+            marker.setWidth(Marker.SIZE_AUTO);
+            marker.setHeight(Marker.SIZE_AUTO);
             marker.setAnchor(Marker.DEFAULT_ANCHOR);
             marker.setMap(naverMap);
             marker.setOnClickListener(this);
@@ -334,8 +241,8 @@ public class Frag_home_menu_map extends Fragment
 
             marker_cafe.setCaptionText(st.getName());
             marker_cafe.setCaptionTextSize(14);
-            marker_cafe.setWidth(64);
-            marker_cafe.setHeight(64);
+            marker_cafe.setWidth(Marker.SIZE_AUTO);
+            marker_cafe.setHeight(Marker.SIZE_AUTO);
             marker_cafe.setAnchor(Marker.DEFAULT_ANCHOR);
             marker_cafe.setMap(naverMap);
             marker_cafe.setOnClickListener(this);
@@ -364,8 +271,8 @@ public class Frag_home_menu_map extends Fragment
 
             marker_beer.setCaptionText(st.getName());
             marker_beer.setCaptionTextSize(14);
-            marker_beer.setWidth(64);
-            marker_beer.setHeight(64);
+            marker_beer.setWidth(Marker.SIZE_AUTO);
+            marker_beer.setHeight(Marker.SIZE_AUTO);
             marker_beer.setAnchor(Marker.DEFAULT_ANCHOR);
             marker_beer.setMap(naverMap);
             marker_beer.setOnClickListener(this);
@@ -384,43 +291,62 @@ public class Frag_home_menu_map extends Fragment
         // 지도 타입 변경
         naverMap.setMapType(NaverMap.MapType.Basic);
 
-
-        // 내장 위치 추적
-        naverMap.setLocationSource(fusedLocationSource);
-        naverMap.setLocationTrackingMode(LocationTrackingMode.NoFollow);
-
         // 위치 오버레이
         locationOverlay = naverMap.getLocationOverlay();
         locationOverlay.setVisible(true);
 
+        // 내장 위치 추적
+        naverMap.setLocationSource(fusedLocationSource);
+        naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
+
         // 카메라
-        cameraUpdate = CameraUpdate.scrollTo(new LatLng(
-                locationOverlay.getPosition().latitude,
-                locationOverlay.getPosition().longitude
-        ));
-        naverMap.moveCamera(cameraUpdate);
+        naverMap.setCameraPosition(new CameraPosition(
+                new LatLng(fusedLocationSource.getLastLocation().getLatitude(),
+                        fusedLocationSource.getLastLocation().getLongitude()), 17));
 
-        // 정보창 구현
-        infoWindow = new InfoWindow();
-        infoWindow.setAdapter(new InfoWindowAdapter(context));
-        infoWindow.setOnClickListener(overlay -> {
-            Marker marker = infoWindow.getMarker();
-            Store store = (Store) marker.getTag();
-            Log.d("TAG", "onMapReady, infoClick: "+store.getName());
-            // fragment 이동 구현
+        // 위치가 변경 될 때 실행
+        naverMap.addOnLocationChangeListener(location -> {
 
-            return true;
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+
+            curr_LOC = new LatLng(latitude, longitude);
+
+            if (prev_LOC == null) {     // 이전 위치가 없는 경우
+                cameraUpdate = CameraUpdate.zoomTo(17);
+                naverMap.moveCamera(cameraUpdate);
+
+                locationOverlay.setPosition(curr_LOC);
+                prev_LOC = curr_LOC;
+            } else {    // 이전 위치가 있는 경우
+                cameraUpdate = CameraUpdate.scrollTo(curr_LOC)
+                        .animate(CameraAnimation.Easing);
+                naverMap.moveCamera(cameraUpdate);
+
+                locationOverlay.setPosition(curr_LOC);
+                prev_LOC = curr_LOC;
+            }
         });
+
+
+        // UI Interface 설정
+        UiSettings uiSettings = naverMap.getUiSettings();
+        uiSettings.setLocationButtonEnabled(true);
+        uiSettings.setCompassEnabled(true);
 
         // 지도 클릭 ---> 정보창 닫기
         naverMap.setOnMapClickListener((point, coord) -> {
-            if (infoWindow.getMarker() != null)  infoWindow.close();
+            if (infoWindow.getMarker() != null) infoWindow.close();
         });
 
         // 레트로핏2 서버 연동 ---> 마커 표시
         getServiceFood();
         getServiceCafe();
         getServiceBeer();
+
+        // 정보창 구현
+        infoWindow = new InfoWindow();
+        infoWindow.setAdapter(new InfoWindowAdapter(context));
 
 
     }
@@ -436,23 +362,28 @@ public class Frag_home_menu_map extends Fragment
             }
             return true;
         }
-        else if (overlay instanceof InfoWindow) {
 
+        if (overlay instanceof InfoWindow) {
+            InfoWindow infoWindow = (InfoWindow) overlay;
+            Log.d("TAG", "onClick: " + infoWindow.getMarker().getCaptionText());
+            return true;
         }
         return false;
     }
 
     // 커스텀 정보창 구현
-    private static class InfoWindowAdapter extends InfoWindow.ViewAdapter
-            implements SelectStore {
+    private static class InfoWindowAdapter extends InfoWindow.ViewAdapter {
 
         @NonNull
-        private Context context;
+        private final Context context;
         private View rootView;
         private ImageView ig_profile;
         private TextView tv_name;
         private TextView tv_phone;
         private TextView tv_address;
+
+        private Marker marker;
+        private Store store;
 
         private InfoWindowAdapter(@NonNull Context context) {
             this.context = context;
@@ -461,29 +392,28 @@ public class Frag_home_menu_map extends Fragment
         @NonNull
         @Override
         public View getView(@NonNull InfoWindow infoWindow) {
-            Marker marker = infoWindow.getMarker();
-            Store store = (Store) marker.getTag();
-            if (rootView == null) {
-                rootView = View.inflate(context, R.layout.frag_home_menu_map_infowindow, null);
-                ig_profile = rootView.findViewById(R.id.infowindow_profile);
-                tv_name = rootView.findViewById(R.id.infowindow_name);
-                tv_phone = rootView.findViewById(R.id.infowindow_phone);
-                tv_address = rootView.findViewById(R.id.infowindow_address);
-            }
+            marker = infoWindow.getMarker();
+            store = (Store) marker.getTag();
 
-            if (infoWindow.getMarker() != null) {
-                tv_phone.setText(store.getPhone());
-                tv_name.setText(store.getName());
-                tv_address.setText(store.getAddress());
-            }
+            rootView = (View) View.inflate(context, R.layout.frag_home_menu_map_infowindow, null);
+            ig_profile = (ImageView) rootView.findViewById(R.id.infowindow_profile);
+            tv_name = (TextView) rootView.findViewById(R.id.infowindow_name);
+            tv_phone = (TextView) rootView.findViewById(R.id.infowindow_phone);
+            tv_address = (TextView) rootView.findViewById(R.id.infowindow_address);
+
+            Glide.with(rootView)
+                    .load(store.getImage_profile())
+                    .placeholder(R.drawable.jari_loding)
+                    .error(R.drawable.jari_user_profile)
+                    .into(ig_profile);
+
+            tv_phone.setText(store.getPhone());
+            tv_name.setText(store.getName());
+            tv_address.setText(store.getAddress());
 
             return rootView;
         }
 
-        @Override
-        public void onClickStore(String name, Fragment fragment) {
-
-        }
     }
 
 

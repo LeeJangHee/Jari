@@ -80,11 +80,9 @@ public class HomeMenuAdapter extends RecyclerView.Adapter<HomeMenuAdapter.ItemVi
             this.homeMenuItem = homeMenuItem;
 
             Glide.with(view).load(homeMenuItem.getIconStr()).into(ig_icon);
-//            ig_icon.setImageResource(homeMenuItem.getIconId());
             tv_title.setText(homeMenuItem.getTitleStr());
             tv_address.setText(homeMenuItem.getAddressStr());
             tv_phone.setText(homeMenuItem.getPhoneStr());
-//            ig_menu = homeMenuItem.getMenuId();
             str_menu = homeMenuItem.getMenuStr();
 
             itemView.setOnClickListener(this);
