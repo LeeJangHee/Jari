@@ -1,7 +1,5 @@
 package com.example.jari.person;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -16,21 +14,13 @@ import androidx.fragment.app.Fragment;
 
 import com.example.jari.MainActivity;
 import com.example.jari.R;
-import com.example.jari.logindb.LoginData;
-import com.example.jari.logindb.LoginOpenHelper;
 import com.example.jari.person.alarm.Frag_person_alarm;
 import com.example.jari.person.like.Frag_person_like;
-
-import java.util.ArrayList;
 
 public class Frag_person extends Fragment implements View.OnClickListener {
     private View view;
     private String str_name;
 
-    LoginOpenHelper helper;
-    SQLiteDatabase db;
-    Cursor cursor;
-    private ArrayList<LoginData> loginArrayList;
 
     private TextView toolbar_title;
     private TextView tv_alarm;
@@ -47,9 +37,6 @@ public class Frag_person extends Fragment implements View.OnClickListener {
         view = (View) inflater.inflate(R.layout.frag_person, container, false);
         view.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
 
-        // 로그인 디비 불러오기
-        loginArrayList = new LoginOpenHelper(view.getContext()).loadLoginList();
-
         toolbar_title = ((MainActivity) getActivity()).findViewById(R.id.toolbar_title);
         tv_alarm = view.findViewById(R.id.person_alarm);
         tv_information = view.findViewById(R.id.person_information);
@@ -64,13 +51,7 @@ public class Frag_person extends Fragment implements View.OnClickListener {
         tv_user_people = view.findViewById(R.id.person_user_people);
 
         // Todo: 로그인한 유저의 정보를 person 뷰에 표시해주기
-        helper = new LoginOpenHelper(view.getContext());
-        db = helper.getWritableDatabase();
-        loginArrayList = helper.loadLoginList();
 
-        for (int i = 0; i < loginArrayList.size(); i++) {
-
-        }
         return view;
     }
 

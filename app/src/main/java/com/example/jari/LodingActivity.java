@@ -16,6 +16,27 @@ public class LodingActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loding);
+        handler = new Handler();
+        handler.postDelayed(() -> {
+            Intent intent = new Intent(LodingActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }, RODING_TIME);
+    }
+
+    @Override
+    public void onBackPressed() {
+        long curTime = System.currentTimeMillis();
+        long gapTime = curTime - backBtnTime;
+        if (0 <= gapTime && 2000 >= gapTime){
+            handler.removeMessages(0);
+            super.onBackPressed();
+        } else {
+            backBtnTime = curTime;
+            Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+}
 /**
  * retrofit2 사용 예시2
  *
@@ -50,24 +71,3 @@ public class LodingActivity extends Activity {
             }
         });
 **/
-        handler = new Handler();
-        handler.postDelayed(() -> {
-            Intent intent = new Intent(LodingActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        }, RODING_TIME);
-    }
-
-    @Override
-    public void onBackPressed() {
-        long curTime = System.currentTimeMillis();
-        long gapTime = curTime - backBtnTime;
-        if (0 <= gapTime && 2000 >= gapTime){
-            handler.removeMessages(0);
-            super.onBackPressed();
-        } else {
-            backBtnTime = curTime;
-            Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
-        }
-    }
-}

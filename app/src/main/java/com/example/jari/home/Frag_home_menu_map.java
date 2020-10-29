@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.example.jari.MainActivity;
@@ -45,7 +48,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Frag_home_menu_map extends Fragment
-        implements OnMapReadyCallback, Overlay.OnClickListener {
+        implements OnMapReadyCallback, Overlay.OnClickListener, SelectStore {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     private NaverMap naverMap;
 
@@ -65,6 +68,7 @@ public class Frag_home_menu_map extends Fragment
     Context context;
 
     RetrofitService retrofitService;
+    Store store;
 
     private OverlayImage marker_image;
     private OverlayImage marker_image_cafe;
@@ -74,6 +78,7 @@ public class Frag_home_menu_map extends Fragment
     MainActivity mainActivity;
     private LocationOverlay locationOverlay;
     private CameraUpdate cameraUpdate;
+
 
     @Override
     public void onResume() {
@@ -301,8 +306,7 @@ public class Frag_home_menu_map extends Fragment
 
         // 카메라
         naverMap.setCameraPosition(new CameraPosition(
-                new LatLng(fusedLocationSource.getLastLocation().getLatitude(),
-                        fusedLocationSource.getLastLocation().getLongitude()), 17));
+                new LatLng(latitude, longitude), 17));
 
         // 위치가 변경 될 때 실행
         naverMap.addOnLocationChangeListener(location -> {
@@ -347,7 +351,7 @@ public class Frag_home_menu_map extends Fragment
         // 정보창 구현
         infoWindow = new InfoWindow();
         infoWindow.setAdapter(new InfoWindowAdapter(context));
-
+        infoWindow.setOnClickListener(this::onClick);
 
     }
 
@@ -365,11 +369,37 @@ public class Frag_home_menu_map extends Fragment
 
         if (overlay instanceof InfoWindow) {
             InfoWindow infoWindow = (InfoWindow) overlay;
-            Log.d("TAG", "onClick: " + infoWindow.getMarker().getCaptionText());
+            store = (Store) infoWindow.getMarker().getTag();
+            onClickStore(store.getName(), new Frag_home_menu_store());
+            Log.i("TAG", "onClick: infoWindow");
             return true;
         }
+
         return false;
     }
+
+    @Override
+    public void onClickStore(String name, Fragment fragment) {
+        Log.i("TAG", "onClickStore: ");
+        mainActivity = (MainActivity) context;
+        Fragment currentFrag = mainActivity.manager.findFragmentById(R.id.main_layout);
+        String currentName = mainActivity.toolbarMain_title;
+        String str_store_profile = store.getImage_profile();
+        String str_store_menu = store.getImage_menu();
+
+        // fragment <--> fragment 데이터 교환 방법
+        FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_layout,
+                Frag_home_menu_store.newInstance(name, str_store_profile, str_store_menu));
+        fragmentTransaction.commit();
+
+        // 뒤로가기 스택에 플레그먼트, 제목 저장
+        mainActivity.frag_stack_back.push(new Pair<Fragment, String>(currentFrag, currentName));
+        mainActivity.toolbar_title.setText(name);
+        mainActivity.toolbarMain_title = name;
+    }
+
 
     // 커스텀 정보창 구현
     private static class InfoWindowAdapter extends InfoWindow.ViewAdapter {
@@ -383,9 +413,8 @@ public class Frag_home_menu_map extends Fragment
         private TextView tv_address;
 
         private Marker marker;
-        private Store store;
 
-        private InfoWindowAdapter(@NonNull Context context) {
+        public InfoWindowAdapter(@NonNull Context context) {
             this.context = context;
         }
 
@@ -393,7 +422,7 @@ public class Frag_home_menu_map extends Fragment
         @Override
         public View getView(@NonNull InfoWindow infoWindow) {
             marker = infoWindow.getMarker();
-            store = (Store) marker.getTag();
+            Store store = (Store) marker.getTag();
 
             rootView = (View) View.inflate(context, R.layout.frag_home_menu_map_infowindow, null);
             ig_profile = (ImageView) rootView.findViewById(R.id.infowindow_profile);
@@ -415,6 +444,6 @@ public class Frag_home_menu_map extends Fragment
         }
 
     }
-
-
 }
+
+
