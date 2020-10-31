@@ -16,6 +16,15 @@ public class LoginData {
     @SerializedName("phone")
     @Expose
     public String phone;
+    public String success;
+
+    public String getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(String success) {
+        this.success = success;
+    }
 
     public String getId() {
         return id;

@@ -1,6 +1,8 @@
 package com.example.jari;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,12 +44,24 @@ public class MainActivity extends AppCompatActivity {
 
     private long backBtnTime = 0;
 
+    private String id;
+    private String name;
+    private String phone;
+    private String people;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         frag_stack_back = new Stack<>();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // 로그인 정보 받아오기
+        Intent mainIntent = getIntent();
+        id = mainIntent.getStringExtra("ID");
+        name = mainIntent.getStringExtra("NAME");
+        phone = mainIntent.getStringExtra("PHONE");
+        people = mainIntent.getStringExtra("PEOPLE");
+
 
         // 네이버 지도 호출
         NaverMapSdk.getInstance(this).setClient(
