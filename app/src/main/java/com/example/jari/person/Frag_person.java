@@ -1,5 +1,6 @@
 package com.example.jari.person;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -19,8 +20,9 @@ import com.example.jari.person.like.Frag_person_like;
 
 public class Frag_person extends Fragment implements View.OnClickListener {
     private View view;
+    private Context context;
     private String str_name;
-
+    MainActivity mainActivity;
 
     private TextView toolbar_title;
     private TextView tv_alarm;
@@ -36,8 +38,11 @@ public class Frag_person extends Fragment implements View.OnClickListener {
                              @NonNull Bundle saveInstanceState) {
         view = (View) inflater.inflate(R.layout.frag_person, container, false);
         view.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
+        context = container.getContext();
+        mainActivity = (MainActivity) context;
 
-        toolbar_title = ((MainActivity) getActivity()).findViewById(R.id.toolbar_title);
+
+        toolbar_title = mainActivity.findViewById(R.id.toolbar_title);
         tv_alarm = view.findViewById(R.id.person_alarm);
         tv_information = view.findViewById(R.id.person_information);
         tv_like = view.findViewById(R.id.person_like);
@@ -46,22 +51,24 @@ public class Frag_person extends Fragment implements View.OnClickListener {
         tv_information.setOnClickListener(this);
         tv_like.setOnClickListener(this);
 
-        tv_user_name = view.findViewById(R.id.person_user_name);
-        tv_user_number = view.findViewById(R.id.person_user_number);
-        tv_user_people = view.findViewById(R.id.person_user_people);
+        tv_user_name = (TextView) view.findViewById(R.id.person_user_name);
+        tv_user_number = (TextView) view.findViewById(R.id.person_user_number);
+        tv_user_people = (TextView) view.findViewById(R.id.person_user_people);
 
-        // Todo: 로그인한 유저의 정보를 person 뷰에 표시해주기
+        tv_user_name.setText(mainActivity.name);
+        tv_user_number.setText(mainActivity.phone);
+        tv_user_people.setText(mainActivity.people+" 명");
 
         return view;
     }
 
     public void menuOnClick(String name, Fragment frag) {
-        Fragment currentFragment = MainActivity.manager.findFragmentById(R.id.main_layout);
+        Fragment currentFragment = mainActivity.manager.findFragmentById(R.id.main_layout);
         String currentName = MainActivity.toolbarMain_title;
-        ((MainActivity) getActivity()).replaceFragment(frag);
-        MainActivity.frag_stack_back.push(new Pair<Fragment, String>(currentFragment, currentName));
+        mainActivity.replaceFragment(frag);
+        mainActivity.frag_stack_back.push(new Pair<Fragment, String>(currentFragment, currentName));
         toolbar_title.setText(name);
-        ActionBar actionBar_bestMenu = ((MainActivity) getActivity()).getSupportActionBar();
+        ActionBar actionBar_bestMenu = mainActivity.getSupportActionBar();
         actionBar_bestMenu.setTitle("");
         actionBar_bestMenu.setDisplayHomeAsUpEnabled(true);
         actionBar_bestMenu.setHomeAsUpIndicator(R.drawable.ic_arrow_back_20px);

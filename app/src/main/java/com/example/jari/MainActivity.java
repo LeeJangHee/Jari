@@ -2,7 +2,6 @@ package com.example.jari;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,10 +43,10 @@ public class MainActivity extends AppCompatActivity {
 
     private long backBtnTime = 0;
 
-    private String id;
-    private String name;
-    private String phone;
-    private String people;
+    public static String id;
+    public static String name;
+    public static String phone;
+    public static String people;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         frag_stack_back = new Stack<>();
