@@ -21,4 +21,7 @@
     <string name="person_like">찜</string>
     <string name="person_review">리뷰</string>
 
+    <string name="store_info_wait_btn">번호표 뽑기</string>
+    <string name="store_info_wait_people">대기 인원</string>
+
 </resources>

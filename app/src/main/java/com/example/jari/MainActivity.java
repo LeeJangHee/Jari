@@ -163,13 +163,12 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(false);
 
         if (!frag_stack_back.empty()) {
-            Toast.makeText(this, "뒤로가기 하기"+frag_stack_back.peek().second, Toast.LENGTH_SHORT).show();
             replaceFragment(frag_stack_back.peek().first);
             toolbar_title.setText(frag_stack_back.peek().second);
             toolbarMain_title = frag_stack_back.peek().second;
             frag_stack_back.pop();
         } else {
-            Toast.makeText(this, "스택 비었음", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "뒤로가기 실패", Toast.LENGTH_SHORT).show();
         }
     }
 
