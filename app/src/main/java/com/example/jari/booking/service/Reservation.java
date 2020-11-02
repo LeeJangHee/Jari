@@ -4,6 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Reservation {
+    @SerializedName("id")
+    @Expose
+    private int id;
     @SerializedName("userID")
     @Expose
     private String userID;
@@ -19,12 +22,31 @@ public class Reservation {
     @SerializedName("storeProfile")
     @Expose
     private String storeProfile;
+    @SerializedName("storeMenu")
+    @Expose
+    private String storeMenu;
     @SerializedName("success")
     @Expose
     private String success;
     @SerializedName("num")
     @Expose
     private String num;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getStoreMenu() {
+        return storeMenu;
+    }
+
+    public void setStoreMenu(String storeMenu) {
+        this.storeMenu = storeMenu;
+    }
 
     public String getNum() {
         return num;

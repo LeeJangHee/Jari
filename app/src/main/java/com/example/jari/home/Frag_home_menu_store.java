@@ -3,7 +3,6 @@ package com.example.jari.home;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -190,7 +189,7 @@ public class Frag_home_menu_store extends Fragment {
 
     public void reservationOnClick() {
         reservationService = ServerConnect.getClient().create(ReservationService.class);
-        reservationService.getRegister(mainActivity.id, str_name, str_phone, str_address, mStoreProfile).enqueue(new Callback<Reservation>() {
+        reservationService.getRegister(mainActivity.id, str_name, str_phone, str_address, mStoreProfile, mStoreMenu).enqueue(new Callback<Reservation>() {
             @Override
             public void onResponse(Call<Reservation> call, Response<Reservation> response) {
                 if (response.isSuccessful()) {

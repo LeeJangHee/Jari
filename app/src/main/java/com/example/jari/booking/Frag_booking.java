@@ -2,6 +2,7 @@ package com.example.jari.booking;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,13 +36,13 @@ public class Frag_booking extends Fragment {
     private ReservationService reservationService;
 
     private List<Reservation> checkList = new ArrayList<>();
+    private RecyclerView recyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 서버 연결
         getReservationCheck();
-
     }
 
     @Nullable
@@ -52,13 +53,14 @@ public class Frag_booking extends Fragment {
         view = (View) inflater.inflate(R.layout.frag_booking, container, false);
         context = container.getContext();
         mainActivity = (MainActivity) context;
+
         init();
 
         return view;
     }
 
     private void init() {
-        RecyclerView recyclerView = view.findViewById(R.id.booking_recycler_view);
+        recyclerView = view.findViewById(R.id.booking_recycler_view);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -72,23 +74,30 @@ public class Frag_booking extends Fragment {
         List<String> listPhone = new ArrayList<>();
         List<String> listAddress = new ArrayList<>();
         List<String> listProfile = new ArrayList<>();
+        List<String> listMenu = new ArrayList<>();
+        List<Integer> listID = new ArrayList<>();
 
         for (Reservation res : reservation) {
             listName.add(res.getStoreName());
             listPhone.add(res.getStorePhone());
             listAddress.add(res.getStoreAddress());
             listProfile.add(res.getStoreProfile());
+            listMenu.add(res.getStoreMenu());
+            listID.add(res.getId());
         }
 
-        for(int i = 0 ; i < reservation.size(); i++){
+        for(int i = 0 ; i < listName.size(); i++){
             BookingItem bookingItem = new BookingItem();
 
             bookingItem.setTitleStr(listName.get(i));
             bookingItem.setAddressStr(listAddress.get(i));
             bookingItem.setPhoneStr(listPhone.get(i));
             bookingItem.setProfileStr(listProfile.get(i));
+            bookingItem.setMenuStr(listMenu.get(i));
+            bookingItem.setId(listID.get(i));
 
             adapter.addItem(bookingItem);
+            Log.d("TAG", "bookingItem"+listID.get(i));
         }
         adapter.notifyDataSetChanged();
     }
@@ -112,5 +121,11 @@ public class Frag_booking extends Fragment {
             }
         });
     }
+
+    public void onClickCancel() {
+        // 버튼 클릭 이벤트
+
+    }
+
 }
 

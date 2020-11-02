@@ -62,7 +62,6 @@ public class HomeMenuAdapter extends RecyclerView.Adapter<HomeMenuAdapter.ItemVi
         private TextView tv_address;
         private TextView tv_phone;
         String str_menu;
-        int ig_menu;
 
         private HomeMenuItem homeMenuItem;
 

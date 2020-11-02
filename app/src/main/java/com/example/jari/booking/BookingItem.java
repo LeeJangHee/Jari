@@ -2,10 +2,28 @@ package com.example.jari.booking;
 
 
 public class BookingItem {
+    private int id;
     private String titleStr;
     private String addressStr;
     private String phoneStr;
     private String profileStr;
+    private String menuStr;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getMenuStr() {
+        return menuStr;
+    }
+
+    public void setMenuStr(String menuStr) {
+        this.menuStr = menuStr;
+    }
 
     public String getPhoneStr() {
         return phoneStr;
@@ -38,6 +56,5 @@ public class BookingItem {
     public void setAddressStr(String addressStr) {
         this.addressStr = addressStr;
     }
-
 
 }

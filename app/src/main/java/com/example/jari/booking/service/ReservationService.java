@@ -11,13 +11,18 @@ public interface ReservationService {
     @FormUrlEncoded
     @POST("reservation/ok.php")
     Call<Reservation> getRegister(@Field("userID") String userID,
-                                @Field("storeName") String name,
-                                @Field("storePhone") String phone,
-                                @Field("storeAddress") String address,
-                                @Field("storeProfile") String profile);
+                                  @Field("storeName") String name,
+                                  @Field("storePhone") String phone,
+                                  @Field("storeAddress") String address,
+                                  @Field("storeProfile") String profile,
+                                  @Field("storeMenu") String menu);
     @FormUrlEncoded
     @POST("reservation/check.php")
     Call<ReservationList> getCheck(@Field("userID") String userID);
+
+    @FormUrlEncoded
+    @POST("reservation/cancel.php")
+    Call<Reservation> getCancel(@Field("id") int id);
 
     @GET("reservation/num.php")
     Call<Reservation> getWaitNum(@Query("storeName") String storeName);
