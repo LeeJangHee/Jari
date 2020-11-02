@@ -15,6 +15,10 @@ public interface ReservationService {
                                 @Field("storePhone") String phone,
                                 @Field("storeAddress") String address,
                                 @Field("storeProfile") String profile);
+    @FormUrlEncoded
+    @POST("reservation/check.php")
+    Call<ReservationList> getCheck(@Field("userID") String userID);
+
     @GET("reservation/num.php")
     Call<Reservation> getWaitNum(@Query("storeName") String storeName);
 }

@@ -1,5 +1,6 @@
 package com.example.jari.booking;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +12,37 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.jari.MainActivity;
 import com.example.jari.R;
+import com.example.jari.booking.service.Reservation;
+import com.example.jari.booking.service.ReservationList;
+import com.example.jari.booking.service.ReservationService;
+import com.example.jari.retrofit2.ServerConnect;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Frag_booking extends Fragment {
     private View view;
+    private Context context;
     private BookingAdapter adapter;
+
+    private MainActivity mainActivity;
+    private ReservationService reservationService;
+
+    private List<Reservation> checkList = new ArrayList<>();
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // 서버 연결
+        getReservationCheck();
+
+    }
 
     @Nullable
     @Override
@@ -26,9 +50,9 @@ public class Frag_booking extends Fragment {
                              @NonNull Bundle saveInstanceState) {
 
         view = (View) inflater.inflate(R.layout.frag_booking, container, false);
-
+        context = container.getContext();
+        mainActivity = (MainActivity) context;
         init();
-        getData();
 
         return view;
     }
@@ -43,23 +67,50 @@ public class Frag_booking extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    private void getData(){
-        List<String> listTitle = Arrays.asList("가게1", "가게2", "가게3", "가게4", "가게5");
-        List<String> listAddress = Arrays.asList("address1", "address2", "address3", "address4", "address5");
-        List<String> listReservation = Arrays.asList("ok", "ok", "ok", "no", "no");
-        List<Integer> listIcon = Arrays.asList(R.mipmap.ic_launcher, R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher,R.mipmap.ic_launcher);
+    private void getData(List<Reservation> reservation){
+        List<String> listName = new ArrayList<>();
+        List<String> listPhone = new ArrayList<>();
+        List<String> listAddress = new ArrayList<>();
+        List<String> listProfile = new ArrayList<>();
 
-        for(int i = 0 ; i < listTitle.size(); i++){
+        for (Reservation res : reservation) {
+            listName.add(res.getStoreName());
+            listPhone.add(res.getStorePhone());
+            listAddress.add(res.getStoreAddress());
+            listProfile.add(res.getStoreProfile());
+        }
+
+        for(int i = 0 ; i < reservation.size(); i++){
             BookingItem bookingItem = new BookingItem();
 
-            bookingItem.setTitleStr(listTitle.get(i));
+            bookingItem.setTitleStr(listName.get(i));
             bookingItem.setAddressStr(listAddress.get(i));
-            bookingItem.setReservationStr(listReservation.get(i));
-            bookingItem.setIconId(listIcon.get(i));
+            bookingItem.setPhoneStr(listPhone.get(i));
+            bookingItem.setProfileStr(listProfile.get(i));
 
             adapter.addItem(bookingItem);
         }
         adapter.notifyDataSetChanged();
+    }
+
+    public void getReservationCheck() {
+        reservationService = ServerConnect.getClient().create(ReservationService.class);
+        Call<ReservationList> call_check = reservationService.getCheck(mainActivity.id);
+        call_check.enqueue(new Callback<ReservationList>() {
+            @Override
+            public void onResponse(Call<ReservationList> call, Response<ReservationList> response) {
+                if (response.isSuccessful()) {
+                    ReservationList mReservation = response.body();
+                    List<Reservation> reservationLists = mReservation.getReservationCheck();
+                    getData(reservationLists);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReservationList> call, Throwable t) {
+
+            }
+        });
     }
 }
 

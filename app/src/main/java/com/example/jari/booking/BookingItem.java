@@ -4,8 +4,24 @@ package com.example.jari.booking;
 public class BookingItem {
     private String titleStr;
     private String addressStr;
-    private String reservationStr;
-    private int iconId;
+    private String phoneStr;
+    private String profileStr;
+
+    public String getPhoneStr() {
+        return phoneStr;
+    }
+
+    public void setPhoneStr(String phoneStr) {
+        this.phoneStr = phoneStr;
+    }
+
+    public String getProfileStr() {
+        return profileStr;
+    }
+
+    public void setProfileStr(String profileStr) {
+        this.profileStr = profileStr;
+    }
 
     public String getTitleStr() {
         return titleStr;
@@ -13,19 +29,6 @@ public class BookingItem {
 
     public String getAddressStr() {
         return addressStr;
-    }
-
-    public String getReservationStr() {
-        return reservationStr;
-    }
-
-
-    public int getIconId() {
-        return iconId;
-    }
-
-    public void setIconId(int iconId) {
-        this.iconId = iconId;
     }
 
     public void setTitleStr(String titleStr) {
@@ -36,8 +39,5 @@ public class BookingItem {
         this.addressStr = addressStr;
     }
 
-    public void setReservationStr(String reservationStr) {
-        this.reservationStr = reservationStr;
-    }
 
 }
