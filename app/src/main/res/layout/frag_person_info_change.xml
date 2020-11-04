@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/person_info_check_id"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:textSize="20sp"
+            android:textColor="@android:color/black" />
+
+
+        <EditText
+            android:id="@+id/person_info_check_pw"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:hint="비밀번호"
+            android:inputType="textPassword" />
+
+
+        <EditText
+            android:id="@+id/person_info_check_name"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:hint="이름" />
+
+        <EditText
+            android:id="@+id/person_info_check_phone"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:hint="전화번호"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/person_info_check_people"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:hint="인원"
+            android:inputType="number" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/person_info_check_btn_ok"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="변경" />
+
+            <Button
+                android:id="@+id/person_info_check_btn_cancel"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="취소" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

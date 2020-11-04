@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     private LoginService loginService;
     private AlertDialog dialog;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +50,11 @@ public class LoginActivity extends AppCompatActivity {
         btn_sign_in = (Button) findViewById(R.id.login_sign_in);
         btn_sign_in = (Button) findViewById(R.id.login_sign_up);
 
-        loginService = ServerConnect.getClient().create(LoginService.class);
     }
 
     public void SignIn(View v) {
         // 로그인 버튼 클릭시 수행되는 부분
+        loginService = ServerConnect.getClient().create(LoginService.class);
         Call<LoginData> callLogin = loginService.getLogin(et_id.getText().toString(), et_password.getText().toString());
 
         callLogin.enqueue(new Callback<LoginData>() {
@@ -64,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (loginData.getSuccess().equals("true")) {    // 로그인 성공
                         Intent it = new Intent(LoginActivity.this, MainActivity.class);
                         it.putExtra("PEOPLE", et_people.getText().toString());
+                        it.putExtra("PASSWORD", loginData.getPassword());
                         it.putExtra("ID", loginData.getId());
                         it.putExtra("NAME", loginData.getName());
                         it.putExtra("PHONE", loginData.getPhone());
@@ -71,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                     } else {    // 로그인 실패
                         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                        dialog = builder.setMessage("회원등록에 성공했습니다.")
+                        dialog = builder.setMessage("로그인 실패")
                                 .setPositiveButton("확인", null)
                                 .create();
                         dialog.show();

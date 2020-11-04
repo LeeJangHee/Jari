@@ -36,14 +36,15 @@ public class MainActivity extends AppCompatActivity {
     public static Stack<Pair<Fragment, String>> frag_stack_back;
     public static FragmentManager manager;
 
-    Toolbar toolbar;
-    ActionBar actionBar;
+    public Toolbar toolbar;
+    public ActionBar actionBar;
     public static TextView toolbar_title;
     public static String toolbarMain_title;
 
     private long backBtnTime = 0;
 
     public static String id;
+    public static String password;
     public static String name;
     public static String phone;
     public static String people;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         // 로그인 정보 받아오기
         Intent mainIntent = getIntent();
         id = mainIntent.getStringExtra("ID");
+        password = mainIntent.getStringExtra("PASSWORD");
         name = mainIntent.getStringExtra("NAME");
         phone = mainIntent.getStringExtra("PHONE");
         people = mainIntent.getStringExtra("PEOPLE");

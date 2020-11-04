@@ -46,7 +46,6 @@ public class SignUpActivity extends AppCompatActivity {
         final Button btn_cancel = (Button) findViewById(R.id.sign_up_cancel);
         final Button btn_idCheck = (Button) findViewById(R.id.sign_up_idCheck);
 
-
         loginService = ServerConnect.getClient().create(LoginService.class);
 
     }

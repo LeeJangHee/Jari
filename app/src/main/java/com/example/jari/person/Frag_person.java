@@ -15,8 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.jari.MainActivity;
 import com.example.jari.R;
-import com.example.jari.person.alarm.Frag_person_alarm;
-import com.example.jari.person.like.Frag_person_like;
+import com.example.jari.person.infomation.Frag_person_information;
 
 public class Frag_person extends Fragment implements View.OnClickListener {
     private View view;
@@ -25,9 +24,7 @@ public class Frag_person extends Fragment implements View.OnClickListener {
     MainActivity mainActivity;
 
     private TextView toolbar_title;
-    private TextView tv_alarm;
     private TextView tv_information;
-    private TextView tv_like;
     private TextView tv_user_name;
     private TextView tv_user_number;
     private TextView tv_user_people;
@@ -43,13 +40,9 @@ public class Frag_person extends Fragment implements View.OnClickListener {
 
 
         toolbar_title = mainActivity.findViewById(R.id.toolbar_title);
-        tv_alarm = view.findViewById(R.id.person_alarm);
         tv_information = view.findViewById(R.id.person_information);
-        tv_like = view.findViewById(R.id.person_like);
 
-        tv_alarm.setOnClickListener(this);
         tv_information.setOnClickListener(this);
-        tv_like.setOnClickListener(this);
 
         tv_user_name = (TextView) view.findViewById(R.id.person_user_name);
         tv_user_number = (TextView) view.findViewById(R.id.person_user_number);
@@ -77,14 +70,6 @@ public class Frag_person extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.person_alarm:
-                str_name = getString(R.string.person_alarm);
-                menuOnClick(str_name, new Frag_person_alarm());
-                break;
-            case R.id.person_like:
-                str_name = getString(R.string.person_like);
-                menuOnClick(str_name, new Frag_person_like());
-                break;
             case R.id.person_information:
                 str_name = getString(R.string.person_information);
                 menuOnClick(str_name, new Frag_person_information());

@@ -16,6 +16,8 @@ public class LoginData {
     @SerializedName("phone")
     @Expose
     public String phone;
+    @SerializedName("success")
+    @Expose
     public String success;
 
     public String getSuccess() {
