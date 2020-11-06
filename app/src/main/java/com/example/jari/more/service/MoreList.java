@@ -9,6 +9,17 @@ public class MoreList {
     @SerializedName("notice")
     @Expose
     private List<Notice> noticeList = null;
+    @SerializedName("event")
+    @Expose
+    private List<Notice> eventList = null;
+
+    public List<Notice> getEventList() {
+        return eventList;
+    }
+
+    public void setEventList(List<Notice> eventList) {
+        this.eventList = eventList;
+    }
 
     public List<Notice> getNoticeList() {
         return noticeList;

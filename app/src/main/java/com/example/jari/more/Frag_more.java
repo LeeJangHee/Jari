@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.jari.MainActivity;
 import com.example.jari.R;
+import com.example.jari.more.event.Frag_more_event;
 import com.example.jari.more.notice.Frag_more_notice;
 
 public class Frag_more extends Fragment implements View.OnClickListener{
@@ -78,7 +79,7 @@ public class Frag_more extends Fragment implements View.OnClickListener{
                 menuOnClick(tv_notice.getText().toString(), new Frag_more_notice());
                 break;
             case R.id.more_event:
-
+                menuOnClick(tv_event.getText().toString(), new Frag_more_event());
                 break;
             case R.id.more_as:
 

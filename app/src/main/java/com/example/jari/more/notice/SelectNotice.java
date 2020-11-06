@@ -1,4 +1,4 @@
-package com.example.jari.more;
+package com.example.jari.more.notice;
 
 import androidx.fragment.app.Fragment;
 

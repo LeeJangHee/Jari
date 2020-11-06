@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.jari.MainActivity;
 import com.example.jari.R;
-import com.example.jari.more.SelectNotice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +71,6 @@ public class NoticeMenuAdapter extends RecyclerView.Adapter<NoticeMenuAdapter.It
 
         public void onBind(NoticeMenuItem noticeMenuItem) {
             this.noticeMenuItem = noticeMenuItem;
-
 
             tv_title.setText(noticeMenuItem.getTitleStr());
             tv_date.setText(noticeMenuItem.getDateStr());
