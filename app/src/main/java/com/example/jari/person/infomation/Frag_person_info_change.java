@@ -12,8 +12,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.jari.MainActivity;
@@ -35,8 +33,6 @@ public class Frag_person_info_change extends Fragment implements View.OnClickLis
     private Context context;
     private MainActivity mainActivity;
 
-    private ActionBar actionBar;
-
     private TextView tv_id;
     private EditText et_password;
     private EditText et_name;
@@ -52,7 +48,6 @@ public class Frag_person_info_change extends Fragment implements View.OnClickLis
     private String str_phone = "";
     private String str_people = "";
 
-    private AlertDialog dialog;
     private Map<String, Boolean> checkInfo = new HashMap<>();
 
 

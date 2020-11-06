@@ -27,38 +27,53 @@
             android:textSize="40sp" />
 
         <TextView
+            android:id="@+id/more_notice"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center_vertical"
-            android:text="공지사항"
+            android:clickable="true"
+            android:text="@string/more_notice"
+            android:textColor="@android:color/black"
             android:textSize="24sp" />
 
         <TextView
+            android:id="@+id/more_event"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center_vertical"
-            android:text="이벤트"
+            android:clickable="true"
+            android:text="@string/more_event"
+            android:textColor="@android:color/black"
             android:textSize="24sp" />
 
         <TextView
+            android:id="@+id/more_as"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center_vertical"
-            android:text="고객센터"
+            android:clickable="true"
+            android:text="@string/more_as"
+            android:textColor="@android:color/black"
             android:textSize="24sp" />
 
         <TextView
+            android:id="@+id/more_setting"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center_vertical"
-            android:text="환경설정"
+            android:clickable="true"
+            android:text="@string/more_setting"
+            android:textColor="@android:color/black"
             android:textSize="24sp" />
 
         <TextView
+            android:id="@+id/more_version"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center_vertical"
-            android:text="현재 버전"
+            android:clickable="true"
+            android:text="@string/more_version"
+            android:textColor="@android:color/black"
             android:textSize="24sp" />
 
     </LinearLayout>
