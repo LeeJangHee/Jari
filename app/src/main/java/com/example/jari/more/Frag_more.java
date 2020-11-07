@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.jari.MainActivity;
 import com.example.jari.R;
+import com.example.jari.more.as.Frag_more_as;
 import com.example.jari.more.event.Frag_more_event;
 import com.example.jari.more.notice.Frag_more_notice;
 
@@ -25,9 +26,7 @@ public class Frag_more extends Fragment implements View.OnClickListener{
 
     private TextView tv_notice;
     private TextView tv_event;
-    private TextView tv_setting;
     private TextView tv_as;
-    private TextView tv_version;
 
 
     @Nullable
@@ -42,14 +41,10 @@ public class Frag_more extends Fragment implements View.OnClickListener{
         tv_notice = (TextView) view.findViewById(R.id.more_notice);
         tv_event = (TextView) view.findViewById(R.id.more_event);
         tv_as = (TextView) view.findViewById(R.id.more_as);
-        tv_setting = (TextView) view.findViewById(R.id.more_setting);
-        tv_version = (TextView) view.findViewById(R.id.more_version);
 
         tv_notice.setOnClickListener(this);
         tv_event.setOnClickListener(this);
         tv_as.setOnClickListener(this);
-        tv_setting.setOnClickListener(this);
-        tv_version.setOnClickListener(this);
 
         return view;
     }
@@ -82,13 +77,7 @@ public class Frag_more extends Fragment implements View.OnClickListener{
                 menuOnClick(tv_event.getText().toString(), new Frag_more_event());
                 break;
             case R.id.more_as:
-
-                break;
-            case R.id.more_setting:
-
-                break;
-            case R.id.more_version:
-
+                menuOnClick(tv_as.getText().toString(), new Frag_more_as());
                 break;
         }
     }

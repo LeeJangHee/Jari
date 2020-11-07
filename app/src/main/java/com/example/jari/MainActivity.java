@@ -1,30 +1,41 @@
 package com.example.jari;
 
+import android.app.SearchManager;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.jari.booking.Frag_booking;
 import com.example.jari.home.Frag_home;
+import com.example.jari.home.SelectStore;
 import com.example.jari.more.Frag_more;
 import com.example.jari.person.Frag_person;
+import com.example.jari.retrofit2.RetrofitService;
+import com.example.jari.search.Frag_search;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.naver.maps.map.NaverMapSdk;
 
 import java.util.Stack;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SelectStore {
 
     private BottomNavigationView bottomNavigationView;
 
@@ -48,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
     public static String name;
     public static String phone;
     public static String people;
+    private SearchView searchView;
+    private EditText et_searchView;
+    private RetrofitService retrofitService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         frag_stack_back = new Stack<>();
@@ -82,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         frag_more = new Frag_more();
 
         replaceFragment(frag_home);
-
+        Log.d("TAG", "시작 stack size : " + frag_stack_back.size());
         toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         toolbarMain_title = getText(R.string.app_name).toString();
 
@@ -128,22 +143,54 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
+
+
     }
 
     // Appbar 아이템 목록 표시
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_main_toolbar, menu);
-        return super.onCreateOptionsMenu(menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+
+        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        et_searchView = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
+        et_searchView.setFilters(new InputFilter.LengthFilter[]{new InputFilter.LengthFilter(12)});
+        searchView.setQueryHint("가게 이름 검색");
+
+        ImageView ig_search = (ImageView) searchView.findViewById(androidx.appcompat.R.id.search_close_btn);
+        ig_search.setColorFilter(Color.BLACK);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // 검색이 완료 되었을
+                onClickStore(query, new Frag_search());
+                // 툴바 닫기
+                toolbar.collapseActionView();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.length() == 12) {
+                    Toast.makeText(MainActivity.this, "검색어는 12자 까지만 가능합니다.", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+        });
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        return true;
     }
 
     // Appbar 아이템 목록 선택시 발생 이벤트
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search:
-                Toast.makeText(this, "검색버튼을 눌렀습니다.", Toast.LENGTH_SHORT).show();
-                break;
             case android.R.id.home:
                 // 앱바의 뒤로가기 버튼이다.
                 // 플레그먼트 이름을 받아서 replaceFragment를 실행시키자
@@ -197,6 +244,26 @@ public class MainActivity extends AppCompatActivity {
             // replacefragment 함수 호출
             backFragment();
         }
+    }
+
+    @Override
+    public void onClickStore(String name, Fragment fragment) {
+        Fragment currentFrag = manager.findFragmentById(R.id.main_layout);
+        String currentName = toolbarMain_title;
+
+        // fragment <--> fragment 데이터 교환 방법
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_layout,
+                Frag_search.newInstance(name));
+        fragmentTransaction.commit();
+
+        // 뒤로가기 스택에 플레그먼트, 제목 저장
+        frag_stack_back.push(new Pair<Fragment, String>(currentFrag, currentName));
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        toolbar_title.setText(R.string.search_title);
+        toolbarMain_title = toolbar_title.getText().toString();
+        Log.d("TAG", "검색 후: "+toolbarMain_title);
     }
 }
 

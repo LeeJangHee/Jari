@@ -1,5 +1,6 @@
 package com.example.jari.home;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -18,14 +19,18 @@ import com.example.jari.R;
 
 public class Frag_home extends Fragment implements View.OnClickListener {
     private View view;
+    private Context context;
+    private MainActivity mainActivity;
     private String str_name;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container,
                              @NonNull Bundle saveInstanceState) {
         view = (View) inflater.inflate(R.layout.frag_home, container, false);
-
+        context = container.getContext();
+        mainActivity = (MainActivity) context;
         MainActivity.toolbar_title = (TextView) ((MainActivity) getActivity()).findViewById(R.id.toolbar_title);
 
         ImageView ig_bestMenu = (ImageView) view.findViewById(R.id.menuBest);
@@ -51,13 +56,13 @@ public class Frag_home extends Fragment implements View.OnClickListener {
 
     //메뉴 클릭 Fragment 함수
     public void menuOnClick(String name, Fragment frag) {
-        Fragment currentFragment = MainActivity.manager.findFragmentById(R.id.main_layout);
-        String currentName = MainActivity.toolbarMain_title;
-        ((MainActivity) getActivity()).replaceFragment(frag);
-        MainActivity.frag_stack_back.push(new Pair<Fragment, String>(currentFragment, currentName));
-        MainActivity.toolbar_title.setText(name);
-        MainActivity.toolbarMain_title = name;
-        ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
+        Fragment currentFragment = mainActivity.manager.findFragmentById(R.id.main_layout);
+        String currentName = mainActivity.toolbarMain_title;
+        mainActivity.replaceFragment(frag);
+        mainActivity.frag_stack_back.push(new Pair<Fragment, String>(currentFragment, currentName));
+        mainActivity.toolbar_title.setText(name);
+        mainActivity.toolbarMain_title = name;
+        ActionBar actionBar = mainActivity.getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_20px);
     }
