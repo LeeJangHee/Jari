@@ -45,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:onClick="SignIn"
+                android:background="@drawable/login_signup"
                 android:text="로그인" />
 
             <Button
@@ -53,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:onClick="SignUp"
+                android:background="@drawable/login_signup"
                 android:text="회원가입 " />
         </LinearLayout>
     </LinearLayout>

@@ -1,7 +1,6 @@
 package com.example.jari.booking;
 
 import android.content.Context;
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -135,7 +134,6 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ItemView
                                     mainActivity.replaceFragment(new Frag_booking());
                                 } else {
                                     // 실패
-                                    Log.d("TAG", "예약 취소 실패"+reservation_id);
                                 }
                             }
                         }

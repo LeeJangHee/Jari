@@ -2,7 +2,6 @@ package com.example.jari.person.infomation;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +54,6 @@ public class Frag_person_information extends Fragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.person_info_pwCheck:
-                Log.d("TAG", "확인 버튼 클릭" + et_password_check.getText().toString());
                 str_password_check = et_password_check.getText().toString();
                 if (str_password_check.equals(mainActivity.password)) {
                     getPasswordCheck();
@@ -67,14 +65,12 @@ public class Frag_person_information extends Fragment implements View.OnClickLis
     }
 
     public void getPasswordCheck() {
-        Log.d("TAG", "getPasswordCheck: ");
         loginService = ServerConnect.getClient().create(LoginService.class);
         loginService.getChangeValidate(mainActivity.id, mainActivity.password).enqueue(new Callback<LoginData>() {
             @Override
             public void onResponse(Call<LoginData> call, Response<LoginData> response) {
                 if (response.isSuccessful()) {
                     LoginData loginData = response.body();
-                    Log.d("TAG", "정보확인 성공");
                     // 아이디 받아오기 성공
                     mainActivity.replaceFragment(new Frag_person_info_change());
                 }

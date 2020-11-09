@@ -15,16 +15,13 @@
         android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView"
+        <ImageView
+            android:id="@+id/more_ig_ad"
             android:layout_width="match_parent"
             android:layout_height="168dp"
-            android:layout_marginBottom="40dp"
-            android:background="#000000"
             android:gravity="center"
-            android:text="광고 들어갈 자리"
-            android:textColor="#ffffff"
-            android:textSize="40sp" />
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/ad" />
 
         <TextView
             android:id="@+id/more_notice"

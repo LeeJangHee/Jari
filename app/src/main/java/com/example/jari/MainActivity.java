@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputFilter;
-import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -97,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements SelectStore {
         frag_more = new Frag_more();
 
         replaceFragment(frag_home);
-        Log.d("TAG", "시작 stack size : " + frag_stack_back.size());
         toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         toolbarMain_title = getText(R.string.app_name).toString();
 
@@ -263,7 +261,6 @@ public class MainActivity extends AppCompatActivity implements SelectStore {
         actionBar.setDisplayHomeAsUpEnabled(true);
         toolbar_title.setText(R.string.search_title);
         toolbarMain_title = toolbar_title.getText().toString();
-        Log.d("TAG", "검색 후: "+toolbarMain_title);
     }
 }
 
