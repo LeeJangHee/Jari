@@ -1,4 +1,4 @@
-package com.example.jari.home;
+package com.example.jari.home.map;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -8,8 +8,6 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,9 +15,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.bumptech.glide.Glide;
 import com.example.jari.MainActivity;
 import com.example.jari.R;
+import com.example.jari.home.Frag_home_menu_store;
+import com.example.jari.home.SelectStore;
 import com.example.jari.retrofit2.Result;
 import com.example.jari.retrofit2.RetrofitService;
 import com.example.jari.retrofit2.ServerConnect;
@@ -81,8 +80,9 @@ public class Frag_home_menu_map extends Fragment
 
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        retrofitService = ServerConnect.getClient().create(RetrofitService.class);
     }
 
     @Nullable
@@ -137,7 +137,6 @@ public class Frag_home_menu_map extends Fragment
 
     // Retrofit2 연결 부분
     public void getServiceFood() {
-        retrofitService = ServerConnect.getClient().create(RetrofitService.class);
         retrofitService.getStoreFood().enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
@@ -156,8 +155,6 @@ public class Frag_home_menu_map extends Fragment
     }
 
     public void getServiceCafe() {
-        retrofitService = ServerConnect.getClient().create(RetrofitService.class);
-        // storeKor
         retrofitService.getStoreCafe().enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
@@ -176,8 +173,6 @@ public class Frag_home_menu_map extends Fragment
     }
 
     public void getServiceBeer() {
-        retrofitService = ServerConnect.getClient().create(RetrofitService.class);
-        // storeKor
         retrofitService.getStoreBeer().enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
@@ -197,8 +192,6 @@ public class Frag_home_menu_map extends Fragment
 
 
     private void getDataFood(List<Store> storeList) {
-        Log.d("TAG", "getData: ");
-
         marker_image = OverlayImage.fromResource(R.drawable.ic_food_marker);
 
         for (Store st : storeList) {
@@ -227,8 +220,6 @@ public class Frag_home_menu_map extends Fragment
     }
 
     private void getDataCafe(List<Store> storeList) {
-        Log.d("TAG", "getDataCafe: ");
-
         marker_image_cafe = OverlayImage.fromResource(R.drawable.ic_cafe_marker);
 
         for (Store st : storeList) {
@@ -258,7 +249,6 @@ public class Frag_home_menu_map extends Fragment
     }
 
     private void getDataBeer(List<Store> storeList) {
-        Log.d("TAG", "getDataBeer: ");
         marker_image_beer = OverlayImage.fromResource(R.drawable.ic_beer_marker);
 
         for (Store st : storeList) {
@@ -291,7 +281,6 @@ public class Frag_home_menu_map extends Fragment
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
         this.naverMap = naverMap;
-        Log.d("TAG", "onMapReady: ");
 
         // 지도 타입 변경
         naverMap.setMapType(NaverMap.MapType.Basic);
@@ -317,7 +306,7 @@ public class Frag_home_menu_map extends Fragment
             curr_LOC = new LatLng(latitude, longitude);
 
             if (prev_LOC == null) {     // 이전 위치가 없는 경우
-                cameraUpdate = CameraUpdate.zoomTo(17);
+                cameraUpdate = CameraUpdate.zoomTo(16);
                 naverMap.moveCamera(cameraUpdate);
 
                 locationOverlay.setPosition(curr_LOC);
@@ -351,7 +340,7 @@ public class Frag_home_menu_map extends Fragment
         // 정보창 구현
         infoWindow = new InfoWindow();
         infoWindow.setAdapter(new InfoWindowAdapter(context));
-        infoWindow.setOnClickListener(this::onClick);
+        infoWindow.setOnClickListener(this);
 
     }
 
@@ -371,7 +360,6 @@ public class Frag_home_menu_map extends Fragment
             InfoWindow infoWindow = (InfoWindow) overlay;
             store = (Store) infoWindow.getMarker().getTag();
             onClickStore(store.getName(), new Frag_home_menu_store());
-            Log.i("TAG", "onClick: infoWindow");
             return true;
         }
 
@@ -380,7 +368,6 @@ public class Frag_home_menu_map extends Fragment
 
     @Override
     public void onClickStore(String name, Fragment fragment) {
-        Log.i("TAG", "onClickStore: ");
         mainActivity = (MainActivity) context;
         Fragment currentFrag = mainActivity.manager.findFragmentById(R.id.main_layout);
         String currentName = mainActivity.toolbarMain_title;
@@ -398,51 +385,6 @@ public class Frag_home_menu_map extends Fragment
         mainActivity.frag_stack_back.push(new Pair<Fragment, String>(currentFrag, currentName));
         mainActivity.toolbar_title.setText(name);
         mainActivity.toolbarMain_title = name;
-    }
-
-
-    // 커스텀 정보창 구현
-    private static class InfoWindowAdapter extends InfoWindow.ViewAdapter {
-
-        @NonNull
-        private final Context context;
-        private View rootView;
-        private ImageView ig_profile;
-        private TextView tv_name;
-        private TextView tv_phone;
-        private TextView tv_address;
-
-        private Marker marker;
-
-        public InfoWindowAdapter(@NonNull Context context) {
-            this.context = context;
-        }
-
-        @NonNull
-        @Override
-        public View getView(@NonNull InfoWindow infoWindow) {
-            marker = infoWindow.getMarker();
-            Store store = (Store) marker.getTag();
-
-            rootView = (View) View.inflate(context, R.layout.frag_home_menu_map_infowindow, null);
-            ig_profile = (ImageView) rootView.findViewById(R.id.infowindow_profile);
-            tv_name = (TextView) rootView.findViewById(R.id.infowindow_name);
-            tv_phone = (TextView) rootView.findViewById(R.id.infowindow_phone);
-            tv_address = (TextView) rootView.findViewById(R.id.infowindow_address);
-
-            Glide.with(rootView)
-                    .load(store.getImage_profile())
-                    .placeholder(R.drawable.jari_loding)
-                    .error(R.drawable.jari_user_profile)
-                    .into(ig_profile);
-
-            tv_phone.setText(store.getPhone());
-            tv_name.setText(store.getName());
-            tv_address.setText(store.getAddress());
-
-            return rootView;
-        }
-
     }
 }
 

@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.jari.MainActivity;
 import com.example.jari.R;
+import com.example.jari.home.map.Frag_home_menu_map;
 
 public class Frag_home extends Fragment implements View.OnClickListener {
     private View view;
