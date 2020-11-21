@@ -32,7 +32,7 @@ public class Frag_home extends Fragment implements View.OnClickListener {
         view = (View) inflater.inflate(R.layout.frag_home, container, false);
         context = container.getContext();
         mainActivity = (MainActivity) context;
-        MainActivity.toolbar_title = (TextView) ((MainActivity) getActivity()).findViewById(R.id.toolbar_title);
+        MainActivity.toolbar_title = (TextView) mainActivity.findViewById(R.id.toolbar_title);
 
         ImageView ig_bestMenu = (ImageView) view.findViewById(R.id.menuBest);
         ImageView ig_menuKor = (ImageView) view.findViewById(R.id.menuKor);

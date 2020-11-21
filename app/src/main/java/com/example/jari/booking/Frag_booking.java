@@ -120,10 +120,5 @@ public class Frag_booking extends Fragment {
         });
     }
 
-    public void onClickCancel() {
-        // 버튼 클릭 이벤트
-
-    }
-
 }
 

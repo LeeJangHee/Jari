@@ -1,4 +1,4 @@
-package com.example.jari.person.infomation;
+package com.example.jari.person.information;
 
 import android.content.Context;
 import android.os.Bundle;

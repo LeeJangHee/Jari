@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.jari.MainActivity;
 import com.example.jari.R;
-import com.example.jari.person.infomation.Frag_person_information;
+import com.example.jari.person.information.Frag_person_information;
 
 public class Frag_person extends Fragment implements View.OnClickListener {
     private View view;
@@ -37,7 +37,6 @@ public class Frag_person extends Fragment implements View.OnClickListener {
         view.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
         context = container.getContext();
         mainActivity = (MainActivity) context;
-
 
         toolbar_title = mainActivity.findViewById(R.id.toolbar_title);
         tv_information = view.findViewById(R.id.person_information);

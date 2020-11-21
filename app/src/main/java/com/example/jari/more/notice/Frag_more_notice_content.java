@@ -2,7 +2,6 @@ package com.example.jari.more.notice;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +50,6 @@ public class Frag_more_notice_content extends Fragment {
             mNoticeDate = getArguments().getString(NOTICE_DATE);
             mNoticeContent = getArguments().getString(NOTICE_CONTENT);
         }
-
     }
 
     @Nullable

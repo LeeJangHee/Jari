@@ -1,4 +1,4 @@
-package com.example.jari.person.infomation;
+package com.example.jari.person.information;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -56,7 +56,7 @@ public class Frag_person_information extends Fragment implements View.OnClickLis
             case R.id.person_info_pwCheck:
                 str_password_check = et_password_check.getText().toString();
                 if (str_password_check.equals(mainActivity.password)) {
-                    getPasswordCheck();
+                    mainActivity.replaceFragment(new Frag_person_info_change());
                 } else {
                     Toast.makeText(context, "비밀번호가 틀렸습니다.\n다시 입력 해주세요.", Toast.LENGTH_SHORT).show();
                 }

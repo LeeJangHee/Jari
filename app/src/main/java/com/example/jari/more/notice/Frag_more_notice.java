@@ -1,6 +1,5 @@
 package com.example.jari.more.notice;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.jari.MainActivity;
 import com.example.jari.R;
 import com.example.jari.more.service.MoreList;
 import com.example.jari.more.service.MoreService;
@@ -29,11 +27,7 @@ import retrofit2.Response;
 public class Frag_more_notice extends Fragment {
 
     private View view;
-    private Context context;
-    private MainActivity mainActivity;
-
     private NoticeMenuAdapter adapter;
-
     private MoreService moreService;
 
     @Nullable

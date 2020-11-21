@@ -5,8 +5,6 @@ public class HomeMenuItem {
     private String titleStr;
     private String addressStr;
     private String phoneStr;
-    private int iconId;
-    private int menuId;
     private String iconStr;
     private String menuStr;
 
@@ -26,14 +24,6 @@ public class HomeMenuItem {
         this.menuStr = menuStr;
     }
 
-    public int getMenuId() {
-        return menuId;
-    }
-
-    public void setMenuId(int menuId) {
-        this.menuId = menuId;
-    }
-
     public String getTitleStr() {
         return titleStr;
     }
@@ -44,15 +34,6 @@ public class HomeMenuItem {
 
     public String getPhoneStr() {
         return phoneStr;
-    }
-
-
-    public int getIconId() {
-        return iconId;
-    }
-
-    public void setIconId(int iconId) {
-        this.iconId = iconId;
     }
 
     public void setTitleStr(String titleStr) {
@@ -67,13 +48,4 @@ public class HomeMenuItem {
         this.phoneStr = reservationStr;
     }
 
-    @Override
-    public String toString() {
-        return "RecyclerViewItem{" +
-                "titleStr='" + titleStr + '\'' +
-                ", addressStr='" + addressStr + '\'' +
-                ", reservationStr='" + phoneStr + '\'' +
-                ", iconId=" + iconId +
-                '}';
-    }
 }

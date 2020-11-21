@@ -30,10 +30,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button btn_sign_in;
     private Button btn_sign_up;
 
-    private String str_id;
-    private String str_password;
-    private String str_people;
-
     private LoginService loginService;
     private AlertDialog dialog;
 

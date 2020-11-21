@@ -23,13 +23,11 @@ public class InfoWindowAdapter extends InfoWindow.ViewAdapter {
     private TextView tv_name;
     private TextView tv_phone;
     private TextView tv_address;
-    private String str_image;
 
     private Marker marker;
 
     public InfoWindowAdapter(@NonNull Context context) {
         this.context = context;
-//        this.str_image = str_image;
     }
 
     @NonNull

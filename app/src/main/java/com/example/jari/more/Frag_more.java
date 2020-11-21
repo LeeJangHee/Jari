@@ -19,7 +19,7 @@ import com.example.jari.more.as.Frag_more_as;
 import com.example.jari.more.event.Frag_more_event;
 import com.example.jari.more.notice.Frag_more_notice;
 
-public class Frag_more extends Fragment implements View.OnClickListener{
+public class Frag_more extends Fragment implements View.OnClickListener {
     private View view;
     private Context context;
     private MainActivity mainActivity;
@@ -69,7 +69,7 @@ public class Frag_more extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.more_notice:
                 menuOnClick(tv_notice.getText().toString(), new Frag_more_notice());
                 break;
